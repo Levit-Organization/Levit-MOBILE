@@ -1,0 +1,106 @@
+<resources>
+    <string name="app_name">Levit</string>
+
+    <!-- Gerais -->
+    <string name="return_txt">←</string>
+    <string name="return_txt_desc">Voltar</string>
+    <string name="logo_desc">Levit</string>
+    <string name="password_field_title">Senha</string>
+    <string name="email_field_example">gabriel@empresa.com</string>
+
+    <!-- Cadastro -->
+    <string name="cadastro_title">Criar a sua conta</string>
+    <string name="cadastro_desc">Comece a organizar a sua empresa hoje.</string>
+    <string name="cadastro_name_field_title">Nome completo</string>
+    <string name="cadastro_name_field_example">Gabriel Lene</string>
+    <string name="cadastro_email_field_title">E-mail corporativo</string>
+    <string name="cadastro_cpfcnpj_field_title">CPF ou CNPJ</string>
+    <string name="cadastro_cpfcnpj_field_example">XXX.XXX.XXX-XX | XX.XXX.XXX/XXXX-XX</string>
+    <string name="cadastro_password_field_example">Crie uma palavra-passe forte</string>
+    <string name="cadastro_cpassword_field_title">Confirmar palavra-passe</string>
+    <string name="cadastro_cpassword_field_example">Repita a palavra-passe</string>
+    <string name="cadastro_button_title">Criar conta gratuita</string>
+    <string name="cadastro_login_txt1">Já tem conta?</string>
+    <string name="cadastro_login_txt2">Faça login</string>
+
+    <!-- Login -->
+    <string name="login_title">Bem-vindo de volta</string>
+    <string name="login_desc">Acesse sua conta para gerir os seus módulos</string>
+    <string name="login_email_field_title">E-mail</string>
+    <string name="login_redefenirsenha_txt1">Esqueceu a senha? </string>
+    <string name="login_redefenirsenha_txt2">Redefinir</string>
+    <string name="login_button_title">Entrar</string>
+    <string name="login_registre_txt1">Não possui conta?</string>
+    <string name="login_registre_txt2">Registre-se</string>
+
+    <!-- Home -->
+    <string name="main_title1">Organize seu negócio,</string>
+    <string name="main_title2">dobre seu lucro.</string>
+
+    <!-- Recuperar Conta -->
+    <string name="red_conta_title">Redefinir Senha</string>
+    <string name="red_conta_desc">Será enviado um e-mail com link de redefinição</string>
+    <string name="red_conta_button_title">Enviar</string>
+    <string name="cpf_ou_cnpj">CPF ou CNPJ</string>
+    <string name="crie_uma_senha_forte">Crie uma senha forte</string>
+    <string name="confirme_a_senha">Confirme a senha</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_menu_desc">Abrir menu</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_avatar_desc">Avatar do usuário</string>
+
+    <string name="dashboard_stat_modulos_ativos_valor">6</string>
+    <string name="dashboard_stat_modulos_ativos_label">Módulos Ativos</string>
+    <string name="dashboard_stat_registros_totais_valor">248</string>
+    <string name="dashboard_stat_registros_totais_label">Registros Totais</string>
+    <string name="dashboard_stat_novos_candidatos_valor">18</string>
+    <string name="dashboard_stat_novos_candidatos_label">Novos Candidatos</string>
+    <string name="dashboard_stat_membros_equipe_valor">8</string>
+    <string name="dashboard_stat_membros_equipe_label">Membros na Equipe</string>
+
+    <string name="dashboard_secao_modulos">Módulos acessados recentemente</string>
+
+    <string name="dashboard_modulo_estoque_titulo">Estoque</string>
+    <string name="dashboard_modulo_estoque_subtitulo">85 Itens</string>
+    <string name="dashboard_modulo_funcionarios_titulo">Funcionários</string>
+    <string name="dashboard_modulo_funcionarios_subtitulo">32 Colaboradores</string>
+    <string name="dashboard_modulo_contratos_titulo">Contratos</string>
+    <string name="dashboard_modulo_contratos_subtitulo">12 Documentos</string>
+    <string name="dashboard_modulo_financeiro_titulo">Financeiro</string>
+    <string name="dashboard_modulo_financeiro_subtitulo">R$ 45.230 em caixa</string>
+    <string name="dashboard_modulo_agenda_titulo">Agenda</string>
+    <string name="dashboard_modulo_agenda_subtitulo">6 Eventos hoje</string>
+    <string name="dashboard_modulo_alertas_titulo">Alertas</string>
+    <string name="dashboard_modulo_alertas_subtitulo">3 Pendências</string>
+
+    <string name="dashboard_adicionar_modulo">+ Adicionar Módulo</string>
+
+    <string name="dashboard_recrutamento_titulo">Recrutamento</string>
+    <string name="dashboard_ver_funil">Ver funil</string>
+    <string name="dashboard_badge_triagem">Triagem (4)</string>
+    <string name="dashboard_badge_entrevista">Entrevista (3)</string>
+    <string name="dashboard_badge_teste_tecnico">Teste Técnico (2)</string>
+
+    <string name="dashboard_equipe_titulo">Equipe Levit</string>
+    <string name="dashboard_ver_mais">Ver mais</string>
+
+    <!-- Novo Módulo -->
+    <string name="novo_modulo_top_title">Módulos</string>
+    <string name="breadcrumb_meus_modulos">Meus Módulos &gt; </string>
+    <string name="breadcrumb_novo_modulo">Novo Módulo</string>
+    <string name="label_nome_modulo">Nome do módulo </string>
+    <string name="label_obrigatorio">*</string>
+    <string name="placeholder_nome_modulo">Ex: Controle de Estoque</string>
+    <string name="label_descricao_modulo">Descrição do módulo</string>
+    <string name="placeholder_descricao_modulo">Ex: Gestão centralizada de insumos</string>
+    <string name="label_icone_modulo">Ícone do módulo</string>
+    <string name="campos_modulo_header">CAMPOS DO MÓDULO</string>
+    <string name="campos_modulo_empty">Nenhum campo adicionado ainda.\nClique abaixo para adicionar o primeiro campo.</string>
+    <string name="adicionar_campo">+ Adicionar campo</string>
+    <string name="acao_cancelar">Cancelar</string>
+    <string name="acao_criar_modulo">Criar Módulo</string>
+    <string name="campo_nome_hint">Nome do campo</string>
+    <string name="campo_remover_desc">Remover campo</string>
+
+</resources>

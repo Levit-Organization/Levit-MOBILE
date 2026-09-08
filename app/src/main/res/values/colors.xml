@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="levit_purple">#534BAF</color>
+    <color name="levit_purple_dark">#413B8C</color>
+    <color name="levit_text_primary">#161829</color>
+    <color name="levit_text_secondary">#6B7280</color>
+    <color name="levit_hint">#9CA3AF</color>
+    <color name="levit_border">#E3E1F0</color>
+    <color name="levit_strength_strong">#22C55E</color>
+    <color name="levit_transparent">#00FFFFFF</color>
+    <color name="cinza_inativo">#E0E0E0</color>
+    <color name="vermelho_fraco">#F44336</color>
+    <color name="laranja_razoavel">#FF9800</color>
+    <color name="amarelo_bom">#FFC107</color>
+    <color name="verde_forte">#4CAF50</color>
+
+    <!-- Dashboard -->
+    <color name="levit_bg">#F4F5FA</color>
+    <color name="levit_blue">#3B82F6</color>
+    <color name="levit_blue_light">#60A5FA</color>
+    <color name="levit_badge_bg">#F1F1F5</color>
+    <color name="chip_blue_bg">#DBEAFE</color>
+    <color name="chip_purple_bg">#E7E5FB</color>
+    <color name="chip_cyan_bg">#CFFAFE</color>
+    <color name="chip_cyan_icon">#0891B2</color>
+    <color name="chip_green_bg">#DCFCE7</color>
+    <color name="chip_green_icon">#16A34A</color>
+    <color name="chip_orange_bg">#FFEDD5</color>
+    <color name="chip_orange_icon">#F97316</color>
+    <color name="chip_red_bg">#FEE2E2</color>
+    <color name="chip_red_icon">#EF4444</color>
+    <color name="avatar_teal">#14B8A6</color>
+    <color name="avatar_orange">#F97316</color>
+    <color name="avatar_blue">#3B82F6</color>
+    <color name="avatar_pink">#EC4899</color>
+    <color name="avatar_green">#22C55E</color>
+
+    <!-- Novo Módulo -->
+    <color name="levit_icon_selected_bg">#EDEBFA</color>
+    <color name="levit_text_header">#4B5563</color>
+</resources>
