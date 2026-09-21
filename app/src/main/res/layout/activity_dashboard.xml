@@ -24,7 +24,7 @@
             android:contentDescription="@string/dashboard_menu_desc"
             android:padding="12dp"
             android:src="@drawable/ic_menu_hamburger"
-            android:tint="@color/levit_text_primary"
+            app:tint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -279,7 +279,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@null"
                             android:src="@drawable/ic_inventory"
-                            android:tint="@color/levit_blue" />
+                            app:tint="@color/levit_blue" />
 
                     </FrameLayout>
 
@@ -340,7 +340,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@null"
                             android:src="@drawable/ic_group"
-                            android:tint="@color/levit_purple" />
+                            app:tint="@color/levit_purple" />
 
                     </FrameLayout>
 
@@ -401,7 +401,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@null"
                             android:src="@drawable/ic_description"
-                            android:tint="@color/chip_cyan_icon" />
+                            app:tint="@color/chip_cyan_icon" />
 
                     </FrameLayout>
 
@@ -462,7 +462,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@null"
                             android:src="@drawable/ic_payments"
-                            android:tint="@color/chip_green_icon" />
+                            app:tint="@color/chip_green_icon" />
 
                     </FrameLayout>
 
@@ -523,7 +523,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@null"
                             android:src="@drawable/ic_calendar"
-                            android:tint="@color/chip_orange_icon" />
+                            app:tint="@color/chip_orange_icon" />
 
                     </FrameLayout>
 
@@ -584,7 +584,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@null"
                             android:src="@drawable/ic_warning"
-                            android:tint="@color/chip_red_icon" />
+                            app:tint="@color/chip_red_icon" />
 
                     </FrameLayout>
 
