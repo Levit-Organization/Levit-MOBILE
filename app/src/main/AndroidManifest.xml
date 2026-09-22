@@ -46,6 +46,10 @@
             </intent-filter>
 
         </activity>
+        <!-- Adição -->
+        <activity
+            android:name=".NavigationActivity"
+            android:exported="false" />
 
     </application>
 

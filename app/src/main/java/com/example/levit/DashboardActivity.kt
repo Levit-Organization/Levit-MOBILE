@@ -3,32 +3,28 @@ package com.example.levit
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.levit.databinding.ActivityDashboardBinding
 
-class DashboardActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityDashboardBinding
+class DashboardActivity : HamburgerMenuBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDashboardBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        // Ações ainda não integradas a um back-end, mexer dps
-        binding.ivMenu.setOnClickListener {
-            Toast.makeText(this, "Menu em desenvolvimento", Toast.LENGTH_SHORT).show()
-        }
+        // Puxa e injeta o menu hambúrguer à volta do design original do Dashboard
+        setContentViewWithHamburgerMenu(R.layout.activity_dashboard)
 
-        binding.btnAddModulo.setOnClickListener {
+        // Liga o botão de hambúrguer da barra superior (ivMenu) para abrir o menu lateral
+        setupHamburgerMenuButton(R.id.ivMenu)
+
+        // Restantes ações dos botões do Dashboard
+        findViewById<android.view.View>(R.id.btnAddModulo)?.setOnClickListener {
             startActivity(Intent(this, NovoModuloActivity::class.java))
         }
 
-        binding.tvVerFunil.setOnClickListener {
+        findViewById<android.view.View>(R.id.tvVerFunil)?.setOnClickListener {
             Toast.makeText(this, "Funil de recrutamento em desenvolvimento", Toast.LENGTH_SHORT).show()
         }
 
-        binding.btnVerMais.setOnClickListener {
+        findViewById<android.view.View>(R.id.btnVerMais)?.setOnClickListener {
             Toast.makeText(this, "Equipe em desenvolvimento", Toast.LENGTH_SHORT).show()
         }
     }

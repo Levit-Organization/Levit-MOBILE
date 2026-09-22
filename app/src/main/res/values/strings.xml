@@ -103,4 +103,8 @@
     <string name="campo_nome_hint">Nome do campo</string>
     <string name="campo_remover_desc">Remover campo</string>
 
+    <!-- Adição -->
+    <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="navigation_drawer_close">Fechar menu</string>
+
 </resources>
