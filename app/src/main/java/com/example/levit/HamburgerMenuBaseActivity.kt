@@ -58,7 +58,11 @@ abstract class HamburgerMenuBaseActivity : AppCompatActivity(), NavigationView.O
                 }
             }
             R.id.nav_modulos -> {
-                Toast.makeText(this, "Módulos selecionado", Toast.LENGTH_SHORT).show()
+                // Só abre a ModulosActivity se ainda não estivermos nela
+                if (this !is ModulosActivity) {
+                    startActivity(Intent(this, ModulosActivity::class.java))
+                    finish() // Fecha a activity atual para não acumular páginas na memória (opcional, mas recomendado)
+                }
             }
             R.id.nav_equipe -> {
                 Toast.makeText(this, "Equipe selecionada", Toast.LENGTH_SHORT).show()

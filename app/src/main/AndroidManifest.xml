@@ -48,7 +48,7 @@
         </activity>
         <!-- Adição -->
         <activity
-            android:name=".NavigationActivity"
+            android:name=".ModulosActivity"
             android:exported="false" />
 
     </application>

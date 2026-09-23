@@ -24,7 +24,7 @@
             android:contentDescription="@string/dashboard_menu_desc"
             android:padding="12dp"
             android:src="@drawable/ic_menu_hamburger"
-            android:tint="@color/levit_text_primary"
+            app:tint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -207,7 +207,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_grid_view"
-                                android:tint="@color/levit_purple" />
+                                app:tint="@color/levit_purple" />
 
                         </FrameLayout>
 
@@ -226,7 +226,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_person"
-                                android:tint="@color/levit_hint" />
+                                app:tint="@color/levit_hint" />
 
                         </FrameLayout>
 
@@ -245,7 +245,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_briefcase"
-                                android:tint="@color/levit_hint" />
+                                app:tint="@color/levit_hint" />
 
                         </FrameLayout>
 
@@ -264,7 +264,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_description"
-                                android:tint="@color/levit_hint" />
+                                app:tint="@color/levit_hint" />
 
                         </FrameLayout>
 
@@ -283,7 +283,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_schedule"
-                                android:tint="@color/levit_hint" />
+                                app:tint="@color/levit_hint" />
 
                         </FrameLayout>
 
@@ -301,7 +301,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_image"
-                                android:tint="@color/levit_hint" />
+                                app:tint="@color/levit_hint" />
 
                         </FrameLayout>
 
