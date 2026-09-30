@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--
+        Por padrão, o Android bloqueia tráfego HTTP puro (sem TLS) a partir
+        da API 28. Aqui liberamos cleartext só para os hosts usados durante
+        o desenvolvimento local, sem afetar o resto do app.
+
+        10.0.2.2  -> alias do localhost da máquina, visto de dentro do emulador
+        localhost -> caso rode em um dispositivo físico com adb reverse
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+</network-security-config>

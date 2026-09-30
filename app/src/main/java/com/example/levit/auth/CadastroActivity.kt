@@ -7,12 +7,18 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.levit.DashboardActivity
 import com.example.levit.R
+import com.example.levit.data.repository.AuthRepository
+import com.example.levit.data.repository.ResultadoAuth
 import com.example.levit.databinding.ActivityCadastroBinding
+import kotlinx.coroutines.launch
 
 class CadastroActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCadastroBinding
+    private val authRepository by lazy { AuthRepository(applicationContext) }
 
     // Variável para guardar o nível da senha em tempo real
     private var forcaSenhaAtual = 0
@@ -55,6 +61,7 @@ class CadastroActivity : AppCompatActivity() {
             val nome = binding.nomeCompleto.text.toString().trim()
             val email = binding.etEmailCorporativo.text.toString().trim()
             val cpfCnpj = binding.CPFouCNPJ.text.toString().trim()
+            val senha = binding.etSenha.text.toString()
 
             // Limpa os erros visuais anteriores
             binding.layoutNomeCompleto.error = null
@@ -75,7 +82,10 @@ class CadastroActivity : AppCompatActivity() {
             }
 
             if (cpfCnpj.isEmpty()) {
-                binding.layoutCPFouCPNJ.error = "Preencha o CPF ou CNPJ"
+                binding.layoutCPFouCPNJ.error = "Preencha o CPF"
+                possuiErro = true
+            } else if (!isCpfValido(cpfCnpj)) {
+                binding.layoutCPFouCPNJ.error = "CPF inválido ou inexistente"
                 possuiErro = true
             }
 
@@ -94,23 +104,37 @@ class CadastroActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Se o código chegou até aqui, todos os campos estão preenchidos e válidos!
-            Toast.makeText(this, "Dados validados! Pronto para enviar.", Toast.LENGTH_SHORT).show()
-            // criarContaNoFirebase(nome, email, cpfCnpj, binding.etSenha.text.toString())
-
-            if (cpfCnpj.isEmpty()) {
-                binding.layoutCPFouCPNJ.error = "Preencha o CPF"
-                possuiErro = true
-            } else if (!isCpfValido(cpfCnpj)) {
-                // Se não estiver vazio, checa se a matemática bate
-                binding.layoutCPFouCPNJ.error = "CPF inválido ou inexistente"
-                possuiErro = true
-            }
-
+            // Se o código chegou até aqui, todos os campos estão preenchidos e válidos.
+            // O backend não tem um campo separado de "nome da empresa" nesta tela,
+            // então o AuthRepository reaproveita o próprio nome (mesma regra do LEVIT Web).
+            registrar(nome = nome, email = email, senha = senha, cnpjCpf = cpfCnpj)
         }
+    }
 
+    private fun registrar(nome: String, email: String, senha: String, cnpjCpf: String) {
+        binding.btnCriarConta.isEnabled = false
 
-
+        lifecycleScope.launch {
+            when (val resultado = authRepository.signUp(
+                nome = nome,
+                email = email,
+                senha = senha,
+                cnpjCpf = cnpjCpf,
+                nomeEmpresa = nome
+            )) {
+                is ResultadoAuth.Sucesso -> {
+                    val intent = Intent(this@CadastroActivity, DashboardActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+                is ResultadoAuth.Erro -> {
+                    binding.btnCriarConta.isEnabled = true
+                    // Erros de validação do backend (ex.: "e-mail já em uso") vêm em
+                    // resultado.camposInvalidos; aqui exibimos a mensagem principal.
+                    Toast.makeText(this@CadastroActivity, resultado.mensagem, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     private fun verificarForcaSenha(senha: String) {
@@ -198,5 +222,4 @@ class CadastroActivity : AppCompatActivity() {
 
         return digito2 == Character.getNumericValue(cpf[10])
     }
-
 }
