@@ -16,7 +16,7 @@ object ApiClient {
      * pela URL pública do backend, e mova isto para BuildConfig por
      * ambiente (debug/release) em vez de deixar fixo no código.
      */
-    private const val BASE_URL = "http://localhost:8080/api/v1/"
+    private const val BASE_URL = "http://10.0.2.2:8080/api/v1/"
 
     @Volatile
     private var retrofit: Retrofit? = null
