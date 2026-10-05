@@ -25,8 +25,6 @@ class AuthRepository(context: Context) {
     /** true se há um token salvo e ele ainda não expirou (checagem local, sem chamar a API). */
     fun estaAutenticado(): Boolean = session.sessaoValida()
 
-    fun usuarioLogado() = session.obterUsuario()
-
     suspend fun signIn(email: String, senha: String): ResultadoAuth =
         chamar { api.login(LoginRequest(email = email, senha = senha)) }
 

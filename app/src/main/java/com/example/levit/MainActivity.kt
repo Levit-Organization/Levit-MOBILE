@@ -1,11 +1,15 @@
 package com.example.levit
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.DecelerateInterpolator
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.levit.auth.CadastroActivity
 import com.example.levit.auth.LoginActivity
+import com.example.levit.data.local.ServerConfig
 import com.example.levit.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

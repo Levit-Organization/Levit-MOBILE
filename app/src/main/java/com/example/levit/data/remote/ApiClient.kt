@@ -1,6 +1,7 @@
 package com.example.levit.data.remote
 
 import android.content.Context
+import com.example.levit.data.local.ServerConfig
 import com.example.levit.data.local.SessionManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,25 +11,35 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    /**
-     * 10.0.2.2 é o alias do host da máquina dentro do emulador Android.
-     * Em dispositivo físico, troque pelo IP da máquina na rede local ou
-     * pela URL pública do backend, e mova isto para BuildConfig por
-     * ambiente (debug/release) em vez de deixar fixo no código.
-     */
-    private const val BASE_URL = "http://10.0.2.2:8080/api/v1/"
-
     @Volatile
     private var retrofit: Retrofit? = null
 
+    @Volatile
+    private var baseUrlAtual: String? = null
+
     fun authApi(context: Context): AuthApi = retrofit(context).create(AuthApi::class.java)
 
-    private fun retrofit(context: Context): Retrofit =
-        retrofit ?: synchronized(this) {
-            retrofit ?: build(context).also { retrofit = it }
-        }
+    /**
+     * Reconstrói o Retrofit sempre que o endereço salvo em ServerConfig for
+     * diferente do que foi usado da última vez, para uma troca de servidor
+     * feita em tempo real (tela de configuração) valer imediatamente, sem
+     * precisar fechar e abrir o app de novo.
+     */
+    private fun retrofit(context: Context): Retrofit {
+        val baseUrlDesejada = ServerConfig.obterBaseUrl(context)
 
-    private fun build(context: Context): Retrofit {
+        if (retrofit == null || baseUrlAtual != baseUrlDesejada) {
+            synchronized(this) {
+                if (retrofit == null || baseUrlAtual != baseUrlDesejada) {
+                    retrofit = build(context, baseUrlDesejada)
+                    baseUrlAtual = baseUrlDesejada
+                }
+            }
+        }
+        return retrofit!!
+    }
+
+    private fun build(context: Context, baseUrl: String): Retrofit {
         val sessionManager = SessionManager(context.applicationContext)
 
         val logging = HttpLoggingInterceptor().apply {
@@ -43,7 +54,7 @@ object ApiClient {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

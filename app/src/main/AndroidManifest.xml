@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Adição 2: Necessária para qualquer chamada Retrofit/OkHttp ao backend -->
+    <!-- Adição 3: ACCESS_LOCAL_NETWORK avisa que o app precisa de permissão para acessar a internet e funcionar -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
 
     <application
         android:allowBackup="true"

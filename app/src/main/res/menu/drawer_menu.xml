@@ -23,7 +23,7 @@
             android:title="Perfil" />
         <item
             android:id="@+id/nav_sair"
-            android:icon="@drawable/ic_person"
+            android:icon="@drawable/ic_close"
             android:title="Sair" />
     </group>
 </menu>

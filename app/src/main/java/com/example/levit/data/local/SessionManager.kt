@@ -46,12 +46,6 @@ class SessionManager(context: Context) {
 
     fun obterToken(): String? = prefs.getString(CHAVE_TOKEN, null)
 
-    fun obterUsuario(): Usuario? =
-        prefs.getString(CHAVE_USUARIO, null)?.let { gson.fromJson(it, Usuario::class.java) }
-
-    fun obterEmpresa(): Empresa? =
-        prefs.getString(CHAVE_EMPRESA, null)?.let { gson.fromJson(it, Empresa::class.java) }
-
     fun limparSessao() {
         prefs.edit().clear().apply()
     }
