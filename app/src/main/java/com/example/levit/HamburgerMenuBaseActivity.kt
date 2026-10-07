@@ -19,7 +19,10 @@ abstract class HamburgerMenuBaseActivity : AppCompatActivity(), NavigationView.O
     protected lateinit var hamburgerDrawerLayout: DrawerLayout
     protected lateinit var hamburgerNavigationView: NavigationView
 
-    private val authRepository by lazy { AuthRepository(applicationContext) }
+    protected val authRepository by lazy { AuthRepository(applicationContext) }
+
+    // As telas filhas usam para saber se o menu foi montado (sessão válida)
+    protected fun menuPronto(): Boolean = ::hamburgerDrawerLayout.isInitialized
 
     // Injeta o layout da página atual dentro do esqueleto que contém o menu hambúrguer
     fun setContentViewWithHamburgerMenu(layoutResID: Int) {
@@ -104,7 +107,7 @@ abstract class HamburgerMenuBaseActivity : AppCompatActivity(), NavigationView.O
         }
     }
 
-    private fun redirecionarParaLogin() {
+    protected fun redirecionarParaLogin() {
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

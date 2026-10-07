@@ -59,8 +59,6 @@
     <string name="dashboard_stat_membros_equipe_valor">8</string>
     <string name="dashboard_stat_membros_equipe_label">Membros na Equipe</string>
 
-    <string name="dashboard_secao_modulos">Módulos acessados recentemente</string>
-
     <string name="dashboard_modulo_estoque_titulo">Estoque</string>
     <string name="dashboard_modulo_estoque_subtitulo">85 Itens</string>
     <string name="dashboard_modulo_funcionarios_titulo">Funcionários</string>
@@ -92,8 +90,6 @@
     <string name="label_nome_modulo">Nome do módulo </string>
     <string name="label_obrigatorio">*</string>
     <string name="placeholder_nome_modulo">Ex: Controle de Estoque</string>
-    <string name="label_descricao_modulo">Descrição do módulo</string>
-    <string name="placeholder_descricao_modulo">Ex: Gestão centralizada de insumos</string>
     <string name="label_icone_modulo">Ícone do módulo</string>
     <string name="campos_modulo_header">CAMPOS DO MÓDULO</string>
     <string name="campos_modulo_empty">Nenhum campo adicionado ainda.\nClique abaixo para adicionar o primeiro campo.</string>
@@ -106,5 +102,16 @@
     <!-- Adição -->
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_secao_modulos">Seus módulos</string>
+    <string name="dashboard_ver_todos">Ver todos os módulos</string>
+
+    <!-- Módulos -->
+    <string name="modulos_vazio">Você ainda não criou nenhum módulo.\nToque em Adicionar Módulo para começar.</string>
+    <string name="modulo_registros_um">1 registro</string>
+    <string name="modulo_registros_outros">%d registros</string>
+    <string name="modulo_criado_sucesso">Módulo criado com sucesso.</string>
+    <string name="campo_opcoes_hint">Opções separadas por vírgula (ex.: Novo, Usado)</string>
 
 </resources>

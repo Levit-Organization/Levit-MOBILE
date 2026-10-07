@@ -50,5 +50,5 @@ data class ApiEnvelope<T>(
     val status: String? = null,
     val data: T? = null,
     val message: String? = null,
-    val errors: Map<String, List<String>>? = null
+    val errors: Map<String, Any>? = null
 )

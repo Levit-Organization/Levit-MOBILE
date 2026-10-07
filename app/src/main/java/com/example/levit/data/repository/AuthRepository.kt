@@ -13,8 +13,7 @@ import java.io.IOException
 
 sealed class ResultadoAuth {
     data class Sucesso(val dados: AuthData) : ResultadoAuth()
-    data class Erro(val mensagem: String, val camposInvalidos: Map<String, List<String>>? = null) : ResultadoAuth()
-}
+    data class Erro(val mensagem: String, val camposInvalidos: Map<String, Any>? = null) : ResultadoAuth()}
 
 class AuthRepository(context: Context) {
 
@@ -24,6 +23,9 @@ class AuthRepository(context: Context) {
 
     /** true se há um token salvo e ele ainda não expirou (checagem local, sem chamar a API). */
     fun estaAutenticado(): Boolean = session.sessaoValida()
+
+    fun usuarioLogado() = session.obterUsuario()
+
 
     suspend fun signIn(email: String, senha: String): ResultadoAuth =
         chamar { api.login(LoginRequest(email = email, senha = senha)) }

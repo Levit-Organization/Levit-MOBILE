@@ -42,13 +42,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvAvatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/bg_circle"
             android:backgroundTint="@color/levit_purple"
             android:contentDescription="@string/dashboard_avatar_desc"
             android:gravity="center"
-            android:text="GB"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -146,30 +146,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etNomeModulo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_edit_text"
-                            android:inputType="text" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/label_descricao_modulo"
-                        android:textColor="@color/levit_text_secondary"
-                        android:textSize="13sp" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="@string/placeholder_descricao_modulo"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDescricaoModulo"
+                            android:maxLength="100"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_edit_text"

@@ -19,6 +19,8 @@ object ApiClient {
 
     fun authApi(context: Context): AuthApi = retrofit(context).create(AuthApi::class.java)
 
+    fun moduloApi(context: Context): ModuloApi = retrofit(context).create(ModuloApi::class.java)
+
     /**
      * Reconstrói o Retrofit sempre que o endereço salvo em ServerConfig for
      * diferente do que foi usado da última vez, para uma troca de servidor
