@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--
+        Por padrão, o Android bloqueia tráfego HTTP puro (sem TLS) a partir
+        da API 28. Este app ainda fala HTTP puro com o backend de
+        desenvolvimento, e o endereço desse backend é configurável em tempo
+        de execução (ServerConfig), podendo ser 10.0.2.2 (emulador) ou o IP
+        local de qualquer computador na rede (apresentação em outra
+        máquina/celular físico). Por isso, em vez de uma lista fixa de
+        domínios, liberamos cleartext de forma geral aqui.
+
+        Isso é uma decisão aceitável enquanto o backend for só de
+        desenvolvimento/demonstração. Antes de qualquer build de produção
+        com um backend público de verdade, troque para HTTPS e restrinja
+        este arquivo a domain-config específicos novamente.
+    -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
