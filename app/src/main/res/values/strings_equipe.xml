@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos de Equipe, iguais aos de TeamManagement.jsx e TeamManagementContainer.jsx. -->
+<resources>
+    <string name="eq_titulo">Equipe</string>
+    <string name="eq_subtitulo">Quem trabalha aqui e o que cada cargo pode acessar</string>
+    <string name="eq_convidar_pessoa">Convidar pessoa</string>
+    <string name="eq_aba_colaboradores">Colaboradores (%d)</string>
+    <string name="eq_aba_cargos">Cargos e permissões (%d)</string>
+    <string name="eq_buscar">Buscar por nome ou e-mail</string>
+    <string name="eq_filtrar_cargo">Cargo</string>
+    <string name="eq_todos_cargos">Todos os cargos</string>
+    <string name="eq_erro_carregar">Erro ao carregar os dados da equipe.</string>
+    <string name="eq_sem_acesso_titulo">Sem acesso à equipe</string>
+    <string name="eq_sem_acesso_desc">Seu cargo não tem permissão para ver a equipe. Peça a alguém com acesso total.</string>
+    <string name="eq_tentar">Tentar de novo</string>
+
+    <string name="eq_convites_titulo">Convites aguardando resposta (%d)</string>
+    <string name="eq_sem_cargo">Sem cargo</string>
+    <string name="eq_convidado_por">%1$s · convidado por %2$s</string>
+    <string name="eq_expirado">Expirado</string>
+    <string name="eq_vence_hoje">Vence hoje</string>
+    <string name="eq_vence_em">Vence em %d dias</string>
+    <string name="eq_reenviar">Reenviar</string>
+    <string name="eq_cancelar_convite">Cancelar convite</string>
+    <string name="eq_cancelar_convite_titulo">Cancelar o convite para %1$s?</string>
+    <string name="eq_cancelar_convite_msg">O link do e-mail deixa de funcionar. Você pode convidar de novo depois.</string>
+    <string name="eq_manter">Manter</string>
+    <string name="eq_convite_reenviado">Convite reenviado para %1$s. O link anterior deixou de funcionar.</string>
+    <string name="eq_convite_cancelado">Convite cancelado.</string>
+    <string name="eq_erro_reenviar">Erro ao reenviar o convite.</string>
+    <string name="eq_erro_cancelar">Erro ao cancelar o convite.</string>
+
+    <string name="eq_desde">desde %1$s</string>
+    <string name="eq_editar_colaborador">Editar %1$s</string>
+    <string name="eq_excluir_colaborador">Excluir %1$s</string>
+    <string name="eq_colaborador">colaborador</string>
+    <string name="eq_ninguem_filtro">Ninguém com esse filtro</string>
+    <string name="eq_ninguem_filtro_desc">Tente outro nome, e-mail ou cargo.</string>
+    <string name="eq_so_voce">Só você na equipe</string>
+    <string name="eq_so_voce_desc">Convide quem trabalha com você.</string>
+    <string name="eq_remover_titulo">Remover %1$s?</string>
+    <string name="eq_remover_msg">A pessoa perde o acesso à plataforma imediatamente. Essa ação não pode ser desfeita.</string>
+    <string name="eq_removido">Colaborador removido.</string>
+    <string name="eq_erro_remover">Erro ao remover o colaborador.</string>
+
+    <string name="eq_criar_cargo">Criar cargo</string>
+    <string name="eq_nenhum_cargo">Nenhum cargo criado</string>
+    <string name="eq_nenhum_cargo_desc">Cargo é o que define o acesso: quem é de vendas vê os clientes, quem é do financeiro vê as contas. Cada pessoa da equipe recebe um.</string>
+    <plurals name="eq_pessoas">
+        <item quantity="one">%d pessoa</item>
+        <item quantity="other">%d pessoas</item>
+    </plurals>
+    <string name="eq_acesso_total">Acesso total</string>
+    <string name="eq_acesso_por_tabela">Acesso por tabela</string>
+    <string name="eq_acesso_por_tabela_de">Acesso por tabela do cargo %1$s</string>
+    <string name="eq_editar_cargo">Editar cargo</string>
+    <string name="eq_editar_cargo_de">Editar cargo %1$s</string>
+
+    <!-- Convidar / editar -->
+    <string name="eq_convidar_titulo">Convidar para a equipe</string>
+    <string name="eq_editar_titulo">Editar colaborador</string>
+    <string name="eq_convite_info">A pessoa recebe um e-mail com o seu nome e a sua mensagem. Ao clicar em aceitar, ela cria a senha e já entra na equipe com o cargo escolhido aqui.</string>
+    <string name="eq_nome_colaborador">Nome do colaborador</string>
+    <string name="eq_email_colaborador">E-mail do colaborador</string>
+    <string name="eq_email_ex">exemplo@empresa.com</string>
+    <string name="eq_cargo">Cargo</string>
+    <string name="eq_proprio_cargo">Você não pode mudar o seu próprio cargo. Peça a alguém com acesso total.</string>
+    <string name="eq_mensagem">Mensagem para a pessoa (opcional)</string>
+    <string name="eq_mensagem_ex">Ex: Oi, Ana! Vamos organizar o trabalho da equipe por aqui. Qualquer dúvida, me chama.</string>
+    <string name="eq_mensagem_dica">Aparece no e-mail e na página do convite.</string>
+    <string name="eq_enviar_convite">Enviar convite</string>
+    <string name="eq_salvar_alteracoes">Salvar alterações</string>
+    <string name="eq_informe_email">Informe o e-mail.</string>
+    <string name="eq_email_invalido">Esse e-mail não parece válido.</string>
+    <string name="eq_selecione_cargo">Selecione um cargo para o colaborador.</string>
+    <string name="eq_mensagem_longa">Use no máximo 500 caracteres.</string>
+    <string name="eq_convite_enviado">Convite enviado para %1$s.</string>
+    <string name="eq_erro_convidar">Erro ao convidar o colaborador.</string>
+    <string name="eq_atualizado">Colaborador atualizado.</string>
+    <string name="eq_erro_atualizar">Erro ao atualizar o colaborador.</string>
+
+    <!-- Cargo -->
+    <string name="eq_nome_cargo">Nome do cargo</string>
+    <string name="eq_nome_cargo_ex">Digite o nome do cargo</string>
+    <string name="eq_permissoes">Permissões</string>
+    <string name="eq_informe_nome_cargo">Informe o nome do cargo.</string>
+    <string name="eq_salvar">Salvar</string>
+    <string name="eq_cargo_criado">Cargo criado.</string>
+    <string name="eq_cargo_atualizado">Cargo atualizado.</string>
+    <string name="eq_erro_criar_cargo">Erro ao criar o cargo.</string>
+    <string name="eq_erro_atualizar_cargo">Erro ao atualizar o cargo.</string>
+
+    <!-- Acesso por tabela -->
+    <string name="eq_acesso_total_tudo">Este cargo tem acesso total e já enxerga todas as tabelas automaticamente.</string>
+    <string name="eq_nenhuma_tabela">Nenhuma tabela criada ainda.</string>
+    <string name="eq_concluido">Concluído</string>
+    <string name="eq_nivel_sem_acesso">Sem acesso</string>
+    <string name="eq_nivel_ver">Só ver</string>
+    <string name="eq_nivel_editar">Editar</string>
+    <string name="eq_nivel_tudo">Tudo</string>
+    <string name="eq_erro_niveis">Erro ao carregar o acesso por tabela deste cargo.</string>
+    <string name="eq_erro_definir_nivel">Erro ao definir o nível de acesso da tabela.</string>
+    <string name="eq_erro_remover_nivel">Erro ao remover o nível de acesso da tabela.</string>
+</resources>

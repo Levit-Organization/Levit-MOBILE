@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Um gatilho ou ação na grade: ícone e nome. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_rowWeight="1"
+    android:layout_columnWeight="1"
+    android:layout_margin="4dp"
+    android:background="@drawable/bg_aut_opcao"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingStart="8dp"
+    android:paddingTop="14dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="14dp">
+
+    <TextView
+        android:id="@+id/tvIcone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/material_icons"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        android:includeFontPadding="false"
+        android:textColor="@color/aut_opcao_texto"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvRotulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_medium"
+        android:gravity="center"
+        android:paddingTop="6dp"
+        android:textColor="@color/aut_opcao_texto"
+        android:textSize="@dimen/texto_xs" />
+</LinearLayout>

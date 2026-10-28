@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Criar / editar tabela: mesmo conteúdo de ModuleForm.jsx, em uma coluna. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/btnVoltar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/tab_voltar"
+            android:fontFamily="@font/material_icons"
+            android:gravity="center"
+            android:text="arrow_back"
+            android:textColor="@color/ink"
+            android:textSize="24sp" />
+
+        <FrameLayout
+            android:id="@+id/flIcone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp" />
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            style="@style/Levit.Texto.Titulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/rolagem"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView android:id="@+id/tvErro" style="@style/Levit.Alerta.Erro" android:layout_marginTop="0dp" android:layout_marginBottom="16dp" />
+
+            <!-- Modelos (só ao criar) -->
+            <LinearLayout
+                android:id="@+id/llModelos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/archivo_semibold"
+                    android:text="@string/tab_modelos"
+                    android:textColor="@color/ink"
+                    android:textSize="@dimen/texto_sm" />
+
+                <LinearLayout
+                    android:id="@+id/llGruposModelos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <!-- Informações básicas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/Levit.Texto.Secao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_info_basicas" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoNome"
+                    style="@style/Levit.Campo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/tab_nome"
+                    app:placeholderText="@string/tab_nome_ex">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoTipo"
+                    style="@style/Levit.Campo.Select"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/tab_tipo">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/acTipo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/archivo_medium"
+                    android:text="@string/tab_icone"
+                    android:textColor="@color/ink"
+                    android:textSize="@dimen/texto_sm" />
+
+                <LinearLayout
+                    android:id="@+id/btnAlterarIcone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:id="@+id/flIconeEscolhido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tvAlterarIcone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/archivo_medium"
+                        android:text="@string/tab_alterar_icone"
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/texto_sm" />
+                </LinearLayout>
+
+                <GridLayout
+                    android:id="@+id/gradeIcones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:columnCount="5"
+                    android:useDefaultMargins="false"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Etapas (vaga nova) -->
+            <LinearLayout
+                android:id="@+id/cartaoFases"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/Levit.Texto.Secao"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/tab_etapas" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddFase"
+                        style="@style/Levit.Botao.Secundario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="36dp"
+                        android:text="@string/tab_etapa"
+                        app:icon="@drawable/ic_add"
+                        app:iconSize="@dimen/icone_sm" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llFases"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/tvSemFase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_alerta_aviso"
+                    android:padding="12dp"
+                    android:text="@string/tab_sem_etapa"
+                    android:textColor="@color/warning"
+                    android:textSize="@dimen/texto_sm" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvInfoRecrutamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:text="@string/tab_etapas_na_tela"
+                android:textColor="@color/light_text"
+                android:textSize="@dimen/texto_sm"
+                android:visibility="gone" />
+
+            <!-- Colunas -->
+            <LinearLayout
+                android:id="@+id/cartaoColunas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/Levit.Texto.Secao"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/tab_colunas" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddColuna"
+                        style="@style/Levit.Botao.Secundario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="36dp"
+                        android:text="@string/tab_coluna"
+                        app:icon="@drawable/ic_add"
+                        app:iconSize="@dimen/icone_sm" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llColunas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <!-- Financeiro / arquivos: sem colunas -->
+            <LinearLayout
+                android:id="@+id/cartaoSemColunas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card_primario"
+                android:gravity="top"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvSemColunasIcone"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_rounded_square"
+                    android:backgroundTint="@color/primary_100"
+                    android:fontFamily="@font/material_icons"
+                    android:gravity="center"
+                    android:textColor="@color/primary"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSemColunasTitulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_semibold"
+                        android:textColor="@color/primary_900"
+                        android:textSize="@dimen/texto_base" />
+
+                    <TextView
+                        android:id="@+id/tvSemColunasDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/primary_700"
+                        android:textSize="@dimen/texto_sm" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/Levit.Rodape">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCancelar"
+                    style="@style/Levit.Botao.Secundario"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/acao_cancelar" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSalvar"
+                    style="@style/Levit.Botao.Primario"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/tab_salvar" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

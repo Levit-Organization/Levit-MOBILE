@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Uma opção marcável (permissão, seção do relatório, destinatário).
+    <view class=...> mantém o CheckBox do framework: a tag <CheckBox> viraria
+    MaterialCheckBox (alvo de toque de 48dp), mais alto que o visual atual.
+-->
+<view xmlns:android="http://schemas.android.com/apk/res/android"
+    class="android.widget.CheckBox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />

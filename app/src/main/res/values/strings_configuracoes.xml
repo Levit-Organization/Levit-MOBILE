@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos de Configurações, iguais aos de pages/Configuracoes.jsx. -->
+<resources>
+    <string name="cfg_titulo">Configurações</string>
+    <string name="cfg_aba_perfil">Perfil</string>
+    <string name="cfg_aba_empresa">Empresa e tabelas</string>
+    <string name="cfg_aba_avancado">Avançado e dados</string>
+    <string name="cfg_alterar_imagem">Alterar imagem</string>
+    <string name="cfg_escolha_imagem">Escolha um arquivo de imagem.</string>
+    <string name="cfg_imagem_grande">A imagem precisa ter no máximo 2 MB.</string>
+    <string name="cfg_info_perfil">Informações do perfil</string>
+    <string name="cfg_remover_foto">Remover foto</string>
+    <string name="cfg_nome">Nome completo</string>
+    <string name="cfg_email">E-mail</string>
+    <string name="cfg_telefone">Telefone</string>
+    <string name="cfg_telefone_ex">(00) 00000-0000</string>
+    <string name="cfg_linkedin">LinkedIn</string>
+    <string name="cfg_linkedin_ex">linkedin.com/in/seu-perfil</string>
+    <string name="cfg_bio">Bio</string>
+    <string name="cfg_bio_ex">Uma breve descrição sobre você</string>
+    <string name="cfg_salvar_alteracoes">Salvar alterações</string>
+    <string name="cfg_aviso_perfil">Alterações mantidas nesta sessão. O backend ainda não expõe um endpoint para salvar o perfil.</string>
+    <string name="cfg_senha">Senha</string>
+    <string name="cfg_senha_atual">Senha atual</string>
+    <string name="cfg_nova_senha">Nova senha</string>
+    <string name="cfg_minimo_8">Mínimo de 8 caracteres.</string>
+    <string name="cfg_confirmar_senha">Confirmar nova senha</string>
+    <string name="cfg_atualizar_senha">Atualizar senha</string>
+    <string name="cfg_senha_curta">A nova senha precisa ter pelo menos 8 caracteres.</string>
+    <string name="cfg_senha_diferente">A confirmação não corresponde à nova senha.</string>
+    <string name="cfg_aviso_senha">O backend ainda não expõe um endpoint para troca de senha — nada foi enviado ao servidor.</string>
+    <string name="cfg_empresa">Empresa</string>
+    <string name="cfg_remover_logo">Remover logo</string>
+    <string name="cfg_carregando">Carregando…</string>
+    <string name="cfg_nome_empresa_indisponivel">Edição do nome da empresa ainda não está disponível.</string>
+    <string name="cfg_aparencia">Aparência das tabelas</string>
+    <string name="cfg_aparencia_desc">O ícone escolhido aqui aparece para toda a equipe.</string>
+    <string name="cfg_erro_icone">Erro ao atualizar o ícone da tabela.</string>
+    <string name="cfg_nenhuma_tabela">Nenhuma tabela criada ainda</string>
+    <string name="cfg_nenhuma_tabela_desc">Quando você criar uma tabela, o ícone dela pode ser personalizado por aqui.</string>
+    <string name="cfg_salvando">Salvando…</string>
+    <string name="cfg_usar_icone">Usar o ícone %1$s</string>
+    <string name="cfg_exportar_dados">Exportar dados</string>
+    <string name="cfg_backup_completo">Backup completo (JSON)</string>
+    <string name="cfg_backup_desc">Todas as tabelas, itens e configurações da empresa.</string>
+    <string name="cfg_exportar_json">Exportar JSON</string>
+    <string name="cfg_exportando">Exportando…</string>
+    <string name="cfg_itens_csv">Itens de uma tabela (CSV)</string>
+    <string name="cfg_itens_csv_desc">Abre no Excel e no Google Sheets.</string>
+    <string name="cfg_tabela_exportar">Tabela para exportar</string>
+    <string name="cfg_exportar_csv">Exportar CSV</string>
+    <string name="cfg_json_ok">Backup JSON baixado com sucesso.</string>
+    <string name="cfg_csv_ok">CSV exportado com sucesso.</string>
+    <string name="cfg_erro_exportar">Erro ao exportar os dados.</string>
+</resources>

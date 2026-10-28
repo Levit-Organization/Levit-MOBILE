@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Botão-ícone "excluir" (ação de automação). -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="36dp"
+    android:layout_height="36dp"
+    android:fontFamily="@font/material_icons"
+    android:gravity="center"
+    android:includeFontPadding="false"
+    android:text="delete_outline"
+    android:textColor="@color/light_text"
+    android:textSize="18sp"
+    tools:ignore="HardcodedText" />

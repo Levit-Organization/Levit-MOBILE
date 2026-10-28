@@ -1,0 +1,537 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--
+        Tema do app, espelhando os tokens do web (client-frontend/src/index.css).
+        Só claro, como o web. Cores em colors.xml, raios em dimens.xml.
+    -->
+    <style name="Base.Theme.Levit" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_100</item>
+        <item name="colorOnPrimaryContainer">@color/primary_700</item>
+        <item name="colorSecondary">@color/primary_600</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/primary_100</item>
+        <item name="colorOnSecondaryContainer">@color/primary_700</item>
+
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorOnBackground">@color/ink</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="colorOnSurfaceVariant">@color/light_text</item>
+        <item name="colorSurfaceContainerLowest">@color/surface</item>
+        <item name="colorSurfaceContainerLow">@color/background</item>
+        <item name="colorSurfaceContainer">@color/surface</item>
+        <item name="colorSurfaceContainerHigh">@color/surface</item>
+        <item name="colorSurfaceContainerHighest">@color/sidebar</item>
+        <item name="colorOutline">@color/divider_strong</item>
+        <item name="colorOutlineVariant">@color/divider</item>
+
+        <item name="colorError">@color/danger</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/danger_bg</item>
+        <item name="colorOnErrorContainer">@color/danger</item>
+
+        <item name="android:textColorPrimary">@color/ink</item>
+        <item name="android:textColorSecondary">@color/light_text</item>
+        <item name="android:textColorHint">@color/faint</item>
+        <item name="android:textColorLink">@color/primary</item>
+        <item name="android:textColorHighlight">@color/primary_200</item>
+        <item name="colorControlActivated">@color/primary</item>
+
+        <!-- Archivo em tudo, como a font-sans do web -->
+        <!-- Só android:fontFamily: o fontFamily (app) do tema venceria o
+             android:fontFamily de cada view e apagaria os pesos 600/700. -->
+        <item name="android:fontFamily">@font/archivo</item>
+
+        <!-- Raios do web: md 10 (controle) · lg 14 (card, campo) · xl 18 (painel, modal) -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Levit.Controle</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Levit.Card</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Levit.Painel</item>
+        <item name="shapeAppearanceCornerSmall">@style/ShapeAppearance.Levit.Controle</item>
+        <item name="shapeAppearanceCornerMedium">@style/ShapeAppearance.Levit.Card</item>
+        <item name="shapeAppearanceCornerLarge">@style/ShapeAppearance.Levit.Painel</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.Levit.Painel2xl</item>
+
+        <!-- Folhas (Modal/Drawer do web): bg-surface, rounded-xl em cima. -->
+        <item name="bottomSheetDialogTheme">@style/Levit.FolhaTema</item>
+
+        <!-- Barras do sistema claras com ícones escuros, sobre o canvas -->
+        <item name="android:statusBarColor" tools:targetApi="34">@color/background</item>
+        <item name="android:navigationBarColor" tools:targetApi="34">@color/background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
+    <style name="ShapeAppearance.Levit.Controle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/raio_md</item>
+    </style>
+
+    <style name="ShapeAppearance.Levit.Card" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/raio_lg</item>
+    </style>
+
+    <style name="ShapeAppearance.Levit.Painel" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/raio_xl</item>
+    </style>
+
+    <style name="ShapeAppearance.Levit.Painel2xl" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/raio_2xl</item>
+    </style>
+
+    <style name="BotaoPrimarioLevit" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_marginTop">28dp</item>
+        <item name="android:background">@drawable/bg_button_primary</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/texto_base</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+    </style>
+
+
+    <!-- Button.jsx: rounded-lg (14), font-semibold, sentence case. Um primário por tela. -->
+    <style name="Levit.Botao.Primario" parent="Widget.Material3.Button">
+        <item name="android:minHeight">44dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="cornerRadius">@dimen/raio_lg</item>
+        <item name="iconSize">@dimen/icone_botao</item>
+        <item name="iconPadding">6dp</item>
+        <item name="backgroundTint">@color/botao_primario_fundo</item>
+        <item name="android:textColor">@color/botao_primario_texto</item>
+        <item name="iconTint">@color/botao_primario_texto</item>
+    </style>
+
+    <style name="Levit.Botao.Secundario" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">44dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="cornerRadius">@dimen/raio_lg</item>
+        <item name="iconSize">@dimen/icone_botao</item>
+        <item name="iconPadding">6dp</item>
+        <item name="strokeColor">@color/divider_strong</item>
+        <item name="android:textColor">@color/botao_secundario_texto</item>
+        <item name="iconTint">@color/botao_secundario_texto</item>
+        <item name="backgroundTint">@color/surface</item>
+    </style>
+
+    <!-- variant="ghost" size="icon-sm": ação por linha, até 3 (DESIGN.md). -->
+    <style name="Levit.Botao.Icone" parent="Widget.Material3.Button.IconButton">
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="iconSize">@dimen/icone_botao</item>
+        <item name="iconTint">@color/light_text</item>
+        <item name="cornerRadius">@dimen/raio_md</item>
+    </style>
+
+    <style name="Levit.Botao.Texto" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="iconTint">@color/primary</item>
+        <item name="iconSize">@dimen/icone_botao</item>
+    </style>
+
+    <!-- Input.jsx / Select.jsx: bg-surface, border-divider-strong, rounded-lg. -->
+    <style name="Levit.Campo" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">@dimen/raio_lg</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/raio_lg</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/raio_lg</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/raio_lg</item>
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="boxBackgroundColor">@color/surface</item>
+        <item name="hintTextColor">@color/primary</item>
+    </style>
+
+    <style name="Levit.Campo.Select" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">@dimen/raio_lg</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/raio_lg</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/raio_lg</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/raio_lg</item>
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="boxBackgroundColor">@color/surface</item>
+        <item name="hintTextColor">@color/primary</item>
+    </style>
+
+    <!-- Tabs.jsx: sublinhado, sentence case. -->
+    <style name="Levit.Abas" parent="Widget.Material3.TabLayout">
+        <item name="tabTextAppearance">@style/Levit.Abas.Texto</item>
+        <item name="tabSelectedTextColor">@color/primary</item>
+        <item name="tabTextColor">@color/light_text</item>
+        <item name="tabIndicatorColor">@color/primary</item>
+        <item name="tabRippleColor">@color/primary_100</item>
+        <item name="android:background">@color/background</item>
+    </style>
+
+    <style name="Levit.Abas.Texto" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="fontFamily">@font/archivo_semibold</item>
+    </style>
+
+    <!-- Título de página (PageHeader): 2xl no web; no celular, xl para caber. -->
+    <style name="Levit.Texto.Titulo" parent="">
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_xl</item>
+        <item name="android:fontFamily">@font/archivo_bold</item>
+    </style>
+
+    <style name="Levit.Texto.Subtitulo" parent="">
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+    </style>
+
+    <style name="Levit.Texto.Secao" parent="">
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_base</item>
+        <item name="android:fontFamily">@font/archivo_bold</item>
+    </style>
+
+    <!-- Sem caixa dentro de card: separa com divisória (divide-y divide-divider). -->
+    <style name="Levit.Divisoria" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
+    <!-- Linha rótulo/valor do perfil (dl do web). -->
+    <style name="Levit.LinhaDado" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Levit.LinhaDado.Icone" parent="">
+        <item name="android:layout_width">@dimen/icone_botao</item>
+        <item name="android:layout_height">@dimen/icone_botao</item>
+        <item name="tint">@color/light_text</item>
+    </style>
+
+    <style name="Levit.LinhaDado.Rotulo" parent="">
+        <item name="android:layout_width">88dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:textSize">@dimen/texto_xs</item>
+    </style>
+
+    <style name="Levit.LinhaDado.Valor" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+    </style>
+
+    <style name="Levit.Rodape" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Levit.Folha.Titulo" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_lg</item>
+        <item name="android:fontFamily">@font/archivo_bold</item>
+    </style>
+
+    <style name="Levit.Folha.Subtitulo" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+    </style>
+
+    <!-- Alert variant="error" -->
+    <style name="Levit.Alerta.Erro" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:background">@drawable/bg_alerta_erro</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/danger</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:accessibilityLiveRegion">assertive</item>
+    </style>
+
+    <!-- Controle segmentado de pílula (filtro/escolha, não aba): DESIGN.md. -->
+    <style name="Levit.Botao.Segmento" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="strokeColor">@color/divider_strong</item>
+        <item name="backgroundTint">@color/segmento_fundo</item>
+        <item name="android:textColor">@color/segmento_texto</item>
+    </style>
+
+    <style name="Levit.FolhaTema" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Levit.Folha</item>
+    </style>
+
+    <style name="Levit.Folha" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/surface</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Levit.Folha</item>
+    </style>
+
+    <style name="ShapeAppearance.Levit.Folha" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/raio_xl</item>
+        <item name="cornerSizeTopRight">@dimen/raio_xl</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <!-- Início (Dashboard.jsx) -->
+    <style name="Levit.Inicio.Cartao" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+
+    <style name="Levit.Inicio.TituloLinha" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="Levit.Inicio.Titulo" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/archivo_bold</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_base</item>
+    </style>
+
+    <style name="Levit.Inicio.Texto" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+    </style>
+
+    <style name="Levit.Inicio.Link" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="Levit.Inicio.Segmento" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/texto_xs</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textColor">@color/segmento_texto</item>
+        <item name="backgroundTint">@color/segmento_fundo</item>
+        <item name="strokeColor">@color/divider_strong</item>
+    </style>
+
+    <style name="Levit.Inicio.BotaoPequeno" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/texto_xs</item>
+        <item name="android:textColor">@color/botao_secundario_texto</item>
+        <item name="iconTint">@color/botao_secundario_texto</item>
+        <item name="iconSize">16dp</item>
+        <item name="strokeColor">@color/divider_strong</item>
+    </style>
+
+    <!-- ImportarPlanilha -->
+    <style name="Levit.Importar.Subtitulo" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+    </style>
+
+    <style name="Levit.Importar.Dica" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="Levit.Importar.Botao" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/botao_secundario_texto</item>
+        <item name="backgroundTint">@color/surface</item>
+        <item name="strokeColor">@color/divider_strong</item>
+    </style>
+
+    <style name="Levit.Importar.Botao.Primario" parent="Widget.Material3.Button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/botao_primario_texto</item>
+        <item name="backgroundTint">@color/botao_primario_fundo</item>
+    </style>
+
+    <!-- Botões que antes entravam por código (Context.botao): sem a altura mínima de 44dp. -->
+    <style name="Levit.BotaoSolto.Primario" parent="Widget.Material3.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="backgroundTint">@color/botao_primario_fundo</item>
+        <item name="android:textColor">@color/botao_primario_texto</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconTint">@color/botao_primario_texto</item>
+    </style>
+
+    <style name="Levit.BotaoSolto.Secundario" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="backgroundTint">@color/surface</item>
+        <item name="strokeColor">@color/divider_strong</item>
+        <item name="android:textColor">@color/botao_secundario_texto</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconTint">@color/botao_secundario_texto</item>
+    </style>
+
+    <style name="Levit.BotaoSolto.Fantasma" parent="Widget.Material3.Button.TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+        <item name="android:textColor">@color/botao_fantasma_texto</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconTint">@color/botao_fantasma_texto</item>
+    </style>
+
+    <!-- Botões de Relatórios: o ícone no tamanho do próprio desenho (24dp). -->
+    <style name="Levit.BotaoSolto.Primario.IconeCheio">
+        <item name="iconSize">24dp</item>
+    </style>
+
+    <style name="Levit.BotaoSolto.Secundario.IconeCheio">
+        <item name="iconSize">24dp</item>
+    </style>
+
+    <!-- Botão de um MaterialButtonToggleGroup que antes entrava por código. -->
+    <style name="Levit.SegmentoSolto" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/texto_xs</item>
+        <item name="android:textColor">@color/segmento_texto</item>
+        <item name="backgroundTint">@color/segmento_fundo</item>
+    </style>
+
+    <!-- Alert.jsx dentro de um cartão (Context.alerta): começa escondido. -->
+    <style name="Levit.AlertaCartao" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="Levit.AlertaCartao.Erro">
+        <item name="android:background">@drawable/bg_alerta_erro</item>
+        <item name="android:textColor">@color/danger</item>
+    </style>
+
+    <style name="Levit.AlertaCartao.Aviso">
+        <item name="android:background">@drawable/bg_alerta_aviso</item>
+        <item name="android:textColor">@color/warning</item>
+    </style>
+
+    <!-- Configurações -->
+    <style name="Levit.Cfg.Cartao" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="Levit.Cfg.Titulo" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_base</item>
+        <item name="android:fontFamily">@font/archivo_semibold</item>
+    </style>
+
+    <style name="Levit.Cfg.Subtitulo" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/texto_sm</item>
+        <item name="android:fontFamily">@font/archivo_medium</item>
+    </style>
+
+    <style name="Levit.Cfg.Descricao" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="android:textSize">@dimen/texto_xs</item>
+    </style>
+
+    <style name="Levit.Cfg.Remover" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:textColor">@color/danger</item>
+        <item name="android:textSize">@dimen/texto_xs</item>
+        <item name="android:fontFamily">@font/archivo_medium</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="Theme.Levit" parent="Base.Theme.Levit" />
+</resources>

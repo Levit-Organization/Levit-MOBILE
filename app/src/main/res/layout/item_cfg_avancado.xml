@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Configurações › Avançado e dados: backup JSON e CSV de uma tabela. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Levit.Cfg.Cartao">
+
+    <TextView
+        style="@style/Levit.Cfg.Titulo"
+        android:text="@string/cfg_exportar_dados" />
+
+    <TextView
+        android:id="@+id/tvErro"
+        style="@style/Levit.AlertaCartao.Erro" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            style="@style/Levit.Cfg.Subtitulo"
+            android:text="@string/cfg_backup_completo" />
+
+        <TextView
+            style="@style/Levit.Cfg.Descricao"
+            android:text="@string/cfg_backup_desc" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnJson"
+            style="@style/Levit.BotaoSolto.Secundario"
+            android:layout_marginTop="8dp"
+            android:text="@string/cfg_exportar_json"
+            app:icon="@drawable/ic_download" />
+    </LinearLayout>
+
+    <View style="@style/Levit.Divisoria" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp">
+
+        <TextView
+            style="@style/Levit.Cfg.Subtitulo"
+            android:text="@string/cfg_itens_csv" />
+
+        <TextView
+            style="@style/Levit.Cfg.Descricao"
+            android:text="@string/cfg_itens_csv_desc" />
+
+        <include
+            android:id="@+id/selectTabela"
+            layout="@layout/item_campo_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCsv"
+            style="@style/Levit.BotaoSolto.Secundario"
+            android:layout_marginTop="8dp"
+            android:enabled="false"
+            android:text="@string/cfg_exportar_csv"
+            app:icon="@drawable/ic_download" />
+    </LinearLayout>
+</LinearLayout>

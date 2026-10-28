@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Escalas do web (client-frontend/src/index.css, @theme). 1rem = 16. -->
+<resources>
+    <!-- Raio -->
+    <dimen name="raio_md">10dp</dimen>   <!-- controle: botão, campo pequeno -->
+    <dimen name="raio_lg">14dp</dimen>   <!-- card, campo -->
+    <dimen name="raio_xl">18dp</dimen>   <!-- painel, modal, bottom sheet -->
+    <dimen name="raio_2xl">24dp</dimen>
+
+    <!-- Texto: razão ~1,2 entre passos. Corpo padrão do app = sm (14). -->
+    <dimen name="texto_2xs">11sp</dimen> <!-- metadado, timestamp -->
+    <dimen name="texto_xs">12sp</dimen>  <!-- label, selo -->
+    <dimen name="texto_sm">14sp</dimen>  <!-- corpo -->
+    <dimen name="texto_base">16sp</dimen>
+    <dimen name="texto_lg">18sp</dimen>  <!-- título de card/seção -->
+    <dimen name="texto_xl">22sp</dimen>
+    <dimen name="texto_2xl">26sp</dimen> <!-- título de página -->
+    <dimen name="texto_3xl">32sp</dimen> <!-- número de destaque -->
+
+    <!-- Ícone: 14 · 16 · 18 · 20 · 24, nada fora disso -->
+    <dimen name="icone_selo">14dp</dimen>
+    <dimen name="icone_sm">16dp</dimen>
+    <dimen name="icone_botao">18dp</dimen>
+    <dimen name="icone_nav">20dp</dimen>
+    <dimen name="icone_lg">24dp</dimen>
+</resources>

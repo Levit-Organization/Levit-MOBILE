@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Tokens de cor do Levit, iguais aos do web (client-frontend/src/index.css, @theme).
+    Lá estão em OKLCH; aqui, convertidos para sRGB. A fonte da verdade é o web:
+    se um token mudar lá, muda aqui com o mesmo nome (- vira _).
+    Regras de uso em Levit-WEB/DESIGN.md (ex.: "faint" nunca em texto que precisa ser lido).
+-->
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
+    <!-- Marca: #534BAF travada -->
+    <color name="primary_50">#F3F4FF</color>
+    <color name="primary_100">#E8E9FF</color>
+    <color name="primary_200">#D1D4FC</color>
+    <color name="primary_300">#B1B4F3</color>
+    <color name="primary_400">#7E7CDB</color>
+    <color name="primary">#534BAF</color>
+    <color name="primary_600">#453C98</color>
+    <color name="primary_700">#362F7B</color>
+    <color name="primary_900">#1B1743</color>
+
+    <!-- Superfícies: chrome (sidebar) → canvas (background) → card (surface) -->
+    <color name="sidebar">#F1F1F7</color>
+    <color name="background">#F9F9FC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="divider">#E4E4E9</color>
+    <color name="divider_strong">#D0D0D6</color>
+
+    <!-- Texto, do mais forte ao mais fraco -->
+    <color name="ink">#191A22</color>
+    <color name="ink_soft">#414249</color>
+    <color name="light_text">#686870</color>
+    <color name="faint">#8B8B92</color>
+
+    <!-- Estado -->
+    <color name="success">#007658</color>
+    <color name="success_bg">#DCF5EB</color>
+    <color name="warning">#8F5D00</color>
+    <color name="warning_bg">#FEEFCF</color>
+    <color name="danger">#B91C1C</color>
+    <color name="danger_bg">#FFEDEC</color>
+    <color name="info">#0F68A2</color>
+    <color name="info_bg">#E0F3FF</color>
+
+    <!-- Quadro (funil): cor pela posição da etapa, fecha em verde -->
+    <color name="stage_1">#5D7089</color>
+    <color name="stage_1_bg">#E7F1FE</color>
+    <color name="stage_2">#5465A0</color>
+    <color name="stage_2_bg">#E6EEFF</color>
+    <color name="stage_3">#534BAF</color>
+    <color name="stage_3_bg">#E6E8FF</color>
+    <color name="stage_4">#754D9E</color>
+    <color name="stage_4_bg">#F5E8FF</color>
+    <color name="stage_5">#007658</color>
+    <color name="stage_5_bg">#DCF5EB</color>
+
+    <!-- Pessoas: cor estável por hash do nome -->
+    <color name="people_1">#9A3936</color>
+    <color name="people_1_bg">#FFE7E4</color>
+    <color name="people_2">#845000</color>
+    <color name="people_2_bg">#FEEBD6</color>
+    <color name="people_3">#266739</color>
+    <color name="people_3_bg">#E1F5E4</color>
+    <color name="people_4">#006B71</color>
+    <color name="people_4_bg">#D8F5F6</color>
+    <color name="people_5">#3C54A3</color>
+    <color name="people_5_bg">#E4EEFF</color>
+    <color name="people_6">#7A3E87</color>
+    <color name="people_6_bg">#F9E7FE</color>
+
+    <!-- Gráficos: duas séries comparadas -->
+    <color name="serie_1">#534BAF</color>
+    <color name="serie_2">#C2410C</color>
+
+    <!--
+        Nomes antigos, ainda usados nos layouts. Apontam para os tokens acima;
+        em código novo use o token direto. Somem conforme as telas forem migradas.
+    -->
+    <color name="levit_purple">@color/primary</color>
+    <color name="levit_purple_dark">@color/primary_600</color>
+    <color name="levit_text_primary">@color/ink</color>
+    <color name="levit_text_secondary">@color/light_text</color>
+    <color name="levit_text_header">@color/ink_soft</color>
+    <color name="levit_hint">@color/faint</color>
+    <color name="levit_border">@color/divider_strong</color>
+    <color name="levit_bg">@color/background</color>
+    <color name="levit_badge_bg">@color/sidebar</color>
+    <color name="levit_icon_selected_bg">@color/primary_100</color>
+    <color name="levit_transparent">#00FFFFFF</color>
+    <color name="chip_purple_bg">@color/primary_100</color>
+    <color name="cinza_inativo">@color/divider</color>
+    <color name="vermelho_fraco">@color/danger</color>
+    <color name="laranja_razoavel">@color/warning</color>
+    <color name="redefinir_verde">@color/success</color>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Disparar quando [todas | qualquer uma] das condições forem verdadeiras. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/aut_disparar_quando"
+        android:textColor="@color/ink_soft"
+        android:textSize="@dimen/texto_sm" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/grupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTodas"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/segmento_fundo"
+            android:text="@string/aut_todas"
+            android:textAllCaps="false"
+            android:textColor="@color/segmento_texto" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnQualquer"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/segmento_fundo"
+            android:text="@string/aut_qualquer_uma"
+            android:textAllCaps="false"
+            android:textColor="@color/segmento_texto" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/aut_condicoes_verdadeiras"
+        android:textColor="@color/ink_soft"
+        android:textSize="@dimen/texto_sm" />
+</LinearLayout>

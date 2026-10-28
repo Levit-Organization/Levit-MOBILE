@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mesma ordem e nomes da navegação do web (client-frontend/src/components/Layout.jsx). -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_grid_view"
+            android:title="@string/nav_inicio" />
+        <item
+            android:id="@+id/nav_modulos"
+            android:icon="@drawable/ic_inventory"
+            android:title="@string/nav_tabelas" />
+        <item
+            android:id="@+id/nav_recrutamento"
+            android:icon="@drawable/ic_person_search"
+            android:title="@string/nav_recrutamento" />
+        <item
+            android:id="@+id/nav_automacoes"
+            android:icon="@drawable/ic_bolt"
+            android:title="@string/nav_automacoes" />
+        <item
+            android:id="@+id/nav_equipe"
+            android:icon="@drawable/ic_group"
+            android:title="@string/nav_equipe" />
+        <item
+            android:id="@+id/nav_relatorios"
+            android:icon="@drawable/ic_description"
+            android:title="@string/nav_relatorios" />
+        <item
+            android:id="@+id/nav_configuracoes"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/nav_configuracoes" />
+    </group>
+    <group android:id="@+id/grupo_sair">
+        <item
+            android:id="@+id/nav_sair"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/nav_sair" />
+    </group>
+</menu>

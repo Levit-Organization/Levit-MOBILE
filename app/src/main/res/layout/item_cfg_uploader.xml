@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ImageUploader: foto (círculo) ou logo (quadrado), com o botão de câmera no canto. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="100dp">
+
+    <FrameLayout
+        android:id="@+id/caixa"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/bg_uploader_circulo">
+
+        <ImageView
+            android:id="@+id/ivImagem"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvIniciais"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:fontFamily="@font/archivo_bold"
+            android:gravity="center"
+            android:textColor="@color/primary"
+            android:textSize="24sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvIcone"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:fontFamily="@font/material_icons"
+            android:gravity="center"
+            android:importantForAccessibility="no"
+            android:includeFontPadding="false"
+            android:text="business"
+            android:textColor="@color/primary"
+            android:textSize="30sp"
+            android:visibility="gone"
+            tools:ignore="HardcodedText" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/btnCamera"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end|bottom"
+        android:background="@drawable/bg_botao_camera"
+        android:contentDescription="@string/cfg_alterar_imagem"
+        android:fontFamily="@font/material_icons"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="photo_camera"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:ignore="HardcodedText" />
+</FrameLayout>

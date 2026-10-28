@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modal "Acesso por tabela" de TeamManagement.jsx. -->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView style="@style/Levit.Folha.Titulo" android:text="@string/eq_acesso_por_tabela" />
+        <TextView android:id="@+id/tvCargo" style="@style/Levit.Folha.Subtitulo" />
+
+        <LinearLayout
+            android:id="@+id/llTabelas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConcluido"
+            style="@style/Levit.Botao.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/eq_concluido" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

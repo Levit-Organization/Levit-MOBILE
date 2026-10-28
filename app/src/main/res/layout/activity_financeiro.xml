@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tabela de entradas e saídas: mesmo conteúdo de FinancialModule.jsx. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/btnVoltar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/tab_voltar"
+            android:fontFamily="@font/material_icons"
+            android:gravity="center"
+            android:text="arrow_back"
+            android:textColor="@color/ink"
+            android:textSize="24sp" />
+
+        <FrameLayout
+            android:id="@+id/flIcone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp" />
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            style="@style/Levit.Texto.Titulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/fin_carregando" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNovo"
+            style="@style/Levit.Botao.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fin_novo"
+            app:icon="@drawable/ic_add" />
+    </LinearLayout>
+
+    <!-- Resumo e filtros entram como cabeçalho fixo da lista (item_financeiro_topo). -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lista"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="16dp" />
+</LinearLayout>

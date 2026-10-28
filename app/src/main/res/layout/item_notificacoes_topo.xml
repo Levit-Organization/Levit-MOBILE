@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Título, quantas não lidas e o filtro Todas / Não lidas. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Levit.Folha.Titulo"
+        android:text="@string/not_titulo" />
+
+    <TextView
+        android:id="@+id/tvSubtitulo"
+        style="@style/Levit.Folha.Subtitulo" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/grupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTodas"
+            style="@style/Levit.SegmentoSolto"
+            android:text="@string/not_todas" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNaoLidas"
+            style="@style/Levit.SegmentoSolto"
+            android:text="@string/not_nao_lidas_filtro" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+</LinearLayout>

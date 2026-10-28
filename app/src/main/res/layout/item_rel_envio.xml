@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Um envio do histórico: data, selo (enviado/não enviado) e baixar o PDF daquele período. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:id="@+id/tvData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:textColor="@color/ink_soft"
+        android:textSize="@dimen/texto_sm"
+        tools:ignore="RtlSymmetry"
+        xmlns:tools="http://schemas.android.com/tools" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBaixar"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_semibold"
+        android:text="@string/rel_baixar_pdf"
+        android:textAllCaps="false"
+        android:textColor="@color/primary" />
+</LinearLayout>

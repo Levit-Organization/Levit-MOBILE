@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uma etapa da vaga nova: número e o campo do nome. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <TextView
+        android:id="@+id/tvNumero"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_bolinha"
+        android:backgroundTint="@color/primary_100"
+        android:fontFamily="@font/archivo_bold"
+        android:gravity="center"
+        android:textColor="@color/primary_700"
+        android:textSize="11sp" />
+
+    <include
+        android:id="@+id/campo"
+        layout="@layout/item_opcao_coluna"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_weight="1" />
+</LinearLayout>

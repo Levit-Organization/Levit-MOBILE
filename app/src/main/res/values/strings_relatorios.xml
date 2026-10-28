@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos de Relatórios, iguais aos de Relatorios.jsx, PainelIndicadores.jsx e MontarRelatorio.jsx. -->
+<resources>
+    <string name="rel_titulo">Relatórios</string>
+    <string name="rel_subtitulo">Números do período e PDFs por e-mail</string>
+    <string name="rel_aba_painel">Painel</string>
+    <string name="rel_aba_montar">Montar relatório</string>
+    <string name="rel_aba_pdf">Históricos</string>
+    <string name="rel_novo">Novo relatório</string>
+    <string name="rel_periodo">Período</string>
+    <string name="rel_de">De</string>
+    <string name="rel_ate">Até</string>
+    <string name="rel_periodo_invalido">Escolha um período válido (início antes do fim).</string>
+    <string name="rel_sem_acesso_titulo">Relatórios são para quem tem acesso total</string>
+    <string name="rel_sem_acesso_desc">O relatório mostra tudo o que acontece na empresa, em todas as tabelas. Peça a alguém com acesso total para agendar e incluir você entre quem recebe.</string>
+    <string name="rel_tentar">Tentar de novo</string>
+
+    <!-- Painel -->
+    <string name="rel_erro_indicadores">Não foi possível carregar os indicadores.</string>
+    <string name="rel_resumo">Resumo</string>
+    <string name="rel_comparado_com">Comparado com %1$s.</string>
+    <string name="rel_itens_criados">Itens criados nas tabelas</string>
+    <string name="rel_candidatos_inscritos">Candidatos inscritos</string>
+    <string name="rel_atividades">Atividades na plataforma</string>
+    <string name="rel_pessoas_ativas">Pessoas ativas</string>
+    <string name="rel_prazos">Prazos</string>
+    <string name="rel_prazos_desc">Concluído = item numa opção como Concluído, Entregue ou Pago.</string>
+    <string name="rel_prazos_venceram">Prazos que venceram no período</string>
+    <string name="rel_prazos_concluidos">Desses, já concluídos</string>
+    <string name="rel_nenhum_prazo">nenhum prazo no período</string>
+    <string name="rel_taxa">%1$s%% concluídos</string>
+    <string name="rel_taxa_antes">%1$s%% concluídos (antes: %2$s%%)</string>
+    <string name="rel_atrasados_agora">Atrasados agora</string>
+    <string name="rel_em_todas_tabelas">em todas as tabelas</string>
+    <string name="rel_atrasados_por_responsavel">Atrasados por responsável</string>
+    <string name="rel_nenhum_atrasado">Nenhum item atrasado.</string>
+    <string name="rel_recrutamento">Recrutamento</string>
+    <string name="rel_candidatos_total">%1$s candidatos no total</string>
+    <string name="rel_inscritos_periodo">Inscritos no período</string>
+    <string name="rel_ultima_etapa">Chegaram à última etapa</string>
+    <string name="rel_sairam">Saíram do processo</string>
+    <plurals name="rel_parados">
+        <item quantity="one">1 candidato está parado na mesma etapa há mais de 14 dias.</item>
+        <item quantity="other">%d candidatos estão parados na mesma etapa há mais de 14 dias.</item>
+    </plurals>
+    <string name="rel_ate_onde">Até onde chegaram os inscritos no período</string>
+    <string name="rel_ate_onde_desc">Quem chegou a cada etapa ou passou dela.</string>
+    <string name="rel_ninguem_inscreveu">Ninguém se inscreveu neste período.</string>
+    <string name="rel_agora">%1$s agora</string>
+    <string name="rel_dias_media">%1$s dias em média</string>
+    <string name="rel_fora_do_funil">Fora do funil: %1$s.</string>
+    <string name="rel_financeiro">Financeiro</string>
+    <string name="rel_entradas">Entradas</string>
+    <string name="rel_saidas">Saídas</string>
+    <string name="rel_saldo">Saldo</string>
+    <string name="rel_saidas_categoria">Saídas por categoria no período</string>
+    <string name="rel_nenhuma_saida">Nenhuma saída neste período.</string>
+    <string name="rel_sem_quadros_titulo">Quadros de recrutamento e financeiro aparecem aqui</string>
+    <string name="rel_sem_quadros_desc">Crie uma tabela de recrutamento ou de financeiro para ver o funil de candidatos e as entradas e saídas do período.</string>
+
+    <!-- Montar -->
+    <string name="rel_tabela">Tabela</string>
+    <string name="rel_agrupar_por">Agrupar por</string>
+    <string name="rel_calcular">Calcular</string>
+    <string name="rel_coluna_numero">Coluna de número</string>
+    <string name="rel_contar">Contar itens</string>
+    <string name="rel_somar">Somar uma coluna</string>
+    <string name="rel_media">Média de uma coluna</string>
+    <string name="rel_por_mes">%1$s (por mês)</string>
+    <string name="rel_so_periodo">Só itens criados entre %1$s</string>
+    <string name="rel_so_periodo_desc">Desligado, considera todos os itens da tabela.</string>
+    <string name="rel_erro_tabelas">Não foi possível carregar as tabelas.</string>
+    <string name="rel_nenhuma_tabela">Nenhuma tabela ainda</string>
+    <string name="rel_nenhuma_tabela_desc">Crie uma tabela e adicione itens para montar relatórios com ela.</string>
+    <string name="rel_monte_titulo">Monte seu relatório</string>
+    <string name="rel_monte_desc">Escolha uma tabela e uma coluna. Ex.: Pedidos agrupados por Cliente › Cidade, somando o Valor, só dos pedidos deste ano.</string>
+    <string name="rel_sem_numeros">A tabela não tem colunas de número</string>
+    <string name="rel_erro_montar">Não foi possível montar o relatório.</string>
+    <string name="rel_x_por_y">%1$s por %2$s</string>
+    <string name="rel_itens">Itens</string>
+    <string name="rel_soma_de">Soma de %1$s</string>
+    <string name="rel_media_de">Média de %1$s</string>
+    <plurals name="rel_n_itens">
+        <item quantity="one">%s item</item>
+        <item quantity="other">%s itens</item>
+    </plurals>
+    <string name="rel_cortados">mostrando os 50 maiores grupos (%d ficaram de fora)</string>
+    <string name="rel_nenhum_item">Nenhum item para mostrar.</string>
+    <string name="rel_titulo_pdf">Título no PDF</string>
+    <string name="rel_titulo_pdf_dica">Opcional. O PDF traz os critérios, os grupos e o total.</string>
+    <string name="rel_exportar_csv">Exportar CSV</string>
+    <string name="rel_baixar_pdf">Baixar PDF</string>
+    <string name="rel_gerando">Gerando…</string>
+    <string name="rel_erro_pdf">Não foi possível gerar o PDF.</string>
+
+    <!-- Históricos -->
+    <string name="rel_baixar_agora">Baixar agora</string>
+    <string name="rel_o_que_entra">O que entra no PDF</string>
+    <string name="rel_agendados">Agendados</string>
+    <string name="rel_erro_relatorios">Erro ao carregar os relatórios.</string>
+    <string name="rel_nenhum_agendado">Nenhum relatório agendado</string>
+    <string name="rel_nenhum_agendado_desc">Escolha a frequência, quem recebe e o que entra no PDF. Ele chega por e-mail, com a comparação com o período anterior.</string>
+    <string name="rel_agendar_primeiro">Agendar o primeiro</string>
+    <string name="rel_proximo_envio">%1$s · próximo envio em %2$s</string>
+    <string name="rel_pausado_sufixo">%1$s · pausado</string>
+    <string name="rel_recebem">Recebem: %1$s</string>
+    <string name="rel_pessoa_removida">Pessoa removida</string>
+    <string name="rel_ultimo_envio_ok">Último envio: %1$s, com %2$d atividades.</string>
+    <string name="rel_ultimo_envio_falhou">O último envio falhou (%1$s): %2$s</string>
+    <string name="rel_erro_desconhecido">erro desconhecido</string>
+    <string name="rel_historico">Histórico</string>
+    <string name="rel_enviar_agora">Enviar agora</string>
+    <string name="rel_editar">Editar relatório</string>
+    <string name="rel_excluir">Excluir relatório</string>
+    <string name="rel_pausar">Pausar relatório</string>
+    <string name="rel_ligar">Ligar relatório</string>
+    <string name="rel_enviado_email">Relatório enviado por e-mail.</string>
+    <string name="rel_erro_enviar">Não foi possível enviar agora.</string>
+    <string name="rel_ligado_msg">Relatório ligado.</string>
+    <string name="rel_pausado_msg">Relatório pausado.</string>
+    <string name="rel_erro_alterar">Não foi possível alterar.</string>
+    <string name="rel_excluir_titulo">Excluir relatório?</string>
+    <string name="rel_excluir_msg">“%1$s” deixa de ser enviado. O histórico de atividades continua guardado.</string>
+    <string name="rel_excluir_botao">Excluir</string>
+    <string name="rel_excluido">Relatório excluído.</string>
+    <string name="rel_erro_excluir">Não foi possível excluir.</string>
+    <string name="rel_erro_historico">Erro ao carregar o histórico.</string>
+    <string name="rel_sem_envios">Ainda não houve nenhum envio.</string>
+    <string name="rel_n_atividades">%d atividades</string>
+    <string name="rel_nao_enviado">Não enviado</string>
+
+    <!-- Formulário -->
+    <string name="rel_editar_titulo">Editar relatório</string>
+    <string name="rel_novo_titulo">Novo relatório</string>
+    <string name="rel_form_sub">O PDF chega por e-mail de manhã, no dia escolhido.</string>
+    <string name="rel_nome">Nome</string>
+    <string name="rel_nome_ex">Ex: Resumo semanal da equipe</string>
+    <string name="rel_frequencia">Frequência</string>
+    <string name="rel_diario">Diário</string>
+    <string name="rel_semanal">Semanal</string>
+    <string name="rel_mensal">Mensal</string>
+    <string name="rel_dia_semana">Dia da semana</string>
+    <string name="rel_dia_mes">Dia do mês</string>
+    <string name="rel_dia_n">Dia %d</string>
+    <string name="rel_cobre_diario">Cobre o dia anterior.</string>
+    <string name="rel_cobre_semanal">Cobre os 7 dias anteriores.</string>
+    <string name="rel_cobre_mensal">Cobre o mês anterior. Vai até o dia 28 para existir em todo mês.</string>
+    <string name="rel_quem_recebe">Quem recebe</string>
+    <string name="rel_ligado">Ligado</string>
+    <string name="rel_ligado_desc">Pausado, o relatório não é enviado.</string>
+    <string name="rel_agendar">Agendar</string>
+    <string name="rel_salvar">Salvar</string>
+    <string name="rel_de_nome">Dê um nome ao relatório.</string>
+    <string name="rel_escolha_quem">Escolha quem recebe o relatório.</string>
+    <string name="rel_marque_parte">Marque ao menos uma parte para o PDF.</string>
+    <string name="rel_atualizado">Relatório atualizado.</string>
+    <string name="rel_agendado">Relatório agendado.</string>
+    <string name="rel_erro_salvar">Não foi possível salvar.</string>
+    <string-array name="rel_dias_semana">
+        <item>Segunda-feira</item>
+        <item>Terça-feira</item>
+        <item>Quarta-feira</item>
+        <item>Quinta-feira</item>
+        <item>Sexta-feira</item>
+        <item>Sábado</item>
+        <item>Domingo</item>
+    </string-array>
+</resources>

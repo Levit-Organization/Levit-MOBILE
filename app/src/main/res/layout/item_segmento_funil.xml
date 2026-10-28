@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Um trecho da barra do funil; a cor vem por backgroundTint e o tamanho por weight. -->
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="6dp"
+    android:layout_marginEnd="4dp"
+    android:background="@drawable/bg_segmento_funil" />

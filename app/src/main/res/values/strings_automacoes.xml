@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos de Automações, iguais aos de Automacoes.jsx, AutomacaoForm.jsx e components/automacoes. -->
+<resources>
+    <string name="aut_titulo">Automações</string>
+    <string name="aut_subtitulo_vazio">Avisos, e-mails e tarefas que acontecem sozinhos quando um item muda</string>
+    <plurals name="aut_ativas_de">
+        <item quantity="one">%1$d de %2$d automação ativa</item>
+        <item quantity="other">%1$d de %2$d automações ativas</item>
+    </plurals>
+    <plurals name="aut_execucoes_7d">
+        <item quantity="one">%d execução nos últimos 7 dias</item>
+        <item quantity="other">%d execuções nos últimos 7 dias</item>
+    </plurals>
+    <plurals name="aut_falhas">
+        <item quantity="one">%d falha</item>
+        <item quantity="other">%d falhas</item>
+    </plurals>
+    <string name="aut_buscar">Buscar automações…</string>
+    <string name="aut_criar">Criar automação</string>
+    <string name="aut_erro_carregar">Erro ao carregar as automações.</string>
+    <string name="aut_nenhuma_encontrada">Nenhuma automação encontrada</string>
+    <string name="aut_nenhuma_ainda">Nenhuma automação ainda</string>
+    <string name="aut_busca_desc">Nada bate com “%1$s”. Tente outro termo ou limpe a busca.</string>
+    <string name="aut_vazio_desc">Uma automação observa uma tabela e age sozinha: quando um item é criado ou muda, ela avisa a equipe, manda um e-mail ou atualiza outra tabela.</string>
+    <string name="aut_em_7_dias">em 7 dias</string>
+    <string name="aut_ultima_execucao">Última execução: %1$s</string>
+    <string name="aut_nunca">Nunca</string>
+    <string name="aut_pausada_falhas">Pausada por falhas</string>
+    <string name="aut_mais_acoes">Mais ações para %1$s</string>
+    <string name="aut_editar">Editar</string>
+    <string name="aut_testar">Testar</string>
+    <string name="aut_historico">Histórico</string>
+    <string name="aut_excluir">Excluir</string>
+    <string name="aut_excluir_titulo">Excluir “%1$s”?</string>
+    <string name="aut_excluir_msg">A automação deixa de rodar imediatamente. Essa ação não pode ser desfeita.</string>
+    <string name="aut_excluir_botao">Excluir automação</string>
+    <string name="aut_excluida">Automação excluída.</string>
+    <string name="aut_erro_excluir">Erro ao excluir a automação.</string>
+    <string name="aut_erro_status">Erro ao atualizar o status da automação.</string>
+    <string name="aut_com_condicoes">Com condições</string>
+    <string name="aut_ativa_de">Automação %1$s ativa</string>
+
+    <!-- Formulário -->
+    <string name="aut_nova">Nova automação</string>
+    <string name="aut_editar_titulo">Editar automação</string>
+    <string name="aut_propriedades">Propriedades</string>
+    <string name="aut_nome">Nome da automação</string>
+    <string name="aut_nome_ex">Ex: Notificar novo lead</string>
+    <string name="aut_tabela_origem">Tabela de origem</string>
+    <string name="aut_selecione_tabela">Selecione uma tabela</string>
+    <string name="aut_vaga_dica">Vaga de recrutamento: a automação trabalha com candidatos.</string>
+    <string name="aut_ativar_ao_salvar">Ativar ao salvar</string>
+    <string name="aut_quando">Quando</string>
+    <string name="aut_se">Se</string>
+    <string name="aut_entao">Então</string>
+    <string name="aut_usar_condicoes">Usar condições</string>
+    <string name="aut_sem_condicao">Opcional. Sem condição, roda sempre.</string>
+    <string name="aut_mudanca_vaga">Condições de mudança só valem em Mudou de etapa.</string>
+    <string name="aut_mudanca_item">Condições de mudança só valem quando o item é atualizado.</string>
+    <string name="aut_remover_acao">Remover ação</string>
+    <string name="aut_adicionar_acao">Adicionar outra ação</string>
+    <string name="aut_salvar">Salvar automação</string>
+    <string name="aut_salvando">Salvando…</string>
+    <string name="aut_atualizada">Automação atualizada.</string>
+    <string name="aut_criada">Automação criada.</string>
+    <string name="aut_erro_salvar">Erro ao salvar a automação.</string>
+    <string name="aut_nao_encontrada">Automação não encontrada.</string>
+    <string name="aut_erro_carregar_uma">Erro ao carregar a automação.</string>
+    <string name="aut_testar_pronto">Ver o que aconteceria com um item real, sem enviar nada</string>
+    <string name="aut_testar_dica">Preencha a tabela e as ações para testar</string>
+    <string name="aut_variaveis">Variáveis disponíveis: %1$s</string>
+
+    <!-- Condições -->
+    <string name="aut_disparar_quando">Disparar quando</string>
+    <string name="aut_todas">todas</string>
+    <string name="aut_qualquer_uma">qualquer uma</string>
+    <string name="aut_condicoes_verdadeiras">as condições forem verdadeiras</string>
+    <string name="aut_coluna">Coluna</string>
+    <string name="aut_operador">Operador</string>
+    <string name="aut_valor">Valor</string>
+    <string name="aut_de">De</string>
+    <string name="aut_para">Para</string>
+    <string name="aut_selecione">Selecione</string>
+    <string name="aut_selecione_item">Selecione o item</string>
+    <string name="aut_numero_ou_data">Número ou data (AAAA-MM-DD)</string>
+    <string name="aut_remover_condicao">Remover condição %d</string>
+    <string name="aut_adicionar_condicao">Adicionar condição</string>
+
+    <!-- Ações -->
+    <string name="aut_enviar_para">Enviar para:</string>
+    <string name="aut_do_item">%1$s do item</string>
+    <string name="aut_vai_para_conta">Vai para o e-mail da conta da pessoa.</string>
+    <string name="aut_destinatario">Destinatário (e-mail)</string>
+    <string name="aut_destinatario_ex">Ex: admin@empresa.com ou {{Email}}</string>
+    <string name="aut_destinatario_vaga">Para escrever ao candidato, use {{E-mail}}.</string>
+    <string name="aut_destinatario_item">Para enviar a um e-mail do item, use: %1$s</string>
+    <string name="aut_assunto">Assunto</string>
+    <string name="aut_assunto_ex">Ex: Olá {{nome}}, recebemos seu contato</string>
+    <string name="aut_corpo">Modelo de mensagem</string>
+    <string name="aut_corpo_ex">Escreva o corpo do e-mail. Use {{nome_do_campo}} para inserir dados do item.</string>
+    <string name="aut_webhook">Endereço do outro sistema</string>
+    <string name="aut_webhook_ex">https://exemplo.com/webhook</string>
+    <string name="aut_webhook_dica">O Levit envia os dados do item para este endereço (webhook).</string>
+    <string name="aut_quem_recebe">Quem recebe</string>
+    <string name="aut_cargo">Cargo</string>
+    <string name="aut_selecione_cargo">Selecione um cargo</string>
+    <string name="aut_pessoa">Pessoa</string>
+    <string name="aut_selecione_pessoa">Selecione uma pessoa</string>
+    <string name="aut_so_quem_tem_acesso">Só recebe quem tem acesso a esta tabela, mesmo escolhendo um cargo ou uma pessoa.</string>
+    <string name="aut_titulo_notif">Título</string>
+    <string name="aut_titulo_notif_ex">Ex: Negócio {{Empresa}} fechado</string>
+    <string name="aut_mensagem_opcional">Mensagem (opcional)</string>
+    <string name="aut_mensagem_ex">Detalhes que aparecem abaixo do título. Aceita {{variáveis}}.</string>
+    <string name="aut_selecione_coluna">Selecione a coluna</string>
+    <string name="aut_novo_valor">Novo valor</string>
+    <string name="aut_deixe_vazio">Deixe vazio para limpar a coluna</string>
+    <string name="aut_aceita_variaveis">Aceita variáveis: %1$s</string>
+    <string name="aut_aceita_variaveis_padrao">Aceita {{variáveis}} com as colunas do item.</string>
+    <string name="aut_nao_funciona_exclusao">%1$s Não funciona com o gatilho “Exclusão”.</string>
+    <string name="aut_tabela_onde_criar">Tabela onde criar</string>
+    <string name="aut_colunas_novo_item">Colunas do novo item</string>
+    <string name="aut_carregando_colunas">Carregando colunas…</string>
+    <string name="aut_ligar_ao_item">%1$s: ligar ao item que disparou</string>
+    <string name="aut_ligar_desc">O novo item já nasce ligado a este, e aparece em “Ligados a este item”.</string>
+    <string name="aut_uma_das_opcoes">Uma das opções: %1$s</string>
+    <string name="aut_texto_ou_variavel">Texto fixo ou {{variável}}</string>
+    <string name="aut_campos_vazios">%1$s Campos vazios ficam em branco no novo registro.</string>
+
+    <!-- Histórico -->
+    <string name="aut_historico_titulo">Histórico de execuções</string>
+    <string name="aut_execucao">Execução</string>
+    <string name="aut_tentativa">%1$s · %2$dª tentativa</string>
+    <string name="aut_acao_n">Ação %1$d: %2$s</string>
+    <string name="aut_retentando_desc">Falha temporária. O sistema tenta de novo automaticamente, continuando da ação que falhou.</string>
+    <string name="aut_reexecutar">Reexecutar</string>
+    <string name="aut_reexecucao_fila">Reexecução colocada na fila. O resultado aparece aqui em instantes.</string>
+    <string name="aut_erro_reexecutar">Não foi possível reexecutar.</string>
+    <string name="aut_erro_historico">Erro ao carregar o histórico.</string>
+    <string name="aut_nenhuma_execucao">Nenhuma execução ainda</string>
+    <string name="aut_nenhuma_execucao_desc">Quando um item disparar esta automação, cada execução aparece aqui com o resultado de cada ação.</string>
+    <string name="aut_carregar_mais">Carregar mais</string>
+
+    <!-- Simulação -->
+    <string name="aut_testar_titulo">Testar automação</string>
+    <string name="aut_testar_sub">Nada é enviado: é só uma prévia com dados reais.</string>
+    <string name="aut_candidato_recente">Prévia com o candidato mais recente desta vaga.</string>
+    <string name="aut_item_exemplo">Item de exemplo</string>
+    <string name="aut_mais_recente">Mais recente da tabela</string>
+    <string name="aut_erro_testar">Não foi possível testar a automação.</string>
+    <string name="aut_sem_itens">A tabela ainda não tem itens: a prévia usa dados vazios.</string>
+    <string name="aut_sem_candidatos">A vaga ainda não tem candidatos: a prévia usa dados vazios.</string>
+    <string name="aut_mudanca_teste">Há condições de mudança. No teste, consideramos que o valor anterior estava vazio.</string>
+    <string name="aut_mudanca_teste_vaga">Há condições de mudança. No teste, consideramos que o valor anterior estava vazio (o candidato acabou de entrar na etapa atual).</string>
+    <string name="aut_condicao">Condição:</string>
+    <string name="aut_atendida">atendida — a automação dispararia</string>
+    <string name="aut_nao_atendida">não atendida — nada aconteceria</string>
+    <string name="aut_previa_esvaziada">A coluna %1$s seria esvaziada.</string>
+    <string name="aut_previa_passaria">A coluna %1$s passaria a ser “%2$s”.</string>
+    <string name="aut_previa_novo_item">Novo item em %1$s:</string>
+    <plurals name="aut_previa_pessoas">
+        <item quantity="one">%d pessoa com acesso ao módulo</item>
+        <item quantity="other">%d pessoas com acesso ao módulo</item>
+    </plurals>
+    <string name="aut_previa_para">Para</string>
+    <string name="aut_previa_titulo">Título</string>
+    <string name="aut_previa_mensagem">Mensagem</string>
+    <string name="aut_previa_assunto">Assunto</string>
+    <string name="aut_previa_vazio">vazio</string>
+    <string name="aut_previa_post">POST</string>
+    <string name="aut_previa_corpo">Corpo</string>
+    <string name="aut_fechar">Fechar</string>
+</resources>
