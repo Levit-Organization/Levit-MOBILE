@@ -19,29 +19,8 @@
         android:networkSecurityConfig="@xml/network_security_config">
         <!-- Adição 3 na linha 17 -->
 
-
         <activity
-            android:name=".NovoModuloActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".auth.RecuperarSenhaActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".auth.CadastroActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".auth.LoginActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".MainActivity"
+            android:name=".HostActivity"
             android:exported="false" />
 
         <activity
@@ -52,12 +31,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <!-- Adição -->
-        <activity
-            android:name=".ModulosActivity"
-            android:exported="false" />
 
     </application>
 

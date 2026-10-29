@@ -1,6 +1,5 @@
 package com.example.levit
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -8,41 +7,45 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.levit.data.repository.ModuloRepository
 import com.example.levit.data.repository.ResultadoModulo
 import kotlinx.coroutines.launch
 
-class ModulosActivity : HamburgerMenuBaseActivity() {
+class ModulosFragment : HamburgerMenuBaseFragment() {
 
-    private val moduloRepository by lazy { ModuloRepository(applicationContext) }
+    override val pageLayoutResId: Int = R.layout.activity_modulos
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }
 
-        setContentViewWithHamburgerMenu(R.layout.activity_modulos)
-        if (!menuPronto()) return
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (!menuFoiMontado()) return
 
         setupHamburgerMenuButton(R.id.ivMenu)
 
-        findViewById<Button>(R.id.btnNovoModuloTop).setOnClickListener {
-            startActivity(Intent(this, NovoModuloActivity::class.java))
+        view.findViewById<Button>(R.id.btnNovoModuloTop).setOnClickListener {
+            findNavController().navigate(R.id.action_modulos_to_novoModulo)
         }
     }
 
+    // Recarrega ao voltar da criação, para o módulo novo aparecer na hora.
     override fun onResume() {
         super.onResume()
-        if (menuPronto()) carregarModulos()
+        if (menuFoiMontado()) carregarModulos()
     }
 
     private fun carregarModulos() {
-        val progresso = findViewById<ProgressBar>(R.id.progressModulos)
-        val mensagem = findViewById<TextView>(R.id.tvModulosMensagem)
-        val lista = findViewById<LinearLayout>(R.id.llListaModulos)
+        val raiz = requireView()
+        val progresso = raiz.findViewById<ProgressBar>(R.id.progressModulos)
+        val mensagem = raiz.findViewById<TextView>(R.id.tvModulosMensagem)
+        val lista = raiz.findViewById<LinearLayout>(R.id.llListaModulos)
 
         progresso.visibility = View.VISIBLE
         mensagem.visibility = View.GONE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             when (val resultado = moduloRepository.listar()) {
                 is ResultadoModulo.Sucesso -> {
                     ModuloUi.preencherCards(layoutInflater, lista, resultado.dados)

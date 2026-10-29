@@ -1,37 +1,52 @@
 package com.example.levit.auth
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.levit.DashboardActivity
+import androidx.navigation.fragment.findNavController
 import com.example.levit.R
 import com.example.levit.data.repository.AuthRepository
 import com.example.levit.data.repository.ResultadoAuth
 import com.example.levit.databinding.ActivityCadastroBinding
 import kotlinx.coroutines.launch
 
-class CadastroActivity : AppCompatActivity() {
+class CadastroFragment : Fragment() {
 
-    private lateinit var binding: ActivityCadastroBinding
-    private val authRepository by lazy { AuthRepository(applicationContext) }
+    private var _binding: ActivityCadastroBinding? = null
+    private val binding get() = _binding!!
+    private val authRepository by lazy { AuthRepository(requireContext().applicationContext) }
 
     // Variável para guardar o nível da senha em tempo real
     private var forcaSenhaAtual = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCadastroBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = ActivityCadastroBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding.textVoltar.setOnClickListener { finish() }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.textVoltar.setOnClickListener { findNavController().popBackStack() }
 
         binding.tvFacaLogin.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            // Se o Login já está na pilha (veio dele), volta pra ele.
+            // Se não (veio das Boas-vindas), troca o Cadastro pelo Login.
+            val voltouAoLogin = findNavController().popBackStack(R.id.loginFragment, false)
+            if (!voltouAoLogin) {
+                findNavController().navigate(R.id.action_cadastro_to_login)
+            }
         }
 
         // Monitora a digitação da senha
@@ -91,7 +106,7 @@ class CadastroActivity : AppCompatActivity() {
 
             // 3. Validações da Senha
             if (forcaSenhaAtual < 3) {
-                Toast.makeText(this, "A senha precisa ser 'Boa' ou 'Forte'", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "A senha precisa ser 'Boa' ou 'Forte'", Toast.LENGTH_SHORT).show()
                 possuiErro = true
             }
 
@@ -104,7 +119,6 @@ class CadastroActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Se o código chegou até aqui, todos os campos estão preenchidos e válidos.
             // O backend não tem um campo separado de "nome da empresa" nesta tela,
             // então o AuthRepository reaproveita o próprio nome (mesma regra do LEVIT Web).
             registrar(nome = nome, email = email, senha = senha, cnpjCpf = cpfCnpj)
@@ -114,7 +128,7 @@ class CadastroActivity : AppCompatActivity() {
     private fun registrar(nome: String, email: String, senha: String, cnpjCpf: String) {
         binding.btnCriarConta.isEnabled = false
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             when (val resultado = authRepository.signUp(
                 nome = nome,
                 email = email,
@@ -123,15 +137,13 @@ class CadastroActivity : AppCompatActivity() {
                 nomeEmpresa = nome
             )) {
                 is ResultadoAuth.Sucesso -> {
-                    val intent = Intent(this@CadastroActivity, DashboardActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+                    // Cadastro já deixa a sessão autenticada: vai pro Dashboard
+                    // limpando a pilha (voltar não retorna pro formulário).
+                    findNavController().navigate(R.id.action_cadastro_to_dashboard)
                 }
                 is ResultadoAuth.Erro -> {
                     binding.btnCriarConta.isEnabled = true
-                    // Erros de validação do backend (ex.: "e-mail já em uso") vêm em
-                    // resultado.camposInvalidos; aqui exibimos a mensagem principal.
-                    Toast.makeText(this@CadastroActivity, resultado.mensagem, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), resultado.mensagem, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -150,12 +162,13 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     private fun atualizarCoresDasBarras(forca: Int) {
-        val cinza = ContextCompat.getColor(this, R.color.cinza_inativo)
+        val contexto = requireContext()
+        val cinza = ContextCompat.getColor(contexto, R.color.cinza_inativo)
         val corAtual = when (forca) {
-            1 -> ContextCompat.getColor(this, R.color.vermelho_fraco)
-            2 -> ContextCompat.getColor(this, R.color.laranja_razoavel)
-            3 -> ContextCompat.getColor(this, R.color.amarelo_bom)
-            4 -> ContextCompat.getColor(this, R.color.verde_forte)
+            1 -> ContextCompat.getColor(contexto, R.color.vermelho_fraco)
+            2 -> ContextCompat.getColor(contexto, R.color.laranja_razoavel)
+            3 -> ContextCompat.getColor(contexto, R.color.amarelo_bom)
+            4 -> ContextCompat.getColor(contexto, R.color.verde_forte)
             else -> cinza
         }
 
@@ -221,5 +234,10 @@ class CadastroActivity : AppCompatActivity() {
         val digito2 = if (resto == 10 || resto == 11) 0 else resto
 
         return digito2 == Character.getNumericValue(cpf[10])
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

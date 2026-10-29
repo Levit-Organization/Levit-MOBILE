@@ -1,20 +1,21 @@
 package com.example.levit
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.levit.auth.LoginActivity
+import androidx.navigation.fragment.findNavController
 import com.example.levit.data.remote.dto.CampoRequest
 import com.example.levit.data.remote.dto.CriarModuloRequest
 import com.example.levit.data.repository.AuthRepository
@@ -23,7 +24,7 @@ import com.example.levit.data.repository.ResultadoModulo
 import com.example.levit.databinding.ActivityNovoModuloBinding
 import kotlinx.coroutines.launch
 
-class NovoModuloActivity : AppCompatActivity() {
+class NovoModuloFragment : Fragment() {
 
     // "api" é o valor que o backend aceita em campo_modulo.tipo
     private enum class TipoCampo(val label: String, val iconRes: Int, val api: String) {
@@ -45,19 +46,32 @@ class NovoModuloActivity : AppCompatActivity() {
                 .distinct()
     }
 
-    private lateinit var binding: ActivityNovoModuloBinding
-    private val moduloRepository by lazy { ModuloRepository(applicationContext) }
+    private var _binding: ActivityNovoModuloBinding? = null
+    private val binding get() = _binding!!
+    private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }
     private val linhasCampos = mutableListOf<LinhaCampo>()
 
     // Mesmos nomes de ícone do LEVIT Web (Material Icons)
     private var iconeSelecionado = "dashboard"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityNovoModuloBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = ActivityNovoModuloBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding.tvAvatar.text = iniciais(AuthRepository(applicationContext).usuarioLogado()?.nome)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // A tela é recriada do zero, então a lista de campos começa vazia.
+        linhasCampos.clear()
+
+        binding.tvAvatar.text = iniciais(
+            AuthRepository(requireContext().applicationContext).usuarioLogado()?.nome
+        )
 
         val iconOptions = listOf(
             Triple(binding.iconOptionGrid, binding.iconImageGrid, "dashboard"),
@@ -84,7 +98,7 @@ class NovoModuloActivity : AppCompatActivity() {
 
         // Ações ainda não integradas a um back-end, mexer dps
         binding.ivMenu.setOnClickListener {
-            Toast.makeText(this, "Menu em desenvolvimento", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Menu em desenvolvimento", Toast.LENGTH_SHORT).show()
         }
 
         binding.btnAdicionarCampo.setOnClickListener {
@@ -92,7 +106,7 @@ class NovoModuloActivity : AppCompatActivity() {
         }
 
         binding.btnCancelar.setOnClickListener {
-            finish()
+            findNavController().popBackStack()
         }
 
         binding.btnCriarModulo.setOnClickListener {
@@ -109,12 +123,13 @@ class NovoModuloActivity : AppCompatActivity() {
     }
 
     private fun setIconSelected(container: FrameLayout, image: ImageView, selected: Boolean) {
+        val contexto = requireContext()
         if (selected) {
-            container.background = ContextCompat.getDrawable(this, R.drawable.bg_icon_option_selected)
-            image.setColorFilter(ContextCompat.getColor(this, R.color.levit_purple))
+            container.background = ContextCompat.getDrawable(contexto, R.drawable.bg_icon_option_selected)
+            image.setColorFilter(ContextCompat.getColor(contexto, R.color.levit_purple))
         } else {
-            container.background = ContextCompat.getDrawable(this, R.drawable.bg_icon_option_unselected)
-            image.setColorFilter(ContextCompat.getColor(this, R.color.levit_hint))
+            container.background = ContextCompat.getDrawable(contexto, R.drawable.bg_icon_option_unselected)
+            image.setColorFilter(ContextCompat.getColor(contexto, R.color.levit_hint))
         }
     }
 
@@ -140,7 +155,7 @@ class NovoModuloActivity : AppCompatActivity() {
 
     private fun mostrarSeletorDeTipoDeCampo() {
         val tipos = TipoCampo.entries.toTypedArray()
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(requireContext())
             .setTitle("Tipo do campo")
             .setItems(tipos.map { it.label }.toTypedArray()) { _, which ->
                 adicionarCampo(tipos[which])
@@ -197,22 +212,22 @@ class NovoModuloActivity : AppCompatActivity() {
         setCriarModuloEnabled(false)
         binding.btnCancelar.isEnabled = false
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             when (val resultado = moduloRepository.criar(request)) {
                 is ResultadoModulo.Sucesso -> {
                     Toast.makeText(
-                        this@NovoModuloActivity,
+                        requireContext(),
                         R.string.modulo_criado_sucesso,
                         Toast.LENGTH_SHORT
                     ).show()
-                    finish()
+                    findNavController().popBackStack()
                 }
                 is ResultadoModulo.Erro -> {
                     if (resultado.sessaoExpirada) {
-                        irParaLogin()
+                        findNavController().navigate(R.id.action_global_to_login)
                     } else {
                         Toast.makeText(
-                            this@NovoModuloActivity,
+                            requireContext(),
                             resultado.mensagem,
                             Toast.LENGTH_LONG
                         ).show()
@@ -224,9 +239,8 @@ class NovoModuloActivity : AppCompatActivity() {
         }
     }
 
-    private fun irParaLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

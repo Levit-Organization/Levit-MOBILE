@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/boasVindasFragment">
+
+    <!-- Ações globais: podem ser chamadas de qualquer tela do grafo. -->
+    <action
+        android:id="@+id/action_global_to_login"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/main_graph"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_global_to_modulos"
+        app:destination="@id/modulosFragment" />
+
+    <fragment
+        android:id="@+id/boasVindasFragment"
+        android:name="com.example.levit.BoasVindasFragment"
+        android:label="BoasVindas"
+        tools:layout="@layout/activity_main">
+
+        <action
+            android:id="@+id/action_boasVindas_to_login"
+            app:destination="@id/loginFragment" />
+
+        <action
+            android:id="@+id/action_boasVindas_to_cadastro"
+            app:destination="@id/cadastroFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.levit.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/activity_login">
+
+        <action
+            android:id="@+id/action_login_to_dashboard"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_login_to_cadastro"
+            app:destination="@id/cadastroFragment" />
+
+        <action
+            android:id="@+id/action_login_to_recuperarSenha"
+            app:destination="@id/recuperarSenhaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cadastroFragment"
+        android:name="com.example.levit.auth.CadastroFragment"
+        android:label="Cadastro"
+        tools:layout="@layout/activity_cadastro">
+
+        <action
+            android:id="@+id/action_cadastro_to_dashboard"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_cadastro_to_login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/cadastroFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recuperarSenhaFragment"
+        android:name="com.example.levit.auth.RecuperarSenhaFragment"
+        android:label="RecuperarSenha"
+        tools:layout="@layout/activity_recuperar_senha" />
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.levit.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/activity_dashboard">
+
+        <action
+            android:id="@+id/action_dashboard_to_novoModulo"
+            app:destination="@id/novoModuloFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/modulosFragment"
+        android:name="com.example.levit.ModulosFragment"
+        android:label="Modulos"
+        tools:layout="@layout/activity_modulos">
+
+        <action
+            android:id="@+id/action_modulos_to_novoModulo"
+            app:destination="@id/novoModuloFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/novoModuloFragment"
+        android:name="com.example.levit.NovoModuloFragment"
+        android:label="NovoModulo"
+        tools:layout="@layout/activity_novo_modulo" />
+
+</navigation>

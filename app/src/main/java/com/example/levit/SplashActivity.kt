@@ -3,7 +3,6 @@ package com.example.levit
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.levit.data.repository.AuthRepository
 import com.example.levit.databinding.ActivitySplashBinding
 // Importando para que o usuario consiga aceitar a permissao e o app entrar em contato com o backend
 import android.content.pm.PackageManager
@@ -50,13 +49,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun irParaProximaTela() {
-        // Rota protegida: só entra direto no Dashboard se já existir um
-        // token salvo e ele ainda não tiver expirado (JWT de 8h). Caso
-        // contrário, cai na tela pública (Entrar/Registrar).
-        val autenticado = AuthRepository(applicationContext).estaAutenticado()
-        val destino = if (autenticado) DashboardActivity::class.java else MainActivity::class.java
-
-        startActivity(Intent(this, destino))
+        startActivity(Intent(this, HostActivity::class.java))
         finish()
     }
 
