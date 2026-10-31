@@ -27,36 +27,22 @@ Deixe esse terminal aberto o tempo todo que for usar o app. O
 `--host 0.0.0.0` é o que permite outros dispositivos (não só a própria
 máquina) alcançarem o servidor.
 
-### 3. Libere a porta 8080 no firewall (uma vez por computador)
-
-No PowerShell como Administrador:
-
-```powershell
-netsh advfirewall firewall add rule name="LEVIT backend dev (8080)" dir=in action=allow protocol=TCP localport=8080 profile=any
-```
-
-Só precisa repetir isso se for usar um computador novo que nunca rodou o
-backend antes.
-
-### 4. Rode o app pelo Android Studio
+### 3. Rode o app pelo Android Studio
 
 Com o projeto sincronizado (Gradle Sync já feito), aperte o botão Run com
 o emulador ou celular físico conectado. Se tiver feito mudanças recentes
 no código, vale um `Build > Rebuild Project` antes.
 
-### 5. Permita o acesso à rede local na primeira abertura
+### 4. Permita o acesso à rede local na primeira abertura
 
 Um popup do Android deve aparecer pedindo permissão de rede local. Toque
 em **Permitir**. Sem isso, nenhuma chamada ao backend funciona, mesmo com
 o servidor rodando certinho.
 
-### 6. Ajuste o endereço do backend, se necessário
+### 5. Ajuste o endereço do backend, se necessário
 
 Se for o emulador rodando na mesma máquina do backend, não precisa fazer
 nada — o padrão `10.0.2.2:8080` já funciona.
-
-Se for celular físico ou outro computador, toque e segure o logo na tela
-inicial, digite o `host:porta` certo e toque em **Salvar**.
 
 | Cenário | O que digitar |
 |---|---|
@@ -67,7 +53,7 @@ inicial, digite o `host:porta` certo e toque em **Salvar**.
 Para descobrir o IP local do computador no Windows: `ipconfig` (procure
 "Endereço IPv4" na rede ativa).
 
-### 7. Use o app normalmente
+### 6. Use o app normalmente
 
 Cadastre uma conta nova (ou faça login com uma já existente), navegue
 pelas telas protegidas pelo menu lateral, e use o **Sair** quando quiser
@@ -85,21 +71,3 @@ afetado da mesma forma, só apps como este. `SplashActivity` pede essa
 permissão automaticamente na primeira abertura; em versões mais antigas
 do Android, que não têm essa permissão, o pedido é ignorado sem travar o
 app.
-
-## Limitações conhecidas / pendências
-
-1. O backend ainda não implementa `POST /auth/forgot-password` e
-   `POST /auth/reset-password`. A tela de recuperação de senha
-   (`RecuperarSenhaActivity`) já chama esses endpoints, mas recebe 404
-   até o backend implementá-los.
-2. Não existe uma segunda tela para o usuário definir a nova senha após
-   clicar no link de recuperação (o layout `activity_recuperar_senha2.xml`
-   existe, mas não tem uma Activity associada ainda).
-3. A tela de cadastro não tem campo próprio de nome da empresa; hoje o
-   app reaproveita o nome da pessoa (`nome_empresa = nome`).
-4. A validação de CPF (`isCpfValido`) não aceita CNPJ (14 dígitos), mesmo
-   o campo se chamando "CPF ou CNPJ".
-5. A proteção de sessão (`HamburgerMenuBaseActivity`) cobre Dashboard e
-   Módulos, mas não a `NovoModuloActivity`, que não herda dessa classe.
-6. O item "Sair" do menu lateral usa um ícone provisório (`ic_person`),
-   por falta de um ícone de logout entre os drawables do projeto.
