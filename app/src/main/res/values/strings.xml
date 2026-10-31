@@ -114,4 +114,79 @@
     <string name="modulo_criado_sucesso">Módulo criado com sucesso.</string>
     <string name="campo_opcoes_hint">Opções separadas por vírgula (ex.: Novo, Usado)</string>
 
+    <!-- Equipe -->
+    <string name="equipe_titulo">Administração da Equipe</string>
+    <string name="equipe_aba_colaboradores">Colaboradores</string>
+    <string name="equipe_aba_cargos">Cargos &amp; Permissões</string>
+    <string name="equipe_adicionar_membro">+ Adicionar Membro</string>
+    <string name="equipe_criar_cargo">+ Criar Cargo</string>
+    <string name="equipe_cargos_subtitulo">Defina modelos de acesso para vincular à sua equipe.</string>
+    <string name="equipe_menu_desc">Abrir menu</string>
+    <string name="equipe_editar_membro_desc">Editar colaborador</string>
+    <string name="equipe_remover_membro_desc">Remover colaborador</string>
+
+    <string name="equipe_status_ativo">Ativo</string>
+    <string name="equipe_status_pendente">Convite pendente</string>
+
+    <string name="equipe_vazio_membros">Nenhum colaborador ainda. Toque em "Adicionar Membro" para convidar.</string>
+    <string name="equipe_sem_cargo">Sem cargo</string>
+
+    <string name="equipe_dialogo_convidar_titulo">Convidar colaborador</string>
+    <string name="equipe_dialogo_editar_titulo">Editar colaborador</string>
+    <string name="equipe_hint_nome">Nome</string>
+    <string name="equipe_hint_email">E-mail</string>
+    <string name="equipe_hint_cargo">Cargo</string>
+    <string name="equipe_aviso_convite">O colaborador ficará com status pendente até aceitar o convite.</string>
+    <string name="equipe_enviar_convite">Enviar convite</string>
+    <string name="equipe_salvar">Salvar</string>
+    <string name="equipe_cancelar">Cancelar</string>
+    <string name="equipe_erro_nome">Informe o nome</string>
+    <string name="equipe_erro_email">Informe um e-mail válido</string>
+    <string name="equipe_erro_cargo">Escolha um cargo</string>
+    <string name="equipe_sem_cargos">Não foi possível carregar os cargos. Tente de novo.</string>
+    <string name="equipe_convite_enviado">Convite criado.</string>
+    <string name="equipe_membro_atualizado">Colaborador atualizado.</string>
+    <string name="equipe_membro_removido">Colaborador removido.</string>
+    <string name="equipe_remover_titulo">Remover colaborador</string>
+    <string name="equipe_remover_mensagem">Remover %1$s da equipe? Essa ação não pode ser desfeita.</string>
+    <string name="equipe_remover_confirmar">Remover</string>
+
+    <string name="equipe_cargos_vazio">Nenhum cargo criado ainda.</string>
+    <string name="equipe_acesso_total">Acesso total</string>
+    <string name="equipe_sem_permissoes">Sem permissões gerais</string>
+    <string name="equipe_editar_cargo_desc">Editar cargo</string>
+    <plurals name="equipe_membros_qtd">
+        <item quantity="one">%d membro</item>
+        <item quantity="other">%d membros</item>
+    </plurals>
+    <string name="equipe_perm_criar_modulos">Criar módulos</string>
+    <string name="equipe_perm_visualizar_equipe">Ver equipe</string>
+    <string name="equipe_perm_gerenciar_equipe">Gerenciar equipe</string>
+    <string name="equipe_perm_gerenciar_cargos">Gerenciar cargos</string>
+    <string name="equipe_perm_exportar_dados">Exportar dados</string>
+    <string name="equipe_perm_resetar_dados">Resetar dados</string>
+    <string name="equipe_perm_ver_relatorios">Ver relatórios</string>
+
+        <!-- Cargo (criar/editar) -->
+    <string name="cargo_form_titulo_novo">Novo cargo</string>
+    <string name="cargo_form_titulo_editar">Editar cargo</string>
+    <string name="cargo_voltar_desc">Voltar</string>
+    <string name="cargo_hint_nome">Nome do cargo</string>
+    <string name="cargo_secao_permissoes">Permissões gerais</string>
+    <string name="cargo_secao_permissoes_desc">O que as pessoas com este cargo podem fazer no sistema.</string>
+    <string name="cargo_secao_modulos">Acesso por módulo</string>
+    <string name="cargo_secao_modulos_desc">Escolha o nível de acesso em cada módulo.</string>
+    <string name="cargo_aviso_acesso_total">Este cargo tem acesso total e já enxerga todos os módulos.</string>
+    <string name="cargo_aviso_sem_modulos">Nenhum módulo criado ainda.</string>
+    <string name="cargo_nivel_hint">Nível de acesso</string>
+    <string name="cargo_nivel_nenhum">Sem acesso</string>
+    <string name="cargo_nivel_visualizar">Visualizar</string>
+    <string name="cargo_nivel_editar">Editar</string>
+    <string name="cargo_nivel_gerenciar">Gerenciar</string>
+    <string name="cargo_salvar">Salvar cargo</string>
+    <string name="cargo_erro_nome">Informe o nome do cargo</string>
+    <string name="cargo_salvo">Cargo salvo.</string>
+    <string name="cargo_salvo_parcial">Cargo salvo, mas não foi possível salvar o acesso aos módulos: %1$s</string>
+    <string name="cargo_nao_encontrado">Cargo não encontrado.</string>
+
 </resources>

@@ -105,4 +105,28 @@
         android:label="NovoModulo"
         tools:layout="@layout/activity_novo_modulo" />
 
+    <fragment
+        android:id="@+id/equipeFragment"
+        android:name="com.example.levit.EquipeFragment"
+        android:label="Equipe"
+        tools:layout="@layout/fragment_equipe" />
+
+    <action
+        android:id="@+id/action_global_to_equipe"
+        app:destination="@id/equipeFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/dashboardFragment" />
+
+    <fragment
+        android:id="@+id/cargoFormFragment"
+        android:name="com.example.levit.CargoFormFragment"
+        android:label="Cargo"
+        tools:layout="@layout/fragment_cargo_form">
+        <argument
+            android:name="cargoId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
 </navigation>

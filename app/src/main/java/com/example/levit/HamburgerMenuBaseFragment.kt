@@ -13,7 +13,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.levit.data.repository.AuthRepository
 import com.google.android.material.navigation.NavigationView
@@ -99,7 +98,7 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
                 }
             }
             R.id.nav_equipe -> {
-                Toast.makeText(requireContext(), "Equipe selecionada", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_global_to_equipe)
             }
             R.id.nav_perfil -> {
                 Toast.makeText(requireContext(), "Perfil selecionado", Toast.LENGTH_SHORT).show()

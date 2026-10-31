@@ -39,4 +39,10 @@
     <!-- Novo Módulo -->
     <color name="levit_icon_selected_bg">#EDEBFA</color>
     <color name="levit_text_header">#4B5563</color>
+
+    <!-- Equipe -->
+    <color name="status_ativo_bg">#DCFCE7</color>
+    <color name="status_ativo_text">#166534</color>
+    <color name="status_pendente_bg">#FEF3C7</color>
+    <color name="status_pendente_text">#92400E</color>
 </resources>
