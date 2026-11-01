@@ -23,6 +23,24 @@
     <string name="cadastro_login_txt1">Já tem conta?</string>
     <string name="cadastro_login_txt2">Faça login</string>
 
+    <!-- Cadastro: empresa, validações e força da senha -->
+    <string name="cadastro_empresa_field_title">Nome da empresa (opcional)</string>
+    <string name="cadastro_empresa_field_example">Empresa XYZ Ltda</string>
+    <string name="cadastro_erro_nome">Preencha o nome completo.</string>
+    <string name="cadastro_erro_email">Informe um e-mail válido.</string>
+    <string name="cadastro_erro_documento_tamanho">Informe um CPF (11 dígitos) ou CNPJ (14 dígitos).</string>
+    <string name="cadastro_erro_documento_invalido">CPF ou CNPJ inválido. Confira os números.</string>
+    <string name="cadastro_erro_senha_curta">A senha deve ter no mínimo 8 caracteres.</string>
+    <string name="cadastro_erro_senha_regra">A senha deve conter letras e números.</string>
+    <string name="cadastro_erro_confirmacao_obrigatoria">Confirme a senha.</string>
+    <string name="cadastro_erro_senhas_diferentes">As senhas não coincidem.</string>
+    <string name="cadastro_button_carregando">Criando conta…</string>
+    <string name="forca_muito_fraca">Muito fraca</string>
+    <string name="forca_fraca">Fraca</string>
+    <string name="forca_razoavel">Razoável</string>
+    <string name="forca_boa">Boa</string>
+    <string name="forca_forte">Forte</string>
+
     <!-- Login -->
     <string name="login_title">Bem-vindo de volta</string>
     <string name="login_desc">Acesse sua conta para gerir os seus módulos</string>
@@ -45,9 +63,16 @@
     <string name="crie_uma_senha_forte">Crie uma senha forte</string>
     <string name="confirme_a_senha">Confirme a senha</string>
 
+    <!-- Menu lateral (mesmos nomes do web, Layout.jsx) -->
+    <string name="nav_inicio">Início</string>
+    <string name="nav_tabelas">Tabelas</string>
+    <string name="nav_equipe">Equipe</string>
+    <string name="nav_perfil">Perfil</string>
+    <string name="nav_sair">Sair</string>
+
     <!-- Dashboard -->
     <string name="dashboard_menu_desc">Abrir menu</string>
-    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_title">Início</string>
     <string name="dashboard_avatar_desc">Avatar do usuário</string>
 
     <string name="dashboard_stat_modulos_ativos_valor">6</string>
@@ -188,5 +213,59 @@
     <string name="cargo_salvo">Cargo salvo.</string>
     <string name="cargo_salvo_parcial">Cargo salvo, mas não foi possível salvar o acesso aos módulos: %1$s</string>
     <string name="cargo_nao_encontrado">Cargo não encontrado.</string>
+
+    <!-- Perfil -->
+    <string name="perfil_titulo">Perfil</string>
+    <string name="perfil_hint_nome">Nome e sobrenome</string>
+    <string name="perfil_hint_email">E-mail corporativo</string>
+    <string name="perfil_hint_empresa">Empresa</string>
+    <string name="perfil_hint_cpf_cnpj">CPF ou CNPJ</string>
+    <string name="perfil_hint_telefone">Telefone</string>
+    <string name="perfil_hint_linkedin">LinkedIn (URL)</string>
+    <string name="perfil_editar">Editar</string>
+    <string name="perfil_seguranca">Segurança</string>
+    <string name="perfil_hint_senha_atual">Senha atual</string>
+    <string name="perfil_hint_senha_nova">Nova senha</string>
+    <string name="perfil_hint_senha_confirmar">Confirmar nova senha</string>
+    <string name="perfil_alterar_senha">Alterar senha</string>
+    <string name="perfil_aviso_edicao">A edição do perfil e a troca de senha serão liberadas quando o servidor suportar.</string>
+    <string name="perfil_alterar_foto_desc">Alterar foto de perfil</string>
+    <string name="perfil_remover_foto">Remover foto</string>
+    <string name="perfil_aviso_foto">A foto fica salva só neste aparelho.</string>
+    <string name="perfil_foto_erro">Não foi possível usar essa imagem.</string>
+
+    <!-- Registros do módulo -->
+    <string name="registros_titulo_barra">Módulos</string>
+    <string name="registros_meus_modulos">Meus Módulos</string>
+    <string name="registros_separador">&gt;</string>
+    <string name="registros_hint_busca">Buscar registro...</string>
+    <string name="registros_editar_modulo">Editar módulo</string>
+    <string name="registros_novo">+ Novo</string>
+    <string name="registros_editar_desc">Editar registro</string>
+    <string name="registros_excluir_desc">Excluir registro</string>
+    <string name="registros_criado_em">Criado em %1$s</string>
+    <string name="registros_rotulo">%1$s:</string>
+    <string name="registros_sem_dados">Registro sem dados</string>
+    <string name="registros_vazio">Nenhum registro ainda. Toque em "+ Novo" para criar o primeiro.</string>
+    <string name="registros_busca_vazia">Nenhum registro encontrado para essa busca.</string>
+    <string name="registros_tipo_indisponivel">Este tipo de módulo ainda não está disponível no app.</string>
+    <string name="registros_em_breve">Disponível na próxima etapa.</string>
+    <string name="registro_form_titulo_novo">Novo registro</string>
+    <string name="registro_form_titulo_editar">Editar registro</string>
+    <string name="registro_form_voltar_desc">Voltar</string>
+    <string name="registro_salvar">Salvar</string>
+    <string name="registro_salvo">Registro salvo.</string>
+    <string name="registro_sem_campos">Este módulo não tem campos para preencher.</string>
+    <string name="registro_nenhum">(Nenhum)</string>
+    <string name="registro_escolher_data">Escolha a data</string>
+    <string name="registro_limpar_data">Limpar data</string>
+    <string name="registro_erro_numero">Digite um número válido</string>
+    <string name="registro_erro_vazio">Preencha pelo menos um campo.</string>
+    <string name="registros_excluir_titulo">Excluir registro</string>
+    <string name="registros_excluir_mensagem">Essa ação não pode ser desfeita.</string>
+    <string name="registros_excluir_confirmar">Excluir</string>
+    <string name="registros_excluido">Registro excluído.</string>
+    <string name="modulos_hint_busca">Procurar módulo por nome...</string>
+    <string name="modulos_busca_vazia">Nenhum módulo encontrado para essa busca.</string>
 
 </resources>

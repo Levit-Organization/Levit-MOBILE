@@ -25,8 +25,7 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
 
         setupHamburgerMenuButton(R.id.ivMenu)
 
-        view.findViewById<TextView>(R.id.tvAvatar).text =
-            iniciais(authRepository.usuarioLogado()?.nome)
+        FotoPerfil.aplicar(view.findViewById(R.id.tvAvatar))
 
         view.findViewById<View>(R.id.btnAddModulo).setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_novoModulo)
@@ -86,7 +85,9 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
             layoutInflater,
             raiz.findViewById(R.id.llModulos),
             modulos.take(LIMITE_NO_DASHBOARD)
-        )
+        ) { modulo ->
+            abrirRegistros(modulo.id)
+        }
 
         raiz.findViewById<View>(R.id.tvVerTodos).visibility =
             if (modulos.size > LIMITE_NO_DASHBOARD) View.VISIBLE else View.GONE

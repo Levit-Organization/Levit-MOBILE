@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--
+        Só no build de DEBUG (este arquivo sobrepõe o de src/main).
+        O backend de desenvolvimento fala HTTP puro e o endereço muda conforme
+        a máquina (10.0.2.2 no emulador, IP da rede local no celular físico),
+        por isso o cleartext é liberado de forma geral aqui.
+    -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

@@ -129,15 +129,44 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/cpf_ou_cnpj"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            >
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/CPFouCNPJ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edit_text"
-                android:inputType="number" />
+                android:digits="0123456789./-"
+                android:inputType="phone"
+                android:maxLength="18" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Nome da empresa (opcional: sem ele, a API recebe o nome da pessoa, como no web) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/cadastro_empresa_field_title"
+            android:textColor="@color/levit_text_secondary"
+            android:textSize="13sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutNomeEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/cadastro_empresa_field_example"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNomeEmpresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edit_text"
+                android:autofillHints="organization"
+                android:inputType="textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

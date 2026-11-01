@@ -19,12 +19,22 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Emulador falando com o backend da própria máquina. Pode ser trocado
+            // dentro do app (toque longo no logo), só em debug.
+            buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/api/v1/\"")
+        }
         release {
+            // Release só fala HTTPS e com o endereço definido no build:
+            //   ./gradlew assembleRelease -Plevit.apiUrl=https://<host>/api/v1/
+            val apiUrl = providers.gradleProperty("levit.apiUrl").getOrElse("")
+            buildConfigField("String", "API_BASE_URL", "\"$apiUrl\"")
             optimization {
                 enable = false
             }
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -32,6 +42,10 @@ android {
 
     viewBinding {
         enable = true
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -55,4 +69,6 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.security.crypto)
     implementation(libs.gson)
+    // Listas que crescem (itens, candidatos, lançamentos...): só desenha o que está na tela.
+    implementation(libs.androidx.recyclerview)
 }

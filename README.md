@@ -44,6 +44,10 @@ o servidor rodando certinho.
 Se for o emulador rodando na mesma máquina do backend, não precisa fazer
 nada — o padrão `10.0.2.2:8080` já funciona.
 
+Se for celular físico ou outro computador, toque e segure a logo na tela
+inicial, digite o `host:porta` certo e toque em **Salvar** (o endereço é
+validado antes de salvar). Isso só existe em builds **debug**.
+
 | Cenário | O que digitar |
 |---|---|
 | Emulador, backend na mesma máquina | `10.0.2.2:8080` (padrão, nada a fazer) |
@@ -71,3 +75,18 @@ afetado da mesma forma, só apps como este. `SplashActivity` pede essa
 permissão automaticamente na primeira abertura; em versões mais antigas
 do Android, que não têm essa permissão, o pedido é ignorado sem travar o
 app.
+
+## Build de release
+
+O release só aceita HTTPS e precisa do endereço da API no build:
+
+```
+./gradlew assembleRelease -Plevit.apiUrl=https://<host>/api/v1/
+```
+
+Em release a troca de servidor pelo logo fica desligada, o tráfego HTTP puro é
+bloqueado e o log HTTP não existe. Sem `-Plevit.apiUrl`, o app de release
+falha ao abrir (endereço vazio), de propósito.
+
+Em debug, o log HTTP mostra só a linha da requisição (sem corpo), para senhas
+e tokens não aparecerem no Logcat.

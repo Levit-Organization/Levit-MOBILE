@@ -1,13 +1,11 @@
 package com.example.levit
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -17,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.levit.data.repository.AuthRepository
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
+import androidx.core.os.bundleOf
 
 abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -25,6 +24,13 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
     protected lateinit var hamburgerDrawerLayout: DrawerLayout
     protected lateinit var hamburgerNavigationView: NavigationView
     protected fun menuFoiMontado(): Boolean = ::hamburgerDrawerLayout.isInitialized
+
+    // Tela do nav_graph -> item da gaveta que fica marcado nela.
+    private val itensDoMenu = mapOf(
+        R.id.dashboardFragment to R.id.nav_dashboard,
+        R.id.modulosFragment to R.id.nav_modulos,
+        R.id.equipeFragment to R.id.nav_equipe,
+    )
 
 
     protected val authRepository by lazy { AuthRepository(requireContext().applicationContext) }
@@ -59,6 +65,10 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
             return
         }
 
+        // Item da tela atual marcado, como o item ativo da sidebar do web.
+        itensDoMenu[findNavController().currentDestination?.id]
+            ?.let { hamburgerNavigationView.setCheckedItem(it) }
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -81,6 +91,10 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
         }
     }
 
+    protected fun abrirRegistros(moduloId: String) {
+        findNavController().navigate(R.id.registrosFragment, bundleOf("moduloId" to moduloId))
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_dashboard -> {
@@ -98,17 +112,21 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
                 }
             }
             R.id.nav_equipe -> {
-                findNavController().navigate(R.id.action_global_to_equipe)
+                if (findNavController().currentDestination?.id != R.id.equipeFragment) {
+                    findNavController().navigate(R.id.action_global_to_equipe)
+                }
             }
             R.id.nav_perfil -> {
-                Toast.makeText(requireContext(), "Perfil selecionado", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_global_to_perfil)
             }
+
             R.id.nav_sair -> sair()
         }
         if (::hamburgerDrawerLayout.isInitialized) {
             hamburgerDrawerLayout.closeDrawer(GravityCompat.START)
         }
-        return true
+        // Perfil e Sair não são telas do menu: não podem tomar a marcação da tela atual.
+        return item.itemId != R.id.nav_perfil && item.itemId != R.id.nav_sair
     }
 
     private fun sair() {

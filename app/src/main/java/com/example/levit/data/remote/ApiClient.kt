@@ -8,6 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import com.example.levit.BuildConfig
 
 object ApiClient {
 
@@ -24,6 +25,8 @@ object ApiClient {
     fun equipeApi(context: Context): EquipeApi = retrofit(context).create(EquipeApi::class.java)
 
     fun cargoApi(context: Context): CargoApi = retrofit(context).create(CargoApi::class.java)
+
+    fun registroApi(context: Context): RegistroApi = retrofit(context).create(RegistroApi::class.java)
 
     /**
      * Reconstrói o Retrofit sempre que o endereço salvo em ServerConfig for
@@ -48,15 +51,20 @@ object ApiClient {
     private fun build(context: Context, baseUrl: String): Retrofit {
         val sessionManager = SessionManager(context.applicationContext)
 
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-
         val client = OkHttpClient.Builder()
             .addInterceptor(AuthInterceptor(sessionManager))
-            .addInterceptor(logging)
+            .apply {
+                // Só em debug, e só a linha da requisição: senhas e tokens
+                // não podem aparecer no Logcat.
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BASIC
+                    })
+                }
+            }
             .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(15, TimeUnit.SECONDS)
+            // PDFs de relatório são gerados na hora e podem passar de 15 s.
+            .readTimeout(60, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()

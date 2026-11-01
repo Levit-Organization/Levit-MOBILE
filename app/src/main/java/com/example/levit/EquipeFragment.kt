@@ -51,8 +51,7 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
 
         setupHamburgerMenuButton(R.id.ivMenu)
 
-        val nome = AuthRepository(requireContext().applicationContext).usuarioLogado()?.nome
-        view.findViewById<TextView>(R.id.tvAvatar).text = iniciais(nome)
+        FotoPerfil.aplicar(view.findViewById(R.id.tvAvatar))
 
         view.findViewById<RecyclerView>(R.id.rvMembros).adapter = adapter
 

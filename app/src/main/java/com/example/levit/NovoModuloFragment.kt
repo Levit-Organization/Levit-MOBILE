@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.levit.data.remote.dto.CampoRequest
 import com.example.levit.data.remote.dto.CriarModuloRequest
-import com.example.levit.data.repository.AuthRepository
 import com.example.levit.data.repository.ModuloRepository
 import com.example.levit.data.repository.ResultadoModulo
 import com.example.levit.databinding.ActivityNovoModuloBinding
@@ -69,9 +68,7 @@ class NovoModuloFragment : Fragment() {
         // A tela é recriada do zero, então a lista de campos começa vazia.
         linhasCampos.clear()
 
-        binding.tvAvatar.text = iniciais(
-            AuthRepository(requireContext().applicationContext).usuarioLogado()?.nome
-        )
+        FotoPerfil.aplicar(binding.tvAvatar)
 
         val iconOptions = listOf(
             Triple(binding.iconOptionGrid, binding.iconImageGrid, "dashboard"),

@@ -38,7 +38,7 @@ class BoasVindasFragment : Fragment() {
             findNavController().navigate(R.id.action_boasVindas_to_cadastro)
         }
 
-        binding.ivLogo.setOnLongClickListener {
+        if (ServerConfig.podeTrocar) binding.ivLogo.setOnLongClickListener {
             abrirConfiguracaoDeServidor()
             true
         }
@@ -47,24 +47,33 @@ class BoasVindasFragment : Fragment() {
     }
 
     private fun abrirConfiguracaoDeServidor() {
-        val campoTexto = EditText(requireContext()).apply {
+        val campo = EditText(requireContext()).apply {
             hint = "ex.: 10.0.2.2:8080 ou 192.168.0.23:8080"
-            setText(ServerConfig.obterHostPorta(requireContext()))
+            setText(ServerConfig.obterBaseUrl(requireContext()))
+            setSingleLine(true)
         }
 
-        AlertDialog.Builder(requireContext())
+        val dialogo = AlertDialog.Builder(requireContext())
             .setTitle("Endereço do backend")
-            .setMessage("Digite host:porta do computador rodando o php spark serve. Não inclua http:// nem a barra final.")
-            .setView(campoTexto)
-            .setPositiveButton("Salvar") { _, _ ->
-                val novoEndereco = campoTexto.text.toString().trim()
-                if (novoEndereco.isNotEmpty()) {
-                    ServerConfig.salvarHostPorta(requireContext(), novoEndereco)
-                    Toast.makeText(requireContext(), "Backend definido como: $novoEndereco", Toast.LENGTH_LONG).show()
+            .setMessage("Digite host:porta do computador rodando o php spark serve.")
+            .setView(campo)
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Salvar", null)
+            .create()
+
+        // O botão é ligado aqui para o diálogo não fechar quando o endereço é inválido.
+        dialogo.setOnShowListener {
+            dialogo.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                try {
+                    ServerConfig.salvarBaseUrl(requireContext(), campo.text.toString())
+                    Toast.makeText(requireContext(), "Servidor atualizado.", Toast.LENGTH_SHORT).show()
+                    dialogo.dismiss()
+                } catch (e: Exception) {
+                    campo.error = "Informe um endereço válido, como 192.168.0.10:8080."
                 }
             }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        }
+        dialogo.show()
     }
 
     private fun animarTitulo() {

@@ -7,6 +7,8 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import com.example.levit.data.remote.dto.ModuloDetalhe
+import retrofit2.http.Path
 
 interface ModuloApi {
 
@@ -15,4 +17,7 @@ interface ModuloApi {
 
     @POST("modulos")
     suspend fun criar(@Body body: CriarModuloRequest): Response<ApiEnvelope<Modulo>>
+
+    @GET("modulos/{id}")
+    suspend fun detalhes(@Path("id") id: String): Response<ApiEnvelope<ModuloDetalhe>>
 }

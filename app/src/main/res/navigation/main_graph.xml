@@ -129,4 +129,41 @@
             app:nullable="true" />
     </fragment>
 
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.levit.PerfilFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_perfil" />
+
+    <action
+        android:id="@+id/action_global_to_perfil"
+        app:destination="@id/perfilFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/dashboardFragment" />
+
+    <fragment
+        android:id="@+id/registrosFragment"
+        android:name="com.example.levit.RegistrosFragment"
+        android:label="Registros"
+        tools:layout="@layout/fragment_registros">
+        <argument
+            android:name="moduloId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registroFormFragment"
+        android:name="com.example.levit.RegistroFormFragment"
+        android:label="Registro"
+        tools:layout="@layout/fragment_registro_form">
+        <argument
+            android:name="moduloId"
+            app:argType="string" />
+        <argument
+            android:name="registroJson"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
 </navigation>

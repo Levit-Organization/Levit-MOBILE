@@ -38,7 +38,8 @@ object ModuloUi {
     fun preencherCards(
         inflater: LayoutInflater,
         container: ViewGroup,
-        modulos: List<Modulo>
+        modulos: List<Modulo>,
+        aoClicar: ((Modulo) -> Unit)? = null
     ) {
         container.removeAllViews()
         modulos.forEach { modulo ->
@@ -49,6 +50,8 @@ object ModuloUi {
 
             card.findViewById<TextView>(R.id.tvSubtituloModulo).text =
                 textoRegistros(container.context, modulo.totalRegistros)
+
+            aoClicar?.let { clique -> card.setOnClickListener { clique(modulo) } }
 
             container.addView(card)
         }
