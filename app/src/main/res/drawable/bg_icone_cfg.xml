@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ícone da grade em Configurações: preenchido quando é o da tabela. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="@color/primary" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="@color/surface" />
+        </shape>
+    </item>
+</selector>

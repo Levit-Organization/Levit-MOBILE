@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Topo de um cartão dividido em linhas (lista reciclada): sem borda embaixo. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:bottom="-2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/surface" />
+            <stroke android:width="1dp" android:color="@color/divider" />
+            <corners android:topLeftRadius="@dimen/raio_xl" android:topRightRadius="@dimen/raio_xl" />
+        </shape>
+    </item>
+</layer-list>

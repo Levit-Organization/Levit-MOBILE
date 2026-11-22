@@ -101,9 +101,20 @@
 
     <fragment
         android:id="@+id/novoModuloFragment"
-        android:name="com.example.levit.NovoModuloFragment"
-        android:label="NovoModulo"
-        tools:layout="@layout/activity_novo_modulo" />
+        android:name="com.example.levit.TabelaFormFragment"
+        android:label="Tabela"
+        tools:layout="@layout/fragment_tabela_form">
+        <argument
+            android:name="tabelaId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="modelo"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/equipeFragment"
@@ -143,27 +154,78 @@
 
     <fragment
         android:id="@+id/registrosFragment"
-        android:name="com.example.levit.RegistrosFragment"
-        android:label="Registros"
-        tools:layout="@layout/fragment_registros">
+        android:name="com.example.levit.ItensFragment"
+        android:label="Itens"
+        tools:layout="@layout/fragment_itens">
+        <argument
+            android:name="moduloId"
+            app:argType="string" />
+        <argument
+            android:name="itemId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/redefinirSenhaFragment"
+        android:name="com.example.levit.auth.RedefinirSenhaFragment"
+        android:label="RedefinirSenha"
+        tools:layout="@layout/fragment_redefinir_senha">
+        <argument
+            android:name="token"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recrutamentoFragment"
+        android:name="com.example.levit.RecrutamentoFragment"
+        android:label="Recrutamento"
+        tools:layout="@layout/fragment_recrutamento" />
+
+    <fragment
+        android:id="@+id/automacoesFragment"
+        android:name="com.example.levit.AutomacoesFragment"
+        android:label="Automações"
+        tools:layout="@layout/fragment_automacoes" />
+
+    <fragment
+        android:id="@+id/automacaoFormFragment"
+        android:name="com.example.levit.AutomacaoFormFragment"
+        android:label="Automação"
+        tools:layout="@layout/fragment_automacao_form">
+        <argument
+            android:name="moduloId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="automacaoId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/financeiroFragment"
+        android:name="com.example.levit.FinanceiroFragment"
+        android:label="Financeiro"
+        tools:layout="@layout/fragment_financeiro">
         <argument
             android:name="moduloId"
             app:argType="string" />
     </fragment>
 
     <fragment
-        android:id="@+id/registroFormFragment"
-        android:name="com.example.levit.RegistroFormFragment"
-        android:label="Registro"
-        tools:layout="@layout/fragment_registro_form">
-        <argument
-            android:name="moduloId"
-            app:argType="string" />
-        <argument
-            android:name="registroJson"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-    </fragment>
+        android:id="@+id/relatoriosFragment"
+        android:name="com.example.levit.RelatoriosFragment"
+        android:label="Relatórios" />
+
+    <fragment
+        android:id="@+id/configuracoesFragment"
+        android:name="com.example.levit.ConfiguracoesFragment"
+        android:label="Configurações" />
 
 </navigation>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="32dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <TextView
+                android:id="@+id/textVoltar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start|top"
+                android:gravity="center"
+                android:text="@string/return_txt"
+                android:textColor="@color/levit_text_primary"
+                android:textSize="30sp"
+                android:contentDescription="@string/return_txt_desc" />
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:adjustViewBounds="true"
+                android:src="@drawable/levit_logo_text"
+                android:contentDescription="@string/logo_desc" />
+
+        </FrameLayout>
+
+        <!-- Titulo -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/red_conta_title"
+            android:gravity="center"
+            android:textColor="@color/levit_text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/redefinir_descricao"
+            android:textColor="@color/levit_text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Senha -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/password_field_title"
+            android:textColor="@color/levit_text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Campo de Senha -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:endIconMode="password_toggle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSenha"
+                android:hint="@string/crie_uma_senha_forte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/levit_text_primary"
+                android:textColorHint="@color/levit_hint"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:saveEnabled="false"
+                android:importantForAutofill="yes"
+                android:autofillHints="newPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+            <View android:id="@+id/barra1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginEnd="4dp" android:background="@color/cinza_inativo" />
+            <View android:id="@+id/barra2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginEnd="4dp" android:background="@color/cinza_inativo" />
+            <View android:id="@+id/barra3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginEnd="4dp" android:background="@color/cinza_inativo" />
+            <View android:id="@+id/barra4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/cinza_inativo" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textoForcaSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="18dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:accessibilityLiveRegion="polite" />
+
+        <!-- Confirmar palavra-passe -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/redefinir_confirmacao"
+            android:textColor="@color/levit_text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutConfirmarSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:endIconMode="password_toggle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etConfirmarSenha"
+                android:hint="@string/confirme_a_senha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/levit_text_primary"
+                android:textColorHint="@color/levit_hint"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:saveEnabled="false"
+                android:importantForAutofill="yes"
+                android:autofillHints="newPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_button_primary"
+            android:backgroundTint="@color/levit_purple"
+            android:elevation="0dp"
+            android:text="@string/redefinir_botao"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressRedefinicao"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvMensagem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/vermelho_fraco"
+            android:textSize="14sp"
+            android:accessibilityLiveRegion="polite"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnNovoLink"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/redefinir_novo_link"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</ScrollView>

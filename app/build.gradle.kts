@@ -23,12 +23,16 @@ android {
             // Emulador falando com o backend da própria máquina. Pode ser trocado
             // dentro do app (toque longo no logo), só em debug.
             buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/api/v1/\"")
+            buildConfigField("String", "WEB_URL", "\"http://localhost:5173\"")
+
         }
         release {
             // Release só fala HTTPS e com o endereço definido no build:
             //   ./gradlew assembleRelease -Plevit.apiUrl=https://<host>/api/v1/
             val apiUrl = providers.gradleProperty("levit.apiUrl").getOrElse("")
             buildConfigField("String", "API_BASE_URL", "\"$apiUrl\"")
+            val webUrl = providers.gradleProperty("levit.webUrl").getOrElse("")
+            buildConfigField("String", "WEB_URL", "\"$webUrl\"")
             optimization {
                 enable = false
             }

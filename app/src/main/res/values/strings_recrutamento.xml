@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos de Recrutamento, iguais aos de client-frontend/src/pages/RecrutamentoKanban.jsx. -->
+<resources>
+    <string name="rec_titulo">Recrutamento</string>
+    <string name="rec_carregando">Carregando quadro…</string>
+    <plurals name="rec_total_no_quadro">
+        <item quantity="one">%d candidato no quadro</item>
+        <item quantity="other">%d candidatos no quadro</item>
+    </plurals>
+    <string name="rec_copiar_link">Copiar link de candidatura</string>
+    <string name="rec_link_copiado">Link copiado. Quem abrir pode se candidatar a esta vaga.</string>
+    <string name="rec_vaga">Vaga</string>
+    <string name="rec_nenhuma_vaga_opcao">Nenhuma vaga criada</string>
+    <string name="rec_buscar">Buscar candidato…</string>
+    <string name="rec_nova_etapa">Nova etapa</string>
+    <string name="rec_novo_candidato">Novo candidato</string>
+    <plurals name="rec_encontrados">
+        <item quantity="one">%d candidato encontrado</item>
+        <item quantity="other">%d candidatos encontrados</item>
+    </plurals>
+    <string name="rec_ninguem_com">Ninguém com “%1$s” nesta vaga.</string>
+    <string name="rec_etapa_vazia">Ninguém nesta etapa.</string>
+
+    <string name="rec_sem_acesso_titulo">Sem acesso a este quadro</string>
+    <string name="rec_sem_acesso_desc">Seu cargo não tem permissão para ver esta vaga.</string>
+    <string name="rec_erro_titulo">Não foi possível carregar o quadro</string>
+    <string name="rec_erro_padrao">Erro ao carregar o quadro de recrutamento.</string>
+    <string name="rec_tentar">Tentar de novo</string>
+    <string name="rec_sem_vagas_titulo">Nenhuma vaga criada</string>
+    <string name="rec_criar_vaga">Criar vaga</string>
+    <string name="rec_sem_vagas_desc">Cada vaga tem o próprio quadro de etapas — triagem, entrevista, proposta. Crie a primeira vaga para começar a receber candidatos.</string>
+    <string name="rec_sem_etapas_titulo">Nenhuma etapa configurada</string>
+    <string name="rec_sem_etapas_desc">Um quadro de recrutamento é uma sequência de etapas — triagem, entrevista, proposta. Crie a primeira para começar a receber candidatos.</string>
+    <string name="rec_criar_primeira_etapa">Criar primeira etapa</string>
+
+    <string name="rec_nesta_etapa">Nesta etapa %1$s</string>
+    <string name="rec_parado">Parado</string>
+    <string name="rec_parado_14">Parado há mais de 14 dias</string>
+    <string name="rec_enviou_curriculo">Enviou currículo</string>
+    <string name="rec_mover_para">Mover para…</string>
+    <string name="rec_etapa_de">Etapa de %1$s</string>
+    <string name="rec_erro_mover">Erro ao mover candidato.</string>
+    <string name="rec_sem_nome">Sem nome</string>
+
+    <!-- Perfil -->
+    <string name="rec_candidatou_se">Candidatou-se %1$s</string>
+    <string name="rec_candidatou_se_vaga">Candidatou-se %1$s · %2$s</string>
+    <string name="rec_etapa_do_quadro">Etapa do quadro</string>
+    <string name="rec_email">E-mail</string>
+    <string name="rec_telefone">Telefone</string>
+    <string name="rec_curriculo">Currículo</string>
+    <string name="rec_nao_informado">Não informado</string>
+    <string name="rec_nao_enviado">Não enviado</string>
+    <string name="rec_baixar">Baixar</string>
+    <string name="rec_erro_curriculo">Não foi possível baixar o currículo.</string>
+    <string name="rec_mensagem_do_candidato">Mensagem do candidato</string>
+    <string name="rec_fechar">Fechar</string>
+    <string name="rec_enviar_email">Enviar e-mail</string>
+
+    <!-- Nova etapa -->
+    <string name="rec_nova_etapa_sub">Ela entra no fim do quadro desta vaga</string>
+    <string name="rec_nome_etapa">Nome da etapa</string>
+    <string name="rec_nome_etapa_ex">Ex: Entrevista técnica</string>
+    <string name="rec_criar_etapa">Criar etapa</string>
+    <string name="rec_etapa_criada">Etapa criada com sucesso.</string>
+    <string name="rec_erro_etapa">Erro ao criar etapa.</string>
+    <string name="rec_selecione_vaga">Selecione a vaga.</string>
+
+    <!-- Novo candidato -->
+    <string name="rec_novo_candidato_sub">Entra na primeira etapa do quadro da vaga</string>
+    <string name="rec_nome">Nome</string>
+    <string name="rec_nome_ex">Nome completo</string>
+    <string name="rec_email_ex">candidato@email.com</string>
+    <string name="rec_telefone_ex">(11) 90000-0000</string>
+    <string name="rec_escolher_arquivo">Escolher arquivo</string>
+    <string name="rec_curriculo_dica">PDF ou Word, até 5 MB</string>
+    <string name="rec_curriculo_formato">Envie em PDF ou Word (.doc ou .docx).</string>
+    <string name="rec_curriculo_grande">O arquivo passa de 5 MB.</string>
+    <string name="rec_mensagem">Mensagem</string>
+    <string name="rec_opcional">Opcional</string>
+    <string name="rec_adicionar_candidato">Adicionar candidato</string>
+    <string name="rec_salvando">Salvando…</string>
+    <string name="rec_candidato_adicionado">Candidato adicionado com sucesso.</string>
+    <string name="rec_erro_candidato">Erro ao salvar candidato.</string>
+    <string name="acao_remover">Remover</string>
+</resources>

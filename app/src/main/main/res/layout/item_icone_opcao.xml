@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Um ícone da grade "Alterar ícone" (5 por linha). -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_rowWeight="1"
+    android:layout_columnWeight="1"
+    android:layout_margin="3dp"
+    android:background="@drawable/bg_icone_opcao"
+    android:fontFamily="@font/material_icons"
+    android:gravity="center"
+    android:includeFontPadding="false"
+    android:textColor="@color/icone_opcao_texto"
+    android:textSize="20sp" />

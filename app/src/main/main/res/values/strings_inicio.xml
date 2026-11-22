@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos do Início, iguais aos de Dashboard.jsx e PainelPrazos.jsx. -->
+<resources>
+    <string name="ini_bom_dia">Bom dia, %1$s</string>
+    <string name="ini_boa_tarde">Boa tarde, %1$s</string>
+    <string name="ini_boa_noite">Boa noite, %1$s</string>
+    <plurals name="ini_tabelas">
+        <item quantity="one">Tabela</item>
+        <item quantity="other">Tabelas</item>
+    </plurals>
+    <plurals name="ini_itens_guardados">
+        <item quantity="one">%d item guardado</item>
+        <item quantity="other">%d itens guardados</item>
+    </plurals>
+    <plurals name="ini_automacoes_ligadas">
+        <item quantity="one">Automação ligada</item>
+        <item quantity="other">Automações ligadas</item>
+    </plurals>
+    <plurals name="ini_execucoes_semana">
+        <item quantity="one">%d execução nesta semana</item>
+        <item quantity="other">%d execuções nesta semana</item>
+    </plurals>
+    <plurals name="ini_falhas">
+        <item quantity="one">%d falha</item>
+        <item quantity="other">%d falhas</item>
+    </plurals>
+    <plurals name="ini_pessoas_na_equipe">
+        <item quantity="one">Pessoa na equipe</item>
+        <item quantity="other">Pessoas na equipe</item>
+    </plurals>
+
+    <string name="ini_prazos">Prazos</string>
+    <string name="ini_meus">Meus</string>
+    <string name="ini_da_equipe">Da equipe</string>
+    <string name="ini_atrasados">Atrasados</string>
+    <string name="ini_vencem_hoje">Vencem hoje</string>
+    <string name="ini_proximos">Próximos 7 dias</string>
+    <string name="ini_grupo">%1$s · %2$d</string>
+    <string name="ini_e_mais">e mais %d</string>
+    <string name="ini_erro_prazos">Erro ao carregar os prazos.</string>
+    <string name="ini_nada_com_voce">Nada vencendo com você</string>
+    <string name="ini_nada_na_equipe">Nada vencendo na equipe</string>
+    <string name="ini_nada_desc">Nos próximos 7 dias não há prazos em aberto. Tabelas com colunas \"Prazo\" e \"Responsável\" aparecem aqui, e o Levit avisa antes de algo vencer.</string>
+    <string name="ini_modulo_coluna">%1$s · %2$s</string>
+
+    <string name="ini_atencao">Precisa da sua atenção</string>
+    <string name="ini_tudo_em_dia">Tudo em dia</string>
+    <string name="ini_tudo_em_dia_desc">Quando algo atrasar, uma automação falhar ou um convite vencer, aparece aqui.</string>
+    <plurals name="ini_itens_atrasados">
+        <item quantity="one">%d item atrasado</item>
+        <item quantity="other">%d itens atrasados</item>
+    </plurals>
+    <plurals name="ini_com_voce">
+        <item quantity="one">%d está com você. Veja em Prazos.</item>
+        <item quantity="other">%d estão com você. Veja em Prazos.</item>
+    </plurals>
+    <string name="ini_nenhum_com_voce">Nenhum com você. Veja em Prazos.</string>
+    <string name="ini_automacao_pausada">Automação pausada: %1$s</string>
+    <string name="ini_automacao_pausada_desc">Falhou várias vezes seguidas. Veja o histórico, corrija e ligue de novo.</string>
+    <plurals name="ini_candidatos_parados">
+        <item quantity="one">%d candidato parado há mais de 14 dias</item>
+        <item quantity="other">%d candidatos parados há mais de 14 dias</item>
+    </plurals>
+    <string name="ini_em_vaga">Em %1$s.</string>
+    <plurals name="ini_convites_venceram">
+        <item quantity="one">%d convite venceu sem resposta</item>
+        <item quantity="other">%d convites venceram sem resposta</item>
+    </plurals>
+    <string name="ini_reenvie">Reenvie para a pessoa receber um link novo.</string>
+    <plurals name="ini_convites_aguardando">
+        <item quantity="one">%d convite aguardando resposta</item>
+        <item quantity="other">%d convites aguardando resposta</item>
+    </plurals>
+    <string name="ini_quem_aceitar">Quem aceitar entra direto na equipe.</string>
+
+    <string name="ini_suas_tabelas">Suas tabelas</string>
+    <string name="ini_comece">Comece pela primeira tabela</string>
+    <string name="ini_comece_desc">Tudo o que hoje está em planilhas, e-mails e mensagens pode virar uma tabela. Escolha um modelo para começar:</string>
+    <string name="ini_entradas_saidas">Entradas e saídas</string>
+    <string name="ini_ver_todas">Ver todas as %d tabelas</string>
+
+    <string name="ini_recrutamento">Recrutamento</string>
+    <string name="ini_abrir_quadro">Abrir quadro</string>
+    <string name="ini_abrir_vaga">Abrir vaga</string>
+    <string name="ini_nenhuma_vaga">Nenhuma vaga aberta. Quando abrir uma, os candidatos se inscrevem por um link e aparecem num quadro de etapas.</string>
+    <string name="ini_sem_acesso_vaga">Seu cargo não tem acesso a esta vaga.</string>
+    <plurals name="ini_candidatos">
+        <item quantity="one">%d candidato</item>
+        <item quantity="other">%d candidatos</item>
+    </plurals>
+    <plurals name="ini_vagas_abertas">
+        <item quantity="one">%d vaga aberta</item>
+        <item quantity="other">%d vagas abertas</item>
+    </plurals>
+    <string name="ini_equipe">Equipe</string>
+    <string name="ini_ver_equipe">Ver equipe</string>
+    <string name="ini_sem_acesso_equipe">Seu cargo não tem acesso à lista da equipe.</string>
+    <string name="ini_so_voce">Só você por aqui. Convide quem trabalha com você.</string>
+    <string name="ini_convidar">Convidar</string>
+    <plurals name="ini_pessoas">
+        <item quantity="one">%d pessoa</item>
+        <item quantity="other">%d pessoas</item>
+    </plurals>
+</resources>

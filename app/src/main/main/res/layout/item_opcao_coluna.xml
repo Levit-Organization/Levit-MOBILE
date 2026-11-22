@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/bolinha"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:background="@drawable/bg_bolinha_opcao" />
+
+    <EditText
+        android:id="@+id/etOpcao"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:autofillHints=""
+        android:background="@drawable/bg_edit_text"
+        android:inputType="textCapSentences"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:textColor="@color/ink"
+        android:textColorHint="@color/light_text"
+        android:textSize="@dimen/texto_sm" />
+
+    <TextView
+        android:id="@+id/btnRemoverOpcao"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/tab_remover_opcao"
+        android:fontFamily="@font/material_icons"
+        android:gravity="center"
+        android:text="close"
+        android:textColor="@color/light_text"
+        android:textSize="16sp" />
+</LinearLayout>

@@ -6,8 +6,10 @@ import com.example.levit.data.remote.ApiClient
 import com.example.levit.data.remote.dto.ApiEnvelope
 import com.example.levit.data.remote.dto.AuthData
 import com.example.levit.data.remote.dto.LoginRequest
+import com.example.levit.data.remote.dto.RedefinirSenhaRequest
 import com.example.levit.data.remote.dto.RegistrarRequest
 import com.google.gson.Gson
+import kotlinx.coroutines.CancellationException
 import retrofit2.Response
 import java.io.IOException
 
@@ -15,6 +17,10 @@ sealed class ResultadoAuth {
     data class Sucesso(val dados: AuthData) : ResultadoAuth()
     data class Erro(val mensagem: String, val camposInvalidos: Map<String, Any>? = null) : ResultadoAuth()}
 
+sealed class ResultadoRedefinicaoSenha {
+    object Sucesso : ResultadoRedefinicaoSenha()
+    data class Erro(val mensagem: String, val linkInvalido: Boolean = false) : ResultadoRedefinicaoSenha()
+}
 class AuthRepository(context: Context) {
 
     private val api = ApiClient.authApi(context)
@@ -25,6 +31,37 @@ class AuthRepository(context: Context) {
     fun estaAutenticado(): Boolean = session.sessaoValida()
 
     fun usuarioLogado() = session.obterUsuario()
+
+    fun empresaLogada() = session.obterEmpresa()
+
+    suspend fun redefinirSenha(token: String, senha: String): ResultadoRedefinicaoSenha {
+        return try {
+            val resposta = api.redefinirSenha(RedefinirSenhaRequest(token, senha))
+            if (resposta.isSuccessful && resposta.body()?.status == "success") {
+                session.limparSessao()
+                ResultadoRedefinicaoSenha.Sucesso
+            } else {
+                val envelope = resposta.errorBody()?.string()?.let {
+                    runCatching { gson.fromJson(it, ApiEnvelope::class.java) }.getOrNull()
+                }
+                val detalhes = envelope?.errors?.values?.joinToString(" ") {
+                    if (it is List<*>) it.joinToString(" ") else it.toString()
+                }
+                ResultadoRedefinicaoSenha.Erro(
+                    mensagem = detalhes?.takeIf { it.isNotBlank() }
+                        ?: envelope?.message
+                        ?: "Não foi possível redefinir a senha (${resposta.code()}).",
+                    linkInvalido = resposta.code() == 422 && envelope?.errors?.containsKey("senha") != true
+                )
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: IOException) {
+            ResultadoRedefinicaoSenha.Erro("Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.")
+        } catch (e: Exception) {
+            ResultadoRedefinicaoSenha.Erro("Ocorreu um erro ao redefinir a senha. Tente novamente.")
+        }
+    }
 
 
     suspend fun signIn(email: String, senha: String): ResultadoAuth =

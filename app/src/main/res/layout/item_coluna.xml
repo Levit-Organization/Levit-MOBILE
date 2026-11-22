@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uma coluna no formulário de tabela (ModuleForm.jsx). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btnSubir"
+                android:layout_width="28dp"
+                android:layout_height="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/tab_mover_cima"
+                android:fontFamily="@font/material_icons"
+                android:gravity="center"
+                android:text="expand_less"
+                android:textColor="@color/light_text"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/btnDescer"
+                android:layout_width="28dp"
+                android:layout_height="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/tab_mover_baixo"
+                android:fontFamily="@font/material_icons"
+                android:gravity="center"
+                android:text="expand_more"
+                android:textColor="@color/light_text"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/flIconeTipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoNome"
+            style="@style/Levit.Campo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:hint="@string/tab_nome_coluna">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRemover"
+            style="@style/Levit.Botao.Icone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/tab_remover_coluna"
+            app:icon="@drawable/ic_delete_outline" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoTipo"
+            style="@style/Levit.Campo.Select"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/tab_tipo_coluna">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/acTipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <FrameLayout
+            android:id="@+id/flNovo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDica"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/light_text"
+        android:textSize="@dimen/texto_xs" />
+
+    <!-- Ligação -->
+    <LinearLayout
+        android:id="@+id/blocoVinculo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoVinculo"
+            style="@style/Levit.Campo.Select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tab_liga_a">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/acVinculo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/cbMultiplo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_varios_itens"
+            android:textColor="@color/ink_soft"
+            android:textSize="@dimen/texto_sm" />
+
+        <TextView
+            android:id="@+id/tvVinculoExistente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_text"
+            android:textSize="@dimen/texto_xs" />
+    </LinearLayout>
+
+    <!-- Lista de opções -->
+    <LinearLayout
+        android:id="@+id/blocoOpcoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/archivo_medium"
+            android:text="@string/tab_opcoes_lista"
+            android:textColor="@color/light_text"
+            android:textSize="@dimen/texto_xs" />
+
+        <LinearLayout
+            android:id="@+id/llOpcoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/btnAddOpcao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="?attr/selectableItemBackground"
+            android:fontFamily="@font/archivo_medium"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/tab_adicionar_opcao"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/texto_xs" />
+    </LinearLayout>
+</LinearLayout>

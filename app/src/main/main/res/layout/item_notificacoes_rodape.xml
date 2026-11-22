@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMarcarTodas"
+        style="@style/Levit.BotaoSolto.Secundario"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/not_marcar_todas"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnFechar"
+        style="@style/Levit.BotaoSolto.Secundario"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:text="@string/aut_fechar" />
+</LinearLayout>

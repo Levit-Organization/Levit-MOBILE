@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter
 import com.example.levit.databinding.DialogMembroBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.core.os.bundleOf
+import com.example.levit.data.remote.dto.Convite
 
 class EquipeFragment : HamburgerMenuBaseFragment() {
 
@@ -30,9 +31,13 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
     private val equipeRepository by lazy { EquipeRepository(requireContext().applicationContext) }
     private val cargoRepository by lazy { CargoRepository(requireContext().applicationContext) }
 
+    private var convites: List<Convite> = emptyList()
+
     private val adapter = MembrosAdapter(
         aoEditar = { abrirDialogoMembro(it) },
-        aoRemover = { confirmarRemocao(it) }
+        aoRemover = { confirmarRemocao(it) },
+        aoReenviar = { reenviarConvite(it) },
+        aoCancelar = { confirmarCancelamento(it) }
     )
 
     private var cargos: List<Cargo> = emptyList()
@@ -92,6 +97,8 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
             val resMembros = equipeRepository.listarMembros()
             // Cargos exigem outra permissão: se vier 403, a aba de membros segue normal.
             val resCargos = cargoRepository.listarCargos()
+            // Convites dependem de permissão: sem acesso, só não aparecem.
+            val resConvites = equipeRepository.listarConvites()
             progress.visibility = View.GONE
 
             if ((resMembros is ResultadoApi.Erro && resMembros.sessaoExpirada) ||
@@ -107,7 +114,8 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
             when (resMembros) {
                 is ResultadoApi.Sucesso -> {
                     membros = resMembros.dados
-                    mostrarMembros(view, msgMembros, resMembros.dados)
+                    convites = (resConvites as? ResultadoApi.Sucesso)?.dados.orEmpty()
+                    mostrarMembros(msgMembros)
                 }
                 is ResultadoApi.Erro -> {
                     adapter.submitList(emptyList())
@@ -128,7 +136,7 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
         when (resultado) {
             is ResultadoApi.Sucesso -> {
                 cargosAdapter.submitList(
-                    cargos.map { c -> CargoItem(c, membros.count { it.cargoId == c.id }) }
+                    cargos.map { c -> CargoItem(c, membros.count { it.cargoNome == c.nome }) }
                 )
                 if (cargos.isEmpty()) {
                     mensagem.setText(R.string.equipe_cargos_vazio)
@@ -147,9 +155,11 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
             }
         }
     }
-    private fun mostrarMembros(view: View, mensagem: TextView, lista: List<Membro>) {
-        adapter.submitList(lista)
-        if (lista.isEmpty()) {
+    private fun mostrarMembros(mensagem: TextView) {
+        val linhas = membros.map { LinhaEquipe.Colaborador(it) } +
+                convites.map { LinhaEquipe.ConvitePendente(it) }
+        adapter.submitList(linhas)
+        if (linhas.isEmpty()) {
             mensagem.setText(R.string.equipe_vazio_membros)
             mensagem.visibility = View.VISIBLE
         } else {
@@ -174,7 +184,7 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
         b.actCargoMembro.setAdapter(
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, cargos.map { it.nome })
         )
-        var cargoEscolhido: Cargo? = membro?.cargoId?.let { id -> cargos.firstOrNull { it.id == id } }
+        var cargoEscolhido: Cargo? = membro?.cargoNome?.let { nome -> cargos.firstOrNull { it.nome == nome } }
         cargoEscolhido?.let { b.actCargoMembro.setText(it.nome, false) }
         b.actCargoMembro.setOnItemClickListener { _, _, posicao, _ ->
             cargoEscolhido = cargos[posicao]
@@ -221,7 +231,7 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
                     } else {
                         // Só envia o que mudou.
                         val novoNome = nome.takeIf { it != membro.nome }
-                        val novoCargo = cargo.id.takeIf { it != membro.cargoId }
+                        val novoCargo = cargo.id.takeIf { cargo.nome != membro.cargoNome }
                         if (novoNome == null && novoCargo == null) {
                             dialogo.dismiss()
                             return@launch
@@ -275,6 +285,42 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
                 }
             }
             .show()
+    }
+
+    private fun reenviarConvite(convite: Convite) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            when (val r = equipeRepository.reenviarConvite(convite.id)) {
+                is ResultadoApi.Sucesso -> {
+                    Toast.makeText(requireContext(), R.string.equipe_convite_reenviado, Toast.LENGTH_SHORT).show()
+                    view?.let { carregar(it) }
+                }
+                is ResultadoApi.Erro -> avisarErro(r)
+            }
+        }
+    }
+
+    private fun confirmarCancelamento(convite: Convite) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.equipe_cancelar_convite_titulo, convite.email))
+            .setMessage(R.string.equipe_cancelar_convite_msg)
+            .setNegativeButton(R.string.equipe_voltar, null)
+            .setPositiveButton(R.string.equipe_cancelar_convite) { _, _ ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    when (val r = equipeRepository.cancelarConvite(convite.id)) {
+                        is ResultadoApi.Sucesso -> {
+                            Toast.makeText(requireContext(), R.string.equipe_convite_cancelado, Toast.LENGTH_SHORT).show()
+                            view?.let { carregar(it) }
+                        }
+                        is ResultadoApi.Erro -> avisarErro(r)
+                    }
+                }
+            }
+            .show()
+    }
+
+    private fun avisarErro(erro: ResultadoApi.Erro) {
+        if (erro.sessaoExpirada) findNavController().navigate(R.id.action_global_to_login)
+        else Toast.makeText(requireContext(), erro.mensagem, Toast.LENGTH_LONG).show()
     }
 
     private fun abrirFormCargo(cargoId: String?) {

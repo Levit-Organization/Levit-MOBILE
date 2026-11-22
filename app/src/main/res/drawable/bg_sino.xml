@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fundo do sino: hover:bg-primary-100 do web vira o toque. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/primary_100">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="@dimen/raio_md" />
+        </shape>
+    </item>
+</ripple>

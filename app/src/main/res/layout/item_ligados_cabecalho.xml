@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ItensQueApontam.jsx: título da seção. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        style="@style/Levit.Divisoria"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_semibold"
+        android:text="@string/itens_ligados_a_este"
+        android:textColor="@color/ink"
+        android:textSize="@dimen/texto_sm" />
+</LinearLayout>

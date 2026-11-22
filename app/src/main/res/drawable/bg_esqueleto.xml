@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Skeleton: bloco cinza com a forma do conteúdo. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/sidebar" />
+    <corners android:radius="18dp" />
+</shape>

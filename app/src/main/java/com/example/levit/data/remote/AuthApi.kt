@@ -3,6 +3,7 @@ package com.example.levit.data.remote
 import com.example.levit.data.remote.dto.ApiEnvelope
 import com.example.levit.data.remote.dto.AuthData
 import com.example.levit.data.remote.dto.LoginRequest
+import com.example.levit.data.remote.dto.RedefinirSenhaRequest
 import com.example.levit.data.remote.dto.RegistrarRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -27,5 +28,8 @@ interface AuthApi {
 
     @POST("auth/forgot-password")
     suspend fun forgotPassword(@Body body: Map<String, String>): Response<ApiEnvelope<Unit>>
+
+    @POST("auth/reset-password")
+    suspend fun redefinirSenha(@Body body: RedefinirSenhaRequest): Response<ApiEnvelope<Unit>>
 
 }

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- PerfilCandidato de RecrutamentoKanban.jsx. -->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvAvatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:fontFamily="@font/archivo_semibold"
+                android:gravity="center"
+                android:importantForAccessibility="no"
+                android:textSize="@dimen/texto_sm" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNome"
+                    style="@style/Levit.Texto.Secao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/texto_lg" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/grupoSelos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:chipSpacingVertical="4dp" />
+
+                <TextView
+                    android:id="@+id/tvCandidatouSe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/light_text"
+                    android:textSize="@dimen/texto_xs" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View style="@style/Levit.Divisoria" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoEtapa"
+            style="@style/Levit.Campo.Select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/rec_etapa_do_quadro"
+            app:startIconDrawable="@drawable/ic_swap_horiz">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/acEtapa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/divEtapa"
+            style="@style/Levit.Divisoria" />
+
+        <LinearLayout
+            android:id="@+id/linhaEmail"
+            style="@style/Levit.LinhaDado">
+
+            <ImageView style="@style/Levit.LinhaDado.Icone" android:src="@drawable/ic_mail" android:contentDescription="@null" />
+            <TextView style="@style/Levit.LinhaDado.Rotulo" android:text="@string/rec_email" />
+            <TextView android:id="@+id/tvEmail" style="@style/Levit.LinhaDado.Valor" />
+        </LinearLayout>
+
+        <View style="@style/Levit.Divisoria" />
+
+        <LinearLayout
+            android:id="@+id/linhaTelefone"
+            style="@style/Levit.LinhaDado">
+
+            <ImageView style="@style/Levit.LinhaDado.Icone" android:src="@drawable/ic_call" android:contentDescription="@null" />
+            <TextView style="@style/Levit.LinhaDado.Rotulo" android:text="@string/rec_telefone" />
+            <TextView android:id="@+id/tvTelefone" style="@style/Levit.LinhaDado.Valor" />
+        </LinearLayout>
+
+        <View style="@style/Levit.Divisoria" />
+
+        <LinearLayout style="@style/Levit.LinhaDado">
+
+            <ImageView style="@style/Levit.LinhaDado.Icone" android:src="@drawable/ic_description" android:contentDescription="@null" />
+            <TextView style="@style/Levit.LinhaDado.Rotulo" android:text="@string/rec_curriculo" />
+            <TextView android:id="@+id/tvCurriculo" style="@style/Levit.LinhaDado.Valor" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBaixarCurriculo"
+                style="@style/Levit.Botao.Texto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rec_baixar"
+                app:icon="@drawable/ic_download" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/blocoMensagem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View style="@style/Levit.Divisoria" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/archivo_semibold"
+                android:text="@string/rec_mensagem_do_candidato"
+                android:textColor="@color/ink"
+                android:textSize="@dimen/texto_xs" />
+
+            <TextView
+                android:id="@+id/tvMensagem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:lineSpacingExtra="3dp"
+                android:textColor="@color/ink_soft"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/texto_sm" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Levit.Rodape">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFechar"
+                style="@style/Levit.Botao.Secundario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rec_fechar" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEnviarEmail"
+                style="@style/Levit.Botao.Primario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/rec_enviar_email"
+                app:icon="@drawable/ic_mail" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

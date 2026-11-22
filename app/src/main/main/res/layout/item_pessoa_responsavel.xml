@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- PessoaResponsavel.jsx: iniciais num círculo e, opcionalmente, o nome. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvIniciais"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_bolinha"
+        android:backgroundTint="@color/primary_100"
+        android:fontFamily="@font/archivo_bold"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        android:textColor="@color/primary_700"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tvNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="6dp"
+        android:textColor="@color/ink_soft"
+        android:textSize="@dimen/texto_xs" />
+</LinearLayout>

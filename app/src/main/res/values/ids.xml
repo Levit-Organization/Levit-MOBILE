@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tipo de view do bloco fixo no topo das listas recicladas (ui/Lista.kt). -->
+    <item name="cabecalho_fixo" type="id" />
+</resources>

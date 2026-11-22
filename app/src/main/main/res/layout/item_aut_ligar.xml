@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ligação que aponta para a tabela de origem: pode receber o item que disparou. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical"
+    android:paddingStart="8dp"
+    android:paddingTop="4dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="10dp">
+
+    <view
+        android:id="@+id/cbLigar"
+        class="android.widget.CheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="32dp"
+        android:text="@string/aut_ligar_desc"
+        android:textColor="@color/light_text"
+        android:textSize="@dimen/texto_xs"
+        tools:ignore="RtlSymmetry"
+        xmlns:tools="http://schemas.android.com/tools" />
+</LinearLayout>

@@ -28,3 +28,16 @@ data class AtualizarMembroRequest(
     val nome: String? = null,
     @SerializedName("cargo_id") val cargoId: String? = null
 )
+
+/** GET /equipe/pessoas: só id e nome, sem exigir permissão de ver a equipe. */
+data class Pessoa(val id: String, val nome: String?)
+
+data class Convite(
+    val id: String,
+    val email: String?,
+    @SerializedName("cargo_id") val cargoId: String?,
+    @SerializedName("cargo_nome") val cargoNome: String?,
+    @SerializedName("convidado_por_nome") val convidadoPorNome: String?,
+    @SerializedName("expira_em") val expiraEm: String?,
+    val expirado: Boolean?
+)

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arquivos baixados da API (PDF, currículo) que o app entrega para outro app abrir. -->
+<paths>
+    <cache-path name="compartilhados" path="compartilhados/" />
+</paths>

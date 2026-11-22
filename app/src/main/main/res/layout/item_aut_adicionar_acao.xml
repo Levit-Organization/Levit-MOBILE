@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "+" no fim do fluxo: adiciona outra ação. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/btnAdicionar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_botao_redondo"
+        android:contentDescription="@string/aut_adicionar_acao"
+        android:fontFamily="@font/material_icons"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="add"
+        android:textColor="@color/light_text"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText" />
+</LinearLayout>

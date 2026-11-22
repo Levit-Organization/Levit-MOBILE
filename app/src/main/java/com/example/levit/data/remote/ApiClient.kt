@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import com.example.levit.BuildConfig
+import kotlin.jvm.java
 
 object ApiClient {
 
@@ -27,6 +28,21 @@ object ApiClient {
     fun cargoApi(context: Context): CargoApi = retrofit(context).create(CargoApi::class.java)
 
     fun registroApi(context: Context): RegistroApi = retrofit(context).create(RegistroApi::class.java)
+
+    fun inicioApi(context: Context): InicioApi = retrofit(context).create(InicioApi::class.java)
+
+    fun recrutamentoApi(context: Context): RecrutamentoApi = retrofit(context).create(RecrutamentoApi::class.java)
+
+    fun automacaoApi(context: Context): AutomacaoApi = retrofit(context).create(AutomacaoApi::class.java)
+
+    fun financeiroApi(context: Context): FinanceiroApi = retrofit(context).create(FinanceiroApi::class.java)
+
+    fun relatorioApi(context: Context): RelatorioApi = retrofit(context).create(RelatorioApi::class.java)
+
+    fun backupApi(context: Context): BackupApi = retrofit(context).create(BackupApi::class.java)
+
+    fun notificacaoApi(context: Context): NotificacaoApi = retrofit(context).create(NotificacaoApi::class.java)
+
 
     /**
      * Reconstrói o Retrofit sempre que o endereço salvo em ServerConfig for

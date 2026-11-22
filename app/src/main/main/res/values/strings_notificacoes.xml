@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos de notificações, iguais aos de components/notificacoes e hooks/useNotificacoes.js. -->
+<resources>
+    <string name="not_titulo">Notificações</string>
+    <plurals name="not_nao_lidas">
+        <item quantity="one">%d não lida</item>
+        <item quantity="other">%d não lidas</item>
+    </plurals>
+    <string name="not_tudo_em_dia">Tudo em dia</string>
+    <string name="not_todas">Todas</string>
+    <string name="not_nao_lidas_filtro">Não lidas</string>
+    <string name="not_erro_carregar">Erro ao carregar as notificações.</string>
+    <string name="not_nenhuma_nao_lida">Nenhuma notificação não lida</string>
+    <string name="not_nenhuma">Nenhuma notificação ainda</string>
+    <string name="not_nenhuma_desc">Novas candidaturas, avisos de automações e mudanças na equipe aparecem aqui.</string>
+    <string name="not_marcar_todas">Marcar todas como lidas</string>
+    <string name="not_nao_lida">(não lida)</string>
+    <string name="not_excluir">Excluir notificação: %1$s</string>
+    <string name="not_erro_marcar">Não foi possível marcar como lida.</string>
+    <string name="not_erro_marcar_todas">Não foi possível marcar todas como lidas.</string>
+    <string name="not_erro_excluir">Não foi possível excluir a notificação.</string>
+    <string name="not_uma_nova">Você tem uma nova notificação.</string>
+    <string name="not_n_novas">Você tem %d novas notificações.</string>
+</resources>

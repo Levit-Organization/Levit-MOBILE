@@ -69,6 +69,13 @@
     <string name="nav_equipe">Equipe</string>
     <string name="nav_perfil">Perfil</string>
     <string name="nav_sair">Sair</string>
+    <string name="nav_grupo_organizar">Organizar</string>
+    <string name="nav_grupo_pessoas">Pessoas</string>
+    <string name="nav_recrutamento">Recrutamento</string>
+    <string name="nav_automacoes">Automações</string>
+    <string name="nav_relatorios">Relatórios</string>
+    <string name="nav_configuracoes">Configurações</string>
+    <string name="nav_em_breve">Em breve</string>
 
     <!-- Dashboard -->
     <string name="dashboard_menu_desc">Abrir menu</string>
@@ -268,4 +275,29 @@
     <string name="modulos_hint_busca">Procurar módulo por nome...</string>
     <string name="modulos_busca_vazia">Nenhum módulo encontrado para essa busca.</string>
 
+    <string name="equipe_status_expirado">Convite expirado</string>
+    <string name="equipe_convite_por">Convidado por %1$s</string>
+    <string name="equipe_convite_sem_autor">Convite enviado</string>
+    <string name="equipe_reenviar">Reenviar convite</string>
+    <string name="equipe_convite_reenviado">Convite reenviado.</string>
+    <string name="equipe_cancelar_convite">Cancelar convite</string>
+    <string name="equipe_cancelar_convite_titulo">Cancelar o convite de %1$s?</string>
+    <string name="equipe_cancelar_convite_msg">O link enviado deixa de funcionar.</string>
+    <string name="equipe_convite_cancelado">Convite cancelado.</string>
+    <string name="equipe_voltar">Voltar</string>
+
+    <string name="redefinir_descricao">Redefina a senha da sua conta Levit</string>
+    <string name="redefinir_confirmacao">Confirmar senha</string>
+    <string name="redefinir_botao">Redefinir senha</string>
+    <string name="redefinir_enviando">Redefinindo…</string>
+    <string name="redefinir_requisitos">Use ao menos 8 caracteres, incluindo letras e números.</string>
+    <string name="redefinir_confirmacao_obrigatoria">Confirme a nova senha.</string>
+    <string name="redefinir_senhas_diferentes">As senhas não coincidem.</string>
+    <string name="redefinir_link_invalido">Este link é inválido ou está incompleto. Solicite um novo link de recuperação.</string>
+    <string name="redefinir_novo_link">Solicitar novo link</string>
+    <string name="redefinir_sucesso">Senha alterada. Entre com a sua nova senha.</string>
+    <string name="redefinir_forca_fraca">Senha fraca</string>
+    <string name="redefinir_forca_boa">Senha boa</string>
+    <string name="redefinir_forca_forte">Senha forte</string>
+    <string name="redefinir_permissao_rede">Permita o acesso à rede local para conectar ao servidor de desenvolvimento e tente novamente.</string>
 </resources>

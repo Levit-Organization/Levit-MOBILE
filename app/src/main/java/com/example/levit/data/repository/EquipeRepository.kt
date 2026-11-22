@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.levit.data.remote.ApiClient
 import com.example.levit.data.remote.dto.AtualizarMembroRequest
 import com.example.levit.data.remote.dto.ConvidarRequest
+import com.example.levit.data.remote.dto.Convite
 import com.example.levit.data.remote.dto.ConviteCriado
 import com.example.levit.data.remote.dto.Membro
 
@@ -27,4 +28,13 @@ class EquipeRepository(context: Context) {
 
     suspend fun removerMembro(id: String): ResultadoApi<Unit> =
         chamador.chamarSemCorpo { api.removerMembro(id) }
+
+    suspend fun listarConvites(): ResultadoApi<List<Convite>> =
+        chamador.chamar { api.convites() }
+
+    suspend fun reenviarConvite(id: String): ResultadoApi<Unit> =
+        chamador.chamarSemCorpo { api.reenviarConvite(id) }
+
+    suspend fun cancelarConvite(id: String): ResultadoApi<Unit> =
+        chamador.chamarSemCorpo { api.cancelarConvite(id) }
 }

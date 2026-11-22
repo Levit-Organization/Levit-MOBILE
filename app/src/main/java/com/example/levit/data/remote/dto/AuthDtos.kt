@@ -52,3 +52,8 @@ data class ApiEnvelope<T>(
     val message: String? = null,
     val errors: Map<String, Any>? = null
 )
+
+data class RedefinirSenhaRequest(
+    val token: String,
+    val senha: String
+)
