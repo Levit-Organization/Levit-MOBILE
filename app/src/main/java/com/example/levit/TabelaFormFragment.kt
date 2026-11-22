@@ -55,7 +55,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
     )
 
     private var _binding: FragmentTabelaFormBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val api by lazy { ApiClient.moduloApi(requireContext().applicationContext) }
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }
@@ -112,7 +112,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
     private fun carregarTabela() {
         binding.btnSalvar.isEnabled = false
         viewLifecycleOwner.lifecycleScope.launch {
-            when (val r = chamador.chamar { api.detalhesTabela(tabelaId!!) }) {
+            when (val r = chamador.chamar { api.detalhesTabela(tabelaId.orEmpty()) }) {
                 is ResultadoApi.Sucesso -> {
                     val t = r.dados
                     nome = t.nome.orEmpty()
@@ -407,7 +407,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         if (editando && colunas.none { it.nova }) {
             viewLifecycleOwner.lifecycleScope.launch {
                 val r = chamador.chamarSemCorpo {
-                    api.reordenarColunas(tabelaId!!, ReordenarRequest(colunas.mapNotNull { it.id }))
+                    api.reordenarColunas(tabelaId.orEmpty(), ReordenarRequest(colunas.mapNotNull { it.id }))
                 }
                 if (r is ResultadoApi.Erro) requireContext().avisar(r.mensagem, longo = true)
             }
@@ -422,7 +422,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
                 rotuloConfirmar = getString(R.string.tab_excluir_coluna)
             ) {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    when (val r = chamador.chamarSemCorpo { api.excluirColuna(tabelaId!!, coluna.id) }) {
+                    when (val r = chamador.chamarSemCorpo { api.excluirColuna(tabelaId.orEmpty(), coluna.id) }) {
                         is ResultadoApi.Sucesso -> {
                             requireContext().avisar(getString(R.string.tab_coluna_excluida))
                             colunas.remove(coluna)
@@ -497,7 +497,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
     }
 
     private suspend fun salvarEdicao(): ResultadoApi.Erro? {
-        val id = tabelaId!!
+        val id = tabelaId ?: return null
         val padrao = getString(R.string.tab_erro_salvar)
         (chamador.chamarSemCorpo { api.atualizar(id, AtualizarTabelaRequest(nome, icone, tipo)) } as? ResultadoApi.Erro)?.let { return it }
         for (c in colunas) {

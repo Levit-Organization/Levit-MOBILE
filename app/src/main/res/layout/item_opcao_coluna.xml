@@ -29,13 +29,13 @@
 
     <TextView
         android:id="@+id/btnRemoverOpcao"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/tab_remover_opcao"
         android:fontFamily="@font/material_icons"
         android:gravity="center"
-        android:text="close"
+        android:text="@string/ic_close"
         android:textColor="@color/light_text"
         android:textSize="16sp" />
 </LinearLayout>

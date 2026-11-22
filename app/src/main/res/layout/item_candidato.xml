@@ -113,7 +113,7 @@
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="12dp"
         android:gravity="start|center_vertical"
-        android:minHeight="36dp"
+        android:minHeight="48dp"
         android:textSize="@dimen/texto_xs"
         app:icon="@drawable/ic_swap_horiz"
         app:iconSize="@dimen/icone_sm" />

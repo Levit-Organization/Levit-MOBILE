@@ -6,7 +6,7 @@
     <color name="levit_purple_dark">#413B8C</color>
     <color name="levit_text_primary">#161829</color>
     <color name="levit_text_secondary">#6B7280</color>
-    <color name="levit_hint">#9CA3AF</color>
+    <color name="levit_hint">#6B7280</color>
     <color name="levit_border">#E3E1F0</color>
     <color name="levit_transparent">#00FFFFFF</color>
     <color name="cinza_inativo">#E0E0E0</color>
@@ -17,24 +17,24 @@
 
     <!-- Dashboard -->
     <color name="levit_bg">#F4F5FA</color>
-    <color name="levit_blue">#3B82F6</color>
+    <color name="levit_blue">#2563EB</color>
     <color name="levit_blue_light">#60A5FA</color>
     <color name="levit_badge_bg">#F1F1F5</color>
     <color name="chip_blue_bg">#DBEAFE</color>
     <color name="chip_purple_bg">#E7E5FB</color>
     <color name="chip_cyan_bg">#CFFAFE</color>
-    <color name="chip_cyan_icon">#0891B2</color>
+    <color name="chip_cyan_icon">#0E7490</color>
     <color name="chip_green_bg">#DCFCE7</color>
-    <color name="chip_green_icon">#16A34A</color>
+    <color name="chip_green_icon">#15803D</color>
     <color name="chip_orange_bg">#FFEDD5</color>
-    <color name="chip_orange_icon">#F97316</color>
+    <color name="chip_orange_icon">#C2410C</color>
     <color name="chip_red_bg">#FEE2E2</color>
-    <color name="chip_red_icon">#EF4444</color>
-    <color name="avatar_teal">#14B8A6</color>
-    <color name="avatar_orange">#F97316</color>
-    <color name="avatar_blue">#3B82F6</color>
-    <color name="avatar_pink">#EC4899</color>
-    <color name="avatar_green">#22C55E</color>
+    <color name="chip_red_icon">#B91C1C</color>
+    <color name="avatar_teal">#0F766E</color>
+    <color name="avatar_orange">#C2410C</color>
+    <color name="avatar_blue">#2563EB</color>
+    <color name="avatar_pink">#BE185D</color>
+    <color name="avatar_green">#15803D</color>
 
     <!-- Novo Módulo -->
     <color name="levit_icon_selected_bg">#EDEBFA</color>
@@ -55,7 +55,7 @@
     <color name="ink">#191A22</color>
     <color name="ink_soft">#414249</color>
     <color name="light_text">#686870</color>
-    <color name="faint">#8B8B92</color>
+    <color name="faint">#6B6B73</color>
     <color name="primary_50">#F3F4FF</color>
     <color name="primary_100">#E8E9FF</color>
     <color name="primary_200">#D1D4FC</color>
@@ -73,7 +73,7 @@
     <color name="danger_bg">#FFEDEC</color>
     <color name="info">#0F68A2</color>
     <color name="info_bg">#E0F3FF</color>
-    <color name="stage_1">#5D7089</color>
+    <color name="stage_1">#556780</color>
     <color name="stage_1_bg">#E7F1FE</color>
     <color name="stage_2">#5465A0</color>
     <color name="stage_2_bg">#E6EEFF</color>
@@ -99,4 +99,9 @@
     <color name="serie_2">#C2410C</color>
     <color name="redefinir_verde">@color/success</color>
 
+    <!-- Ícone do app e extras -->
+    <color name="launcher_fundo">#FF3DDC84</color>
+    <color name="launcher_grade">#33FFFFFF</color>
+    <color name="launcher_sombra">#44000000</color>
+    <color name="transparente">#00000000</color>
 </resources>

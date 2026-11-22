@@ -1,6 +1,7 @@
 package com.example.levit.ui
 
 import android.content.Context
+import com.example.levit.R
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.addCallback
@@ -34,10 +35,10 @@ class Folha(private val context: Context, conteudo: View, private val sujo: () -
             return
         }
         context.confirmar(
-            titulo = "Descartar o que foi preenchido?",
-            mensagem = "O que você digitou aqui vai ser perdido.",
-            rotuloConfirmar = "Descartar",
-            rotuloCancelar = "Continuar editando"
+            titulo = context.getString(R.string.folha_descartar_titulo),
+            mensagem = context.getString(R.string.folha_descartar_mensagem),
+            rotuloConfirmar = context.getString(R.string.folha_descartar),
+            rotuloCancelar = context.getString(R.string.folha_continuar_editando)
         ) { dialogo.dismiss() }
     }
 

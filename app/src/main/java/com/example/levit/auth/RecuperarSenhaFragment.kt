@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.levit.R
 import com.example.levit.data.remote.ApiClient
+import com.example.levit.data.repository.ClassificadorDeErro
+import com.example.levit.ui.mostrarErro
 import com.example.levit.databinding.ActivityRecuperarSenhaBinding
 import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
@@ -21,7 +24,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class RecuperarSenhaFragment : Fragment() {
 
     private var _binding: ActivityRecuperarSenhaBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +48,7 @@ class RecuperarSenhaFragment : Fragment() {
         val contexto = requireContext().applicationContext
 
         if (email.isEmpty()) {
-            Toast.makeText(contexto, "Informe seu e-mail.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(contexto, R.string.recuperar_informe_email, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -57,15 +60,16 @@ class RecuperarSenhaFragment : Fragment() {
                 val resposta = api.forgotPassword(mapOf("email" to email))
 
                 val mensagem = if (resposta.isSuccessful) {
-                    "Se o e-mail existir em nossa base, um link de recuperação foi enviado."
+                    getString(R.string.recuperar_enviado)
                 } else {
-                    "Recuperação de senha ainda não disponível no servidor."
+                    getString(R.string.recuperar_indisponivel)
                 }
                 Toast.makeText(contexto, mensagem, Toast.LENGTH_LONG).show()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Toast.makeText(contexto, "Não foi possível conectar ao servidor.", Toast.LENGTH_LONG).show()
+                val tipo = ClassificadorDeErro.deExcecao(e)
+                mostrarErro(getString(tipo.mensagem), tipo)
             } finally {
                 // O ?. evita crash se a pessoa saiu da tela antes da resposta chegar.
                 _binding?.btnEnviar?.isEnabled = true

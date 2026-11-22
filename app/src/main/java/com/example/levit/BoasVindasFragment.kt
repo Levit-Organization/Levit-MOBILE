@@ -16,7 +16,7 @@ import com.example.levit.databinding.ActivityMainBinding
 class BoasVindasFragment : Fragment() {
 
     private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,17 +48,17 @@ class BoasVindasFragment : Fragment() {
 
     private fun abrirConfiguracaoDeServidor() {
         val campo = EditText(requireContext()).apply {
-            hint = "ex.: 10.0.2.2:8080 ou 192.168.0.23:8080"
+            hint = getString(R.string.servidor_dica)
             setText(ServerConfig.obterBaseUrl(requireContext()))
             setSingleLine(true)
         }
 
         val dialogo = AlertDialog.Builder(requireContext())
-            .setTitle("Endereço do backend")
-            .setMessage("Digite host:porta do computador rodando o php spark serve.")
+            .setTitle(R.string.servidor_titulo)
+            .setMessage(R.string.servidor_mensagem)
             .setView(campo)
-            .setNegativeButton("Cancelar", null)
-            .setPositiveButton("Salvar", null)
+            .setNegativeButton(R.string.cancelar, null)
+            .setPositiveButton(R.string.salvar, null)
             .create()
 
         // O botão é ligado aqui para o diálogo não fechar quando o endereço é inválido.
@@ -66,10 +66,10 @@ class BoasVindasFragment : Fragment() {
             dialogo.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 try {
                     ServerConfig.salvarBaseUrl(requireContext(), campo.text.toString())
-                    Toast.makeText(requireContext(), "Servidor atualizado.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), R.string.servidor_atualizado, Toast.LENGTH_SHORT).show()
                     dialogo.dismiss()
                 } catch (e: Exception) {
-                    campo.error = "Informe um endereço válido, como 192.168.0.10:8080."
+                    campo.error = getString(R.string.servidor_invalido)
                 }
             }
         }

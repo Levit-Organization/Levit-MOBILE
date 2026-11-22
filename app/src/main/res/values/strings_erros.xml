@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mensagens de erro de rede e HTTP (ErroRede.kt) -->
+    <string name="erro_sem_internet">Sem conexão com a internet. Verifique o Wi-Fi ou os dados móveis e tente de novo.</string>
+    <string name="erro_servidor_indisponivel">Não foi possível falar com o servidor. Ele pode estar fora do ar.</string>
+    <string name="erro_tempo_esgotado">O servidor demorou demais para responder. Tente novamente.</string>
+    <string name="erro_conexao_segura">Falha na conexão segura (HTTPS). Verifique a data do aparelho e a rede.</string>
+    <string name="erro_sessao_expirada">Sessão expirada. Entre novamente.</string>
+    <string name="erro_sem_permissao">Você não tem permissão para fazer isso.</string>
+    <string name="erro_nao_encontrado">Não encontramos o que você procura. Pode ter sido removido.</string>
+    <string name="erro_muitas_requisicoes">Muitas tentativas em pouco tempo. Aguarde um instante.</string>
+    <string name="erro_servidor">O servidor teve um problema. Tente de novo em instantes.</string>
+    <string name="erro_inesperado">Ocorreu um erro inesperado. Tente novamente.</string>
+    <string name="erro_resposta_inesperada">Resposta inesperada do servidor.</string>
+    <string name="erro_http_generico">Erro ao comunicar com o servidor (%1$d).</string>
+    <string name="erro_baixar_arquivo">Não foi possível baixar o arquivo.</string>
+    <string name="erro_redefinir_senha">Não foi possível redefinir a senha (%1$d).</string>
+    <string name="erro_redefinir_senha_inesperado">Ocorreu um erro ao redefinir a senha. Tente novamente.</string>
+
+    <string name="valor_vazio" translatable="false">--</string>
+    <string name="login_preencha_campos">Preencha e-mail e senha.</string>
+    <string name="recuperar_enviado">Se o e-mail existir em nossa base, um link de recuperação foi enviado.</string>
+    <string name="recuperar_indisponivel">Recuperação de senha ainda não disponível no servidor.</string>
+
+    <string name="recuperar_informe_email">Informe seu e-mail.</string>
+
+    <string name="erro_abrir_arquivo">Nenhum app neste aparelho abre esse tipo de arquivo.</string>
+
+    <!-- Descarte de formulário e endereço do servidor -->
+    <string name="folha_descartar_titulo">Descartar o que foi preenchido?</string>
+    <string name="folha_descartar_mensagem">O que você digitou aqui vai ser perdido.</string>
+    <string name="folha_descartar">Descartar</string>
+    <string name="folha_continuar_editando">Continuar editando</string>
+    <string name="servidor_titulo">Endereço do backend</string>
+    <string name="servidor_mensagem">Digite host:porta do computador rodando o php spark serve.</string>
+    <string name="servidor_dica">ex.: 10.0.2.2:8080 ou 192.168.0.23:8080</string>
+    <string name="servidor_atualizado">Servidor atualizado.</string>
+    <string name="servidor_invalido">Informe um endereço válido, como 192.168.0.10:8080.</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="salvar">Salvar</string>
+
+    <!-- Ícones (ligaturas da fonte Material Icons: não traduzir) -->
+    <string name="icone_wifi_off" translatable="false">wifi_off</string>
+    <string name="icone_cloud_off" translatable="false">cloud_off</string>
+    <string name="icone_schedule" translatable="false">schedule</string>
+    <string name="icone_https" translatable="false">https</string>
+    <string name="icone_lock" translatable="false">lock</string>
+    <string name="icone_block" translatable="false">block</string>
+    <string name="icone_busca_vazia" translatable="false">search_off</string>
+    <string name="icone_espera" translatable="false">hourglass_empty</string>
+    <string name="icone_problema" translatable="false">report_problem</string>
+    <string name="icone_erro" translatable="false">error_outline</string>
+</resources>

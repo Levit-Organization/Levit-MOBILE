@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 class RedefinirSenhaFragment : Fragment() {
 
     private var _binding: FragmentRedefinirSenhaBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val repository by lazy { AuthRepository(requireContext().applicationContext) }
     private var token: String? = null
     private var enviando = false

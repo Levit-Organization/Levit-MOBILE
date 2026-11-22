@@ -78,7 +78,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_recrutamento
 
     private var _binding: FragmentRecrutamentoBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val api by lazy { ApiClient.recrutamentoApi(requireContext().applicationContext) }
     private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }
@@ -247,10 +247,11 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         val semQuadro = etapas.isEmpty()
         binding.abasEtapas.isVisible = !semQuadro
         topo.tvResultadoBusca.isVisible = false
+        val erroAtual = erro
         when {
             carregando && semQuadro -> estado("carregando") { it.mostrarCarregando() }
-            erro != null && semQuadro -> {
-                val e = erro!!
+            erroAtual != null && semQuadro -> {
+                val e = erroAtual
                 estado("erro") { it.mostrarEstado(
                     titulo = getString(if (e.semPermissao) R.string.rec_sem_acesso_titulo else R.string.rec_erro_titulo),
                     descricao = if (e.semPermissao) getString(R.string.rec_sem_acesso_desc) else e.mensagem,

@@ -55,7 +55,7 @@ class FinanceiroFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_financeiro
 
     private var _binding: FragmentFinanceiroBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val api by lazy { ApiClient.financeiroApi(requireContext().applicationContext) }
     private val moduloApi by lazy { ApiClient.moduloApi(requireContext().applicationContext) }
@@ -331,11 +331,12 @@ class FinanceiroFragment : HamburgerMenuBaseFragment() {
             b.campoData.error = if (data.isEmpty()) getString(R.string.fin_informe_data) else null
             b.campoValor.error = if (valor == null || valor <= 0) getString(R.string.fin_valor_invalido) else null
             if (b.campoDescricao.error != null || b.campoData.error != null || b.campoValor.error != null) return@setOnClickListener
+            val valorFinal = valor ?: return@setOnClickListener
 
             b.btnSalvar.isEnabled = false
             b.tvErro.isVisible = false
             viewLifecycleOwner.lifecycleScope.launch {
-                val corpo = NovoLancamento(descricao, data, tipo, valor!!, b.switchConciliado.isChecked, categoriaId.ifEmpty { null })
+                val corpo = NovoLancamento(descricao, data, tipo, valorFinal, b.switchConciliado.isChecked, categoriaId.ifEmpty { null })
                 when (val r = chamador.chamarSemCorpo { api.criarLancamento(tabelaId, corpo) }) {
                     is ResultadoApi.Sucesso -> { folha.dispensar(); requireContext().avisar(getString(R.string.fin_salvo)); carregar() }
                     is ResultadoApi.Erro -> {

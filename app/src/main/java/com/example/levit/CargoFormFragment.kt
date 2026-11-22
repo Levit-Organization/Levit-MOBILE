@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class CargoFormFragment : Fragment(R.layout.fragment_cargo_form) {
 
     private var _binding: FragmentCargoFormBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
     private val cargoRepository by lazy { CargoRepository(requireContext().applicationContext) }
     private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }

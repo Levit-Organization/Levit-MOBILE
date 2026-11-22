@@ -17,31 +17,31 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/btnSubir"
-                android:layout_width="28dp"
-                android:layout_height="24dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/tab_mover_cima"
                 android:fontFamily="@font/material_icons"
                 android:gravity="center"
-                android:text="expand_less"
+                android:text="@string/ic_expand_less"
                 android:textColor="@color/light_text"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/btnDescer"
-                android:layout_width="28dp"
-                android:layout_height="24dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/tab_mover_baixo"
                 android:fontFamily="@font/material_icons"
                 android:gravity="center"
-                android:text="expand_more"
+                android:text="@string/ic_expand_more"
                 android:textColor="@color/light_text"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
         <FrameLayout

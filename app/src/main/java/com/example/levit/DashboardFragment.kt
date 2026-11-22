@@ -65,7 +65,7 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_inicio
 
     private var _b: FragmentInicioBinding? = null
-    private val b get() = _b!!
+    private val b get() = checkNotNull(_b)
 
     private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }
     private val equipeRepository by lazy { EquipeRepository(requireContext().applicationContext) }
@@ -244,7 +244,8 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
         destino.removeAllViews()
         val dados = prazos
         if (dados == null) {
-            if (erroPrazos != null) destino.adicionarTexto(erroPrazos!!, R.color.danger, 14f, topo = 0)
+            val mensagemErro = erroPrazos
+            if (mensagemErro != null) destino.adicionarTexto(mensagemErro, R.color.danger, 14f, topo = 0)
             else destino.mostrarCarregando(2)
             return
         }
@@ -413,7 +414,7 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
                 b.llCarregandoVaga.mostrarCarregando(1)
             }
             else -> {
-                val etapas = etapasDaVaga!!
+                val etapas = etapasDaVaga ?: return
                 val total = etapas.sumOf { it.candidatos.size }
                 b.tvRecrutamento.setTextColor(ctx.cor(R.color.ink_soft))
                 b.tvRecrutamento.text = SpannableStringBuilder().apply {

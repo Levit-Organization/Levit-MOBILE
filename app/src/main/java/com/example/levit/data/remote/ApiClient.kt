@@ -53,15 +53,14 @@ object ApiClient {
     private fun retrofit(context: Context): Retrofit {
         val baseUrlDesejada = ServerConfig.obterBaseUrl(context)
 
-        if (retrofit == null || baseUrlAtual != baseUrlDesejada) {
-            synchronized(this) {
-                if (retrofit == null || baseUrlAtual != baseUrlDesejada) {
-                    retrofit = build(context, baseUrlDesejada)
+        retrofit?.takeIf { baseUrlAtual == baseUrlDesejada }?.let { return it }
+        return synchronized(this) {
+            retrofit?.takeIf { baseUrlAtual == baseUrlDesejada }
+                ?: build(context, baseUrlDesejada).also {
+                    retrofit = it
                     baseUrlAtual = baseUrlDesejada
                 }
-            }
         }
-        return retrofit!!
     }
 
     private fun build(context: Context, baseUrl: String): Retrofit {

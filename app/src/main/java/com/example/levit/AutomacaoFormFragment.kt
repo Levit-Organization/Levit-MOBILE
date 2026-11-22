@@ -70,7 +70,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_automacao_form
 
     private var _binding: FragmentAutomacaoFormBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val api by lazy { ApiClient.automacaoApi(requireContext().applicationContext) }
     private val moduloApi by lazy { ApiClient.moduloApi(requireContext().applicationContext) }
@@ -625,7 +625,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         val corpo = definicao() + ("ativo" to ativarAoSalvar)
         viewLifecycleOwner.lifecycleScope.launch {
             // Editar atualiza no lugar: mantém o id e o histórico de execuções.
-            val r = if (editando) chamador.chamarSemCorpo { api.atualizar(moduloIdParam.orEmpty(), automacaoId!!, corpo) }
+            val r = if (editando) chamador.chamarSemCorpo { api.atualizar(moduloIdParam.orEmpty(), automacaoId.orEmpty(), corpo) }
             else chamador.chamarSemCorpo { api.criar(moduloId, corpo) }
             salvando = false
             when (r) {

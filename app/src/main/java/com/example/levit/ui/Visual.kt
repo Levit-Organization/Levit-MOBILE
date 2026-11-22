@@ -188,7 +188,7 @@ fun Activity.abrirArquivo(bytes: ByteArray, nome: String, mime: String) {
     try {
         startActivity(Intent.createChooser(intent, nome))
     } catch (e: ActivityNotFoundException) {
-        avisar("Nenhum app neste aparelho abre esse tipo de arquivo.", longo = true)
+        avisar(getString(R.string.erro_abrir_arquivo), longo = true)
     }
 }
 

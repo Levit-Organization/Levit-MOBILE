@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.levit.R
+import com.example.levit.ui.mostrarErro
 import com.example.levit.data.repository.AuthRepository
 import com.example.levit.data.repository.ResultadoAuth
 import com.example.levit.databinding.ActivityLoginBinding
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 class LoginFragment : Fragment() {
 
     private var _binding: ActivityLoginBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val authRepository by lazy { AuthRepository(requireContext().applicationContext) }
 
     override fun onCreateView(
@@ -50,7 +51,7 @@ class LoginFragment : Fragment() {
         val senha = binding.etSenha.text.toString()
 
         if (email.isEmpty() || senha.isEmpty()) {
-            Toast.makeText(requireContext(), "Preencha e-mail e senha.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.login_preencha_campos, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -61,7 +62,7 @@ class LoginFragment : Fragment() {
                 is ResultadoAuth.Sucesso -> irParaDashboard()
                 is ResultadoAuth.Erro -> {
                     binding.btnEntrar.isEnabled = true
-                    Toast.makeText(requireContext(), resultado.mensagem, Toast.LENGTH_LONG).show()
+                    mostrarErro(resultado.mensagem, resultado.tipo)
                 }
             }
         }

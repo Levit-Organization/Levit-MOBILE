@@ -32,6 +32,7 @@
                 android:contentDescription="@string/return_txt_desc" />
 
             <ImageView
+            android:contentDescription="@string/app_name"
                 android:id="@+id/ivLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
@@ -224,7 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Confirmar senha"
+            android:text="@string/redefinir_confirmacao"
             android:textColor="@color/levit_text_secondary"
             android:textSize="13sp" />
 

@@ -55,7 +55,7 @@ class ConfiguracoesFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_configuracoes
 
     private var _binding: FragmentConfiguracoesBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val moduloApi by lazy { ApiClient.moduloApi(requireContext().applicationContext) }
     private val backupApi by lazy { ApiClient.backupApi(requireContext().applicationContext) }

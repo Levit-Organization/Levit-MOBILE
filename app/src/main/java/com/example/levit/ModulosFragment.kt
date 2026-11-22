@@ -28,7 +28,7 @@ class ModulosFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_tabelas
 
     private var _b: FragmentTabelasBinding? = null
-    private val b get() = _b!!
+    private val b get() = checkNotNull(_b)
 
     private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }
     private val api by lazy { ApiClient.moduloApi(requireContext().applicationContext) }

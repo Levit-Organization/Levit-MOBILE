@@ -104,9 +104,9 @@ object Filtros {
         val porChave = alvos.associateBy { it.chave }
         val convertidas = regras.mapNotNull { r ->
             val alvo = porChave[r.alvo]
-            if (!completa(r, alvo)) return@mapNotNull null
+            if (alvo == null || !completa(r, alvo)) return@mapNotNull null
             buildMap<String, Any> {
-                put("campo", alvo!!.campo.id.orEmpty())
+                put("campo", alvo.campo.id.orEmpty())
                 put("operador", r.operador)
                 if (r.operador !in OPERADORES_SEM_VALOR) put("valor", r.valor.trim())
                 if (r.operador == "entre") put("valor_ate", r.valorAte.trim())

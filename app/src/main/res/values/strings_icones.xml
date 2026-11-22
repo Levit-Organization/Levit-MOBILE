@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ligaturas da fonte Material Icons usadas nos layouts (não traduzir) -->
+    <string name="ic_add" translatable="false">add</string>
+    <string name="ic_arrow_back" translatable="false">arrow_back</string>
+    <string name="ic_arrow_forward" translatable="false">arrow_forward</string>
+    <string name="ic_arrow_upward" translatable="false">arrow_upward</string>
+    <string name="ic_business" translatable="false">business</string>
+    <string name="ic_chevron_right" translatable="false">chevron_right</string>
+    <string name="ic_close" translatable="false">close</string>
+    <string name="ic_delete_outline" translatable="false">delete_outline</string>
+    <string name="ic_expand_less" translatable="false">expand_less</string>
+    <string name="ic_expand_more" translatable="false">expand_more</string>
+    <string name="ic_notifications_none" translatable="false">notifications_none</string>
+    <string name="ic_photo_camera" translatable="false">photo_camera</string>
+    <string name="ic_upload_file" translatable="false">upload_file</string>
+    <string name="ic_filter_alt" translatable="false">filter_alt</string>
+</resources>

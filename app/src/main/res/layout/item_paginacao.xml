@@ -18,7 +18,7 @@
                     style="@style/Levit.Botao.Secundario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="36dp"
+                    android:minHeight="48dp"
                     android:text="@string/itens_anterior" />
 
                 <TextView
@@ -35,7 +35,7 @@
                     style="@style/Levit.Botao.Secundario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="36dp"
+                    android:minHeight="48dp"
                     android:text="@string/itens_proxima" />
             </LinearLayout>
 </FrameLayout>

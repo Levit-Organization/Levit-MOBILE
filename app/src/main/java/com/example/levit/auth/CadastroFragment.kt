@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.levit.R
+import com.example.levit.ui.mostrarErro
 import com.example.levit.data.repository.AuthRepository
 import com.example.levit.data.repository.ResultadoAuth
 import com.example.levit.databinding.ActivityCadastroBinding
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 class CadastroFragment : Fragment() {
 
     private var _binding: ActivityCadastroBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val authRepository by lazy { AuthRepository(requireContext().applicationContext) }
 
     override fun onCreateView(
@@ -126,11 +127,7 @@ class CadastroFragment : Fragment() {
                     val detalhes = resultado.camposInvalidos?.values?.flatMap {
                         if (it is List<*>) it.map(Any?::toString) else listOf(it.toString())
                     }?.joinToString(" ")
-                    Toast.makeText(
-                        requireContext(),
-                        detalhes?.takeIf { it.isNotBlank() } ?: resultado.mensagem,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    mostrarErro(detalhes?.takeIf { it.isNotBlank() } ?: resultado.mensagem, resultado.tipo)
                 }
             }
         }

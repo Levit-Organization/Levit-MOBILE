@@ -51,7 +51,7 @@
         android:gravity="center"
         android:importantForAccessibility="no"
         android:includeFontPadding="false"
-        android:text="chevron_right"
+        android:text="@string/ic_chevron_right"
         android:textColor="@color/faint"
         android:textSize="18sp"
         tools:ignore="HardcodedText"

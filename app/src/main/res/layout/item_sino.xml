@@ -16,7 +16,7 @@
         android:gravity="center"
         android:importantForAccessibility="no"
         android:includeFontPadding="false"
-        android:text="notifications_none"
+        android:text="@string/ic_notifications_none"
         android:textColor="@color/light_text"
         android:textSize="22sp"
         tools:ignore="HardcodedText" />

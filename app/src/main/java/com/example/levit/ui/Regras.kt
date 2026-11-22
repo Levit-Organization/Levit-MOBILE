@@ -99,7 +99,8 @@ object Datas {
     fun iso(data: Date = Date()): String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(data)
 
     fun somarDias(iso: String, dias: Int): String {
-        val cal = Calendar.getInstance().apply { time = ler(iso)!!; add(Calendar.DAY_OF_MONTH, dias) }
+        val base = ler(iso) ?: return iso
+        val cal = Calendar.getInstance().apply { time = base; add(Calendar.DAY_OF_MONTH, dias) }
         return iso(cal.time)
     }
 }
@@ -220,7 +221,7 @@ object Relatorios {
 
     /** Datas inclusivas do atalho; "outro" devolve null (a pessoa escolhe). */
     fun periodoDoAtalho(atalho: String, hoje: String = Datas.iso()): Pair<String, String>? {
-        val cal = Calendar.getInstance().apply { time = Datas.ler(hoje)!! }
+        val cal = Calendar.getInstance().apply { time = Datas.ler(hoje) ?: Date() }
         return when (atalho) {
             "7d" -> Datas.somarDias(hoje, -6) to hoje
             "30d" -> Datas.somarDias(hoje, -29) to hoje
@@ -312,7 +313,8 @@ object Prazos {
         val data = Datas.ler(dataIso) ?: return null
         val curta = SimpleDateFormat("dd MMM", PT_BR).format(data).replace(".", "")
         if (concluido) return Situacao(Tipo.CONCLUIDO, curta)
-        val dias = ((data.time - Datas.ler(hoje)!!.time).toDouble() / 86_400_000).roundToInt()
+        val base = Datas.ler(hoje) ?: return null
+        val dias = ((data.time - base.time).toDouble() / 86_400_000).roundToInt()
         return when {
             dias < 0 -> Situacao(Tipo.ATRASADO, if (dias == -1) "Atrasado desde ontem" else "Atrasado há ${-dias} dias")
             dias == 0 -> Situacao(Tipo.HOJE, "Vence hoje")

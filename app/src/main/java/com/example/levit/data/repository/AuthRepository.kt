@@ -1,6 +1,7 @@
 package com.example.levit.data.repository
 
 import android.content.Context
+import com.example.levit.R
 import com.example.levit.data.local.SessionManager
 import com.example.levit.data.remote.ApiClient
 import com.example.levit.data.remote.dto.ApiEnvelope
@@ -11,20 +12,29 @@ import com.example.levit.data.remote.dto.RegistrarRequest
 import com.google.gson.Gson
 import kotlinx.coroutines.CancellationException
 import retrofit2.Response
-import java.io.IOException
 
 sealed class ResultadoAuth {
     data class Sucesso(val dados: AuthData) : ResultadoAuth()
-    data class Erro(val mensagem: String, val camposInvalidos: Map<String, Any>? = null) : ResultadoAuth()}
+    data class Erro(
+        val mensagem: String,
+        val camposInvalidos: Map<String, Any>? = null,
+        val tipo: TipoErro? = null
+    ) : ResultadoAuth()
+}
 
 sealed class ResultadoRedefinicaoSenha {
     object Sucesso : ResultadoRedefinicaoSenha()
-    data class Erro(val mensagem: String, val linkInvalido: Boolean = false) : ResultadoRedefinicaoSenha()
+    data class Erro(
+        val mensagem: String,
+        val linkInvalido: Boolean = false,
+        val tipo: TipoErro? = null
+    ) : ResultadoRedefinicaoSenha()
 }
 class AuthRepository(context: Context) {
 
     private val api = ApiClient.authApi(context)
-    private val session = SessionManager(context.applicationContext)
+    private val contexto = context.applicationContext
+    private val session = SessionManager(contexto)
     private val gson = Gson()
 
     /** true se há um token salvo e ele ainda não expirou (checagem local, sem chamar a API). */
@@ -50,16 +60,15 @@ class AuthRepository(context: Context) {
                 ResultadoRedefinicaoSenha.Erro(
                     mensagem = detalhes?.takeIf { it.isNotBlank() }
                         ?: envelope?.message
-                        ?: "Não foi possível redefinir a senha (${resposta.code()}).",
+                        ?: contexto.getString(R.string.erro_redefinir_senha, resposta.code()),
                     linkInvalido = resposta.code() == 422 && envelope?.errors?.containsKey("senha") != true
                 )
             }
         } catch (e: CancellationException) {
             throw e
-        } catch (e: IOException) {
-            ResultadoRedefinicaoSenha.Erro("Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.")
         } catch (e: Exception) {
-            ResultadoRedefinicaoSenha.Erro("Ocorreu um erro ao redefinir a senha. Tente novamente.")
+            val tipo = ClassificadorDeErro.deExcecao(e)
+            ResultadoRedefinicaoSenha.Erro(contexto.getString(tipo.mensagem), tipo = tipo)
         }
     }
 
@@ -117,21 +126,22 @@ class AuthRepository(context: Context) {
                     session.salvarSessao(dados.token, dados.usuario, dados.empresa)
                     ResultadoAuth.Sucesso(dados)
                 } else {
-                    ResultadoAuth.Erro("Resposta inesperada do servidor.")
+                    ResultadoAuth.Erro(contexto.getString(R.string.erro_resposta_inesperada))
                 }
             } else {
                 val envelope = resposta.errorBody()?.string()?.let {
                     runCatching { gson.fromJson(it, ApiEnvelope::class.java) }.getOrNull()
                 }
                 ResultadoAuth.Erro(
-                    mensagem = envelope?.message ?: "Erro ao comunicar com o servidor (${resposta.code()}).",
+                    mensagem = envelope?.message ?: contexto.getString(R.string.erro_http_generico, resposta.code()),
                     camposInvalidos = envelope?.errors
                 )
             }
-        } catch (e: IOException) {
-            ResultadoAuth.Erro("Não foi possível conectar ao servidor. Verifique sua internet.")
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
-            ResultadoAuth.Erro("Ocorreu um erro inesperado. Tente novamente.")
+            val tipo = ClassificadorDeErro.deExcecao(e)
+            ResultadoAuth.Erro(contexto.getString(tipo.mensagem), tipo = tipo)
         }
     }
 }

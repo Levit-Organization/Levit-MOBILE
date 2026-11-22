@@ -236,9 +236,10 @@ class SimulacaoAutomacao(
             corpo.addView(s.root, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = activity.dp(16) })
         }
         val r = resultado
+        val mensagemErro = erro
         when {
             carregando -> corpo.addView(corpo.inflarFilho<LinearLayout>(R.layout.item_bloco_folha).apply { mostrarCarregando(2) })
-            erro != null -> corpo.addView(activity.alerta(erro!!, "error", 16))
+            mensagemErro != null -> corpo.addView(activity.alerta(mensagemErro, "error", 16))
             r != null -> desenharResultado(r)
         }
         corpo.addView(activity.botao(activity.getString(R.string.aut_fechar), "secondary") { folha.dispensar() }.apply {

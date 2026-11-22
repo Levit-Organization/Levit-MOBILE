@@ -71,7 +71,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_relatorios
 
     private var _binding: FragmentRelatoriosBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val api by lazy { ApiClient.relatorioApi(requireContext().applicationContext) }
     private val equipeApi by lazy { ApiClient.equipeApi(requireContext().applicationContext) }
@@ -269,7 +269,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             d == null -> return
         }
         conteudo.removeAllViews()
-        val dados = d!!
+        val dados = d ?: return
         val r = dados.resumo
 
         conteudo.adicionarTitulo(
@@ -491,7 +491,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
                 R.drawable.ic_warning, getString(R.string.rel_tentar), erro = true) { chaveAgrupamento = null; mostrarMontar() }
             dados == null -> return
         }
-        val d = dados!!
+        val d = dados ?: return
         conteudo.removeAllViews()
         val c = cartao(topo = 0)
         val colunaGrupo = tabelaEscolhida()?.agrupar?.firstOrNull { it.id == agruparPor }

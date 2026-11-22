@@ -37,7 +37,7 @@
             android:gravity="center"
             android:importantForAccessibility="no"
             android:includeFontPadding="false"
-            android:text="business"
+            android:text="@string/ic_business"
             android:textColor="@color/primary"
             android:textSize="30sp"
             android:visibility="gone"
@@ -54,7 +54,7 @@
         android:fontFamily="@font/material_icons"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="photo_camera"
+        android:text="@string/ic_photo_camera"
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:ignore="HardcodedText" />

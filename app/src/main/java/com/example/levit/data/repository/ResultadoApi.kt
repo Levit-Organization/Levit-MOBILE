@@ -1,11 +1,11 @@
 package com.example.levit.data.repository
 
 import android.content.Context
+import com.example.levit.R
 import com.example.levit.data.local.SessionManager
 import com.example.levit.data.remote.dto.ApiEnvelope
 import com.google.gson.Gson
 import retrofit2.Response
-import java.io.IOException
 import kotlin.coroutines.cancellation.CancellationException
 
 sealed class ResultadoApi<out T> {
@@ -13,13 +13,23 @@ sealed class ResultadoApi<out T> {
     data class Erro(
         val mensagem: String,
         val sessaoExpirada: Boolean = false,
-        val semPermissao: Boolean = false
+        val semPermissao: Boolean = false,
+        val tipo: TipoErro? = null
     ) : ResultadoApi<Nothing>()
 }
 
+/** Erro pronto para a tela: texto vindo de strings.xml e flags de sessão/permissão. */
+fun Context.erroApi(tipo: TipoErro) = ResultadoApi.Erro(
+    mensagem = getString(tipo.mensagem),
+    sessaoExpirada = tipo == TipoErro.SESSAO_EXPIRADA,
+    semPermissao = tipo == TipoErro.SEM_PERMISSAO,
+    tipo = tipo
+)
+
 class ChamadorApi(context: Context) {
 
-    private val session = SessionManager(context.applicationContext)
+    private val contexto = context.applicationContext
+    private val session = SessionManager(contexto)
     private val gson = Gson()
 
     /** Para chamadas que devolvem dados no corpo (listas, objetos). */
@@ -27,7 +37,7 @@ class ChamadorApi(context: Context) {
         requisicao: suspend () -> Response<ApiEnvelope<T>>
     ): ResultadoApi<T> = executar(requisicao) { dados ->
         if (dados != null) ResultadoApi.Sucesso(dados)
-        else ResultadoApi.Erro("Resposta inesperada do servidor.")
+        else ResultadoApi.Erro(contexto.getString(R.string.erro_resposta_inesperada))
     }
 
     /** Para chamadas que respondem "data: null" em caso de sucesso (DELETE). */
@@ -38,28 +48,19 @@ class ChamadorApi(context: Context) {
     private suspend fun <T, R> executar(
         requisicao: suspend () -> Response<ApiEnvelope<T>>,
         aoSucesso: (T?) -> ResultadoApi<R>
-    ): ResultadoApi<R> {
-        return try {
-            val resposta = requisicao()
-            when {
-                resposta.isSuccessful -> aoSucesso(resposta.body()?.data)
-                resposta.code() == 401 -> {
-                    session.limparSessao()
-                    ResultadoApi.Erro("Sessão expirada. Entre novamente.", sessaoExpirada = true)
-                }
-                resposta.code() == 403 -> ResultadoApi.Erro(
-                    "Você não tem permissão para fazer isso.",
-                    semPermissao = true
-                )
-                else -> ResultadoApi.Erro(mensagemDeErro(resposta))
-            }
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: IOException) {
-            ResultadoApi.Erro("Não foi possível conectar ao servidor. Verifique sua internet.")
-        } catch (e: Exception) {
-            ResultadoApi.Erro("Ocorreu um erro inesperado. Tente novamente.")
-        }
+    ): ResultadoApi<R> = try {
+        val resposta = requisicao()
+        if (resposta.isSuccessful) aoSucesso(resposta.body()?.data) else erroHttp(resposta)
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        contexto.erroApi(ClassificadorDeErro.deExcecao(e))
+    }
+
+    private fun erroHttp(resposta: Response<*>): ResultadoApi.Erro {
+        val tipo = ClassificadorDeErro.deStatus(resposta.code())
+        if (tipo == TipoErro.SESSAO_EXPIRADA) session.limparSessao()
+        return if (tipo != null) contexto.erroApi(tipo) else ResultadoApi.Erro(mensagemDeErro(resposta))
     }
 
     private fun mensagemDeErro(resposta: Response<*>): String {
@@ -73,7 +74,7 @@ class ChamadorApi(context: Context) {
         return when {
             !detalhes.isNullOrBlank() -> detalhes
             !mensagem.isNullOrBlank() -> mensagem
-            else -> "Erro ao comunicar com o servidor (${resposta.code()})."
+            else -> contexto.getString(R.string.erro_http_generico, resposta.code())
         }
     }
 }

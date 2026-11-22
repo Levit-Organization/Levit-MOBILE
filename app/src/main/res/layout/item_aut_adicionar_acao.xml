@@ -15,7 +15,7 @@
         android:fontFamily="@font/material_icons"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="add"
+        android:text="@string/ic_add"
         android:textColor="@color/light_text"
         android:textSize="20sp"
         tools:ignore="HardcodedText" />

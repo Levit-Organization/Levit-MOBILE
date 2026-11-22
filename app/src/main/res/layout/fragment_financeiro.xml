@@ -26,7 +26,7 @@
             android:contentDescription="@string/tab_voltar"
             android:fontFamily="@font/material_icons"
             android:gravity="center"
-            android:text="arrow_back"
+            android:text="@string/ic_arrow_back"
             android:textColor="@color/ink"
             android:textSize="24sp" />
 

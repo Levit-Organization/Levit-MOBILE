@@ -36,7 +36,7 @@
                     style="@style/Levit.Botao.Secundario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="36dp"
+                    android:minHeight="48dp"
                     android:text="@string/itens_filtrar"
                     app:icon="@drawable/ic_tune"
                     app:iconSize="@dimen/icone_sm" />
@@ -134,7 +134,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:fontFamily="@font/material_icons"
                     android:gravity="center"
-                    android:text="arrow_upward"
+                    android:text="@string/ic_arrow_upward"
                     android:textColor="@color/primary"
                     android:textSize="20sp" />
             </LinearLayout>

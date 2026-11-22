@@ -55,7 +55,7 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
     override val pageLayoutResId: Int = R.layout.fragment_automacoes
 
     private var _binding: FragmentAutomacoesBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val api by lazy { ApiClient.automacaoApi(requireContext().applicationContext) }
     private val moduloRepository by lazy { ModuloRepository(requireContext().applicationContext) }
@@ -201,10 +201,10 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         if (gatilhos.size > 1) fluxo.addView(requireContext().texto("+${gatilhos.size - 1}", 11f))
         val totalCondicoes = Automacoes.condicoesDaAutomacao(a)?.regras?.size ?: 0
         if (totalCondicoes > 0) fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply {
-            text = "filter_alt"
+            text = getString(R.string.ic_filter_alt)
             contentDescription = getString(R.string.aut_com_condicoes)
         })
-        fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply { text = "arrow_forward" })
+        fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply { text = getString(R.string.ic_arrow_forward) })
         val acoes = a.acoes()
         fluxo.adicionarSelo(acoes.firstOrNull()?.str("tipo")?.let { Automacoes.acaoLabel(it) } ?: "—", true)
         if (acoes.size > 1) fluxo.addView(requireContext().texto("+${acoes.size - 1}", 11f))

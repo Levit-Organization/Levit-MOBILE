@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.levit.data.remote.dto.Cargo
+import com.example.levit.ui.mostrarErro
 import com.example.levit.data.remote.dto.Membro
 import com.example.levit.data.repository.AuthRepository
 import com.example.levit.data.repository.CargoRepository
@@ -320,7 +321,7 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
 
     private fun avisarErro(erro: ResultadoApi.Erro) {
         if (erro.sessaoExpirada) findNavController().navigate(R.id.action_global_to_login)
-        else Toast.makeText(requireContext(), erro.mensagem, Toast.LENGTH_LONG).show()
+        else mostrarErro(erro.mensagem, erro.tipo)
     }
 
     private fun abrirFormCargo(cargoId: String?) {

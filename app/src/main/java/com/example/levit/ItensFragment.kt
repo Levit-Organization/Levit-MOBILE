@@ -104,7 +104,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
     private data class ColunaVisivel(val chave: String, val titulo: String, val tipo: String, val campo: Coluna?)
 
     private var _binding: FragmentItensBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
     private val chamador by lazy { ChamadorApi(requireContext().applicationContext) }
     private val api by lazy { ApiClient.registroApi(requireContext().applicationContext) }
     private val moduloApi by lazy { ApiClient.moduloApi(requireContext().applicationContext) }
@@ -371,7 +371,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
 
     // --- Visão (lista/quadro), lembrada por tabela -------------------------------------
 
-    private fun preferencia(): JSONObject = runCatching { JSONObject(preferencias.getString(tabelaId, "{}")!!) }.getOrDefault(JSONObject())
+    private fun preferencia(): JSONObject = runCatching { JSONObject(preferencias.getString(tabelaId, "{}") ?: "{}") }.getOrDefault(JSONObject())
 
     private fun mudarPreferencia(visao: String? = null, campo: String? = null) {
         val p = preferencia()
@@ -827,7 +827,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 val res = when {
                     ehArquivo -> {
-                        val (uri, nome) = arquivo!!
+                        val (uri, nome) = arquivo ?: return@launch
                         val bytes = withContext(Dispatchers.IO) { requireContext().contentResolver.openInputStream(uri)?.use { it.readBytes() } } ?: ByteArray(0)
                         val mime = requireContext().contentResolver.getType(uri) ?: "application/octet-stream"
                         val parte = MultipartBody.Part.createFormData("arquivo", nome, bytes.toRequestBody(mime.toMediaType()))

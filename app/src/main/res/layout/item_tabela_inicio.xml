@@ -57,7 +57,7 @@
         android:fontFamily="@font/material_icons"
         android:importantForAccessibility="no"
         android:includeFontPadding="false"
-        android:text="arrow_forward"
+        android:text="@string/ic_arrow_forward"
         android:textColor="@color/faint"
         android:textSize="20sp"
         tools:ignore="HardcodedText" />
