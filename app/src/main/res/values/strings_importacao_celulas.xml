@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Erros por célula da importação de planilha (Importacao.kt) -->
+    <string name="imp_cel_numero">\"%1$s\" não é um número</string>
+    <string name="imp_cel_data">\"%1$s\" não é uma data (use DD/MM/AAAA)</string>
+    <string name="imp_cel_opcao">\"%1$s\" não é uma opção de %2$s</string>
+    <string name="imp_cel_equipe_ambigua">\"%1$s\" é ambíguo na equipe</string>
+    <string name="imp_cel_equipe_ausente">\"%1$s\" não está na equipe</string>
+    <string name="imp_cel_repeticao">\"%1$s\" não é uma repetição válida</string>
+    <string name="imp_cel_ligada_nao_lida">não foi possível ler os itens da tabela ligada a %1$s</string>
+    <string name="imp_cel_ligada_ambigua">\"%1$s\" é ambíguo na tabela ligada</string>
+    <string name="imp_cel_ligada_ausente">\"%1$s\" não está na tabela ligada</string>
+    <string name="rep_semanal">Toda semana</string>
+    <string name="rep_quinzenal">A cada 15 dias</string>
+    <string name="rep_mensal">Todo mês</string>
+    <string name="rep_trimestral">A cada 3 meses</string>
+    <string name="rep_anual">Todo ano</string>
+    <string name="recrutamento_curriculo_nome">Currículo - %1$s</string>
+</resources>

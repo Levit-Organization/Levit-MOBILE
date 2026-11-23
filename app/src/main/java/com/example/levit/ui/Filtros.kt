@@ -2,6 +2,7 @@ package com.example.levit.ui
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.text.InputType
 import android.view.View
 import android.widget.LinearLayout
@@ -41,21 +42,35 @@ object Filtros {
         "ligacao" to listOf("preenchido", "vazio"),
     )
     private val ROTULOS = mapOf(
-        "igual" to "é igual a", "diferente" to "é diferente de", "contem" to "contém", "nao_contem" to "não contém",
-        "maior" to "maior que", "menor" to "menor que", "entre" to "entre", "vazio" to "está vazio", "preenchido" to "está preenchido",
+        "igual" to R.string.filtro_op_igual,
+        "diferente" to R.string.filtro_op_diferente,
+        "contem" to R.string.filtro_op_contem,
+        "nao_contem" to R.string.filtro_op_nao_contem,
+        "maior" to R.string.filtro_op_maior,
+        "menor" to R.string.filtro_op_menor,
+        "entre" to R.string.filtro_op_entre,
+        "vazio" to R.string.filtro_op_vazio,
+        "preenchido" to R.string.filtro_op_preenchido
     )
-    private val ROTULOS_DATA = mapOf("igual" to "é em", "diferente" to "não é em", "maior" to "depois de", "menor" to "antes de")
+    private val ROTULOS_DATA = mapOf(
+        "igual" to R.string.filtro_op_data_igual,
+        "diferente" to R.string.filtro_op_data_diferente,
+        "maior" to R.string.filtro_op_data_maior,
+        "menor" to R.string.filtro_op_data_menor
+    )
     private val ROTULOS_POR_TIPO = mapOf(
         "data" to ROTULOS_DATA, "prazo" to ROTULOS_DATA, "momento" to ROTULOS_DATA,
-        "vinculo" to mapOf("igual" to "é", "diferente" to "não é"),
-        "ligacao" to mapOf("preenchido" to "tem algum item", "vazio" to "não tem nenhum item"),
+        "vinculo" to mapOf("igual" to R.string.filtro_op_vinculo_igual, "diferente" to R.string.filtro_op_vinculo_diferente),
+        "ligacao" to mapOf("preenchido" to R.string.filtro_op_ligacao_preenchido, "vazio" to R.string.filtro_op_ligacao_vazio),
     )
     val OPERADORES_SEM_VALOR = listOf("vazio", "preenchido")
 
-    fun operadoresDoTipo(tipo: String?): List<Pair<String, String>> =
-        (OPERADORES_POR_TIPO[tipo] ?: IGUALDADE).map { it to (ROTULOS_POR_TIPO[tipo]?.get(it) ?: ROTULOS.getValue(it)) }
+    private fun chavesDoTipo(tipo: String?) = OPERADORES_POR_TIPO[tipo] ?: IGUALDADE
 
-    fun operadorPadrao(tipo: String?) = operadoresDoTipo(tipo).first().first
+    fun operadoresDoTipo(context: Context, tipo: String?): List<Pair<String, String>> =
+        chavesDoTipo(tipo).map { it to context.getString(ROTULOS_POR_TIPO[tipo]?.get(it) ?: ROTULOS.getValue(it)) }
+
+    fun operadorPadrao(tipo: String?) = chavesDoTipo(tipo).first()
 
     /** Caminho pela ligação: ida (esta → ligada) ou volta (ligada → esta). */
     data class Via(val campo: String, val sentido: String)
@@ -68,14 +83,15 @@ object Filtros {
     private fun coluna(id: String, nome: String, tipo: String) = Coluna(id, nome, tipo, null, null, null)
 
     /** alvosDoFiltro: colunas desta tabela, das tabelas que ela aponta e das que apontam para ela. */
-    fun alvos(t: TabelaDetalhe?): List<Alvo> {
+    fun alvos(context: Context, t: TabelaDetalhe?): List<Alvo> {
         if (t == null) return emptyList()
         val campos = t.campos.orEmpty()
         val alvos = campos.map { Alvo(it.id.orEmpty(), "Esta tabela", it.nome.orEmpty(), it, emptyList()) }.toMutableList()
-        alvos += Alvo("criado_em", "Esta tabela", "Criado em", coluna("criado_em", "Criado em", "momento"), emptyList())
+        val criadoEm = context.getString(R.string.filtro_criado_em)
+        alvos += Alvo("criado_em", "Esta tabela", criadoEm, coluna("criado_em", criadoEm, "momento"), emptyList())
         campos.filter { it.tipo == "vinculo" && it.moduloVinculado?.acesso == true }.forEach { ligacao ->
             val via = listOf(Via(ligacao.id.orEmpty(), "ida"))
-            val grupo = "${ligacao.nome} (tabela ${ligacao.moduloVinculado?.nome})"
+            val grupo = context.getString(R.string.filtro_grupo_ida, ligacao.nome, ligacao.moduloVinculado?.nome)
             ligacao.moduloVinculado?.campos.orEmpty().forEach { c ->
                 alvos += Alvo("${ligacao.id}>${c.id}", grupo, "${ligacao.nome} › ${c.nome}", c, via)
             }
@@ -83,10 +99,10 @@ object Filtros {
         t.ligacoesRecebidas.orEmpty().forEach { recebida ->
             val via = listOf(Via(recebida.campoId.orEmpty(), "volta"))
             val nome = recebida.modulo?.nome.orEmpty()
-            val grupo = "$nome ligados pela coluna “${recebida.campoNome}”"
-            alvos += Alvo("${recebida.campoId}<", grupo, "$nome ligados", coluna("", nome, "ligacao"), via)
+            val grupo = context.getString(R.string.filtro_grupo_volta, nome, recebida.campoNome)
+            alvos += Alvo("${recebida.campoId}<", grupo, context.getString(R.string.filtro_ligados, nome), coluna("", nome, "ligacao"), via)
             recebida.modulo?.campos.orEmpty().forEach { c ->
-                alvos += Alvo("${recebida.campoId}<${c.id}", grupo, "Algum de $nome › ${c.nome}", c, via)
+                alvos += Alvo("${recebida.campoId}<${c.id}", grupo, context.getString(R.string.filtro_algum_de, nome, c.nome), c, via)
             }
         }
         return alvos
@@ -94,7 +110,7 @@ object Filtros {
 
     /** A regra tem tudo o que precisa para ir à API (as incompletas são ignoradas). */
     fun completa(r: Regra, alvo: Alvo?): Boolean {
-        if (alvo == null || operadoresDoTipo(alvo.campo.tipo).none { it.first == r.operador }) return false
+        if (alvo == null || r.operador !in chavesDoTipo(alvo.campo.tipo)) return false
         if (r.operador in OPERADORES_SEM_VALOR) return true
         return r.valor.isNotBlank() && (r.operador != "entre" || r.valorAte.isNotBlank())
     }
@@ -136,7 +152,7 @@ class PainelFiltros(
     private val titulos = mutableMapOf<String, List<Pair<String, String>>>()
 
     fun definirTabela(t: TabelaDetalhe) {
-        alvos = Filtros.alvos(t)
+        alvos = Filtros.alvos(activity, t)
         desenhar()
     }
 
@@ -211,7 +227,7 @@ class PainelFiltros(
         b.btnRemover.setOnClickListener { regras.removeAt(indice); desenhar(); mudou() }
 
         if (alvo != null) {
-            bloco.addView(select(R.string.filtro_condicao, Filtros.operadoresDoTipo(alvo.campo.tipo), regra.operador, null) {
+            bloco.addView(select(R.string.filtro_condicao, Filtros.operadoresDoTipo(ctx, alvo.campo.tipo), regra.operador, null) {
                 regra.operador = it
                 desenhar()
                 mudou()
@@ -246,7 +262,7 @@ class PainelFiltros(
         val ctx = activity
         return when (campo.tipo) {
             "selecao" -> select(rotulo, campo.listaDeOpcoes.map { it to it }, atual, R.string.filtro_selecione, aoEscolher = aoMudar)
-            "recorrencia" -> select(rotulo, Prazos.REPETICOES, atual, R.string.filtro_selecione, aoEscolher = aoMudar)
+            "recorrencia" -> select(rotulo, Prazos.repeticoes(activity), atual, R.string.filtro_selecione, aoEscolher = aoMudar)
             "responsavel" -> {
                 val v = select(rotulo, pessoas.orEmpty(), atual, R.string.filtro_selecione, aoEscolher = aoMudar)
                 if (pessoas == null) carregarPessoas()

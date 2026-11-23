@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tabela_tipo_dados">Uma lista do seu jeito</string>
+    <string name="tabela_tipo_dados_desc">Clientes, pedidos, estoque, tarefas: você escolhe as colunas e pode ver como lista ou quadro.</string>
+    <string name="tabela_tipo_arquivo">Arquivos e documentos</string>
+    <string name="tabela_tipo_arquivo_desc">Um lugar para enviar e guardar arquivos da equipe, como contratos e comprovantes.</string>
+    <string name="tabela_tipo_recrutamento">Vaga de recrutamento</string>
+    <string name="tabela_tipo_recrutamento_desc">Candidatos se inscrevem por um link e passam pelas etapas que você definir.</string>
+    <string name="tabela_tipo_financeiro">Entradas e saídas</string>
+    <string name="tabela_tipo_financeiro_desc">Controle de dinheiro que entra e sai, com categorias e saldo do período.</string>
+    <string name="coluna_tipo_texto">Texto</string>
+    <string name="coluna_tipo_numero">Número</string>
+    <string name="coluna_tipo_data">Data</string>
+    <string name="coluna_tipo_selecao">Lista de opções</string>
+    <string name="coluna_tipo_responsavel">Responsável</string>
+    <string name="coluna_tipo_responsavel_dica">A pessoa vê os itens dela em "Meus itens" e pode ser avisada pelas automações.</string>
+    <string name="coluna_tipo_prazo">Prazo</string>
+    <string name="coluna_tipo_prazo_dica">Itens atrasados aparecem em "Precisa da sua atenção" no Início.</string>
+    <string name="coluna_tipo_recorrencia">Repetição</string>
+    <string name="coluna_tipo_recorrencia_dica">Ao concluir o item, o Levit cria o próximo com o prazo avançado.</string>
+    <string name="coluna_tipo_vinculo">Ligação com tabela</string>
+    <string name="coluna_tipo_vinculo_dica">Cada item aponta para itens de outra tabela, como o cliente de um pedido. Dá para filtrar pelos dados da tabela ligada.</string>
+    <string name="coluna_form_texto">Texto</string>
+    <string name="coluna_form_numero">Número</string>
+    <string name="coluna_form_data">Data</string>
+    <string name="coluna_form_selecao">Seleção</string>
+    <string name="coluna_form_responsavel">Pessoa da equipe</string>
+    <string name="coluna_form_prazo">Data</string>
+    <string name="coluna_form_recorrencia">Repetição</string>
+    <string name="coluna_form_vinculo">Ligação</string>
+</resources>

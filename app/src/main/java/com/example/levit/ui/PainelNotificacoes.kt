@@ -191,7 +191,7 @@ class PainelNotificacoes(
                     activity.getString(R.string.not_nenhuma_desc), R.drawable.ic_mail)
             })
             else -> buildList {
-                Notificacoes.agruparPorDia(itens, { it.str("criado_em") }).forEach { (rotulo, doDia) ->
+                Notificacoes.agruparPorDia(activity, itens, { it.str("criado_em") }).forEach { (rotulo, doDia) ->
                     add(Linha.Dia(rotulo.uppercase()))
                     doDia.forEach { add(Linha.Item(it, it.str("lida_em").isNullOrEmpty())) }
                 }
@@ -217,7 +217,7 @@ class PainelNotificacoes(
         val mensagem = n.str("mensagem")?.takeIf { it.isNotEmpty() }
         b.tvMensagem.isVisible = mensagem != null
         b.tvMensagem.text = mensagem
-        b.tvQuando.text = Automacoes.quando(n.str("criado_em"))
+        b.tvQuando.text = Automacoes.quando(activity, n.str("criado_em"))
         b.pontoNaoLida.isVisible = naoLida
         b.btnExcluir.contentDescription = activity.getString(R.string.not_excluir, n.str("titulo"))
         b.btnExcluir.setOnClickListener { excluir(n) }

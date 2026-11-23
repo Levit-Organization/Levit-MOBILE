@@ -1,5 +1,7 @@
 package com.example.levit.ui
 
+import android.content.Context
+import com.example.levit.R
 import com.example.levit.data.remote.dto.Coluna
 import org.w3c.dom.Element
 import java.io.ByteArrayInputStream
@@ -182,6 +184,7 @@ object Importacao {
 
     /** Converte a célula para o tipo da coluna. (valor, erro); valor e erro nulos = célula vazia. */
     fun converterCelula(
+        context: Context,
         bruto: Any?,
         campo: Coluna,
         pessoas: List<Pair<String, String>>,
@@ -190,39 +193,39 @@ object Importacao {
         if (bruto == null || textoJs(bruto).isBlank()) return null to null
         val texto = textoJs(bruto).trim()
         return when (campo.tipo) {
-            "numero" -> converterNumero(if (bruto is Double) bruto else texto)?.let { it to null } ?: (null to "\"$texto\" não é um número")
+            "numero" -> converterNumero(if (bruto is Double) bruto else texto)?.let { it to null } ?: (null to context.getString(R.string.imp_cel_numero, texto))
             "data", "prazo" -> converterData(if (bruto is DataExcel) bruto else texto)?.let { it to null }
-                ?: (null to "\"$texto\" não é uma data (use DD/MM/AAAA)")
+                ?: (null to context.getString(R.string.imp_cel_data, texto))
             "selecao" -> campo.listaDeOpcoes.firstOrNull { Prazos.normalizar(it) == Prazos.normalizar(texto) }?.let { it to null }
-                ?: (null to "\"$texto\" não é uma opção de ${campo.nome}")
+                ?: (null to context.getString(R.string.imp_cel_opcao, texto, campo.nome))
             "responsavel" -> {
                 val alvo = Prazos.normalizar(texto)
                 val achadas = pessoas.filter { (_, nome) -> Prazos.normalizar(nome) == alvo || Prazos.normalizar(nome.split(" ").first()) == alvo }
                 if (achadas.size == 1) achadas[0].first to null
-                else null to if (achadas.size > 1) "\"$texto\" é ambíguo na equipe" else "\"$texto\" não está na equipe"
+                else null to context.getString(if (achadas.size > 1) R.string.imp_cel_equipe_ambigua else R.string.imp_cel_equipe_ausente, texto)
             }
             "recorrencia" -> {
                 val alvo = Prazos.normalizar(texto)
-                Prazos.REPETICOES.firstOrNull { it.first == alvo || Prazos.normalizar(it.second) == alvo }?.let { it.first to null }
-                    ?: (null to "\"$texto\" não é uma repetição válida")
+                Prazos.repeticoes(context).firstOrNull { it.first == alvo || Prazos.normalizar(it.second) == alvo }?.let { it.first to null }
+                    ?: (null to context.getString(R.string.imp_cel_repeticao, texto))
             }
-            "vinculo" -> converterLigacao(texto, campo, ligados[campo.moduloVinculadoId])
+            "vinculo" -> converterLigacao(context, texto, campo, ligados[campo.moduloVinculadoId])
             else -> texto to null
         }
     }
 
     /** Ligação: a célula traz o nome do item; vários = nomes separados por vírgula ou ponto e vírgula. */
-    private fun converterLigacao(texto: String, campo: Coluna, titulos: Map<String, String?>?): Pair<Any?, String?> {
-        if (titulos == null) return null to "não foi possível ler os itens da tabela ligada a ${campo.nome}"
+    private fun converterLigacao(context: Context, texto: String, campo: Coluna, titulos: Map<String, String?>?): Pair<Any?, String?> {
+        if (titulos == null) return null to context.getString(R.string.imp_cel_ligada_nao_lida, campo.nome)
         fun achar(nome: String) = titulos.keys.filter { Prazos.normalizar(titulos[it].orEmpty()) == Prazos.normalizar(nome) }
         val inteiro = achar(texto)
         if (inteiro.size == 1) return (if (campo.multiplo) inteiro else inteiro[0]) to null
-        if (inteiro.size > 1) return null to "\"$texto\" é ambíguo na tabela ligada"
-        if (!campo.multiplo) return null to "\"$texto\" não está na tabela ligada"
+        if (inteiro.size > 1) return null to context.getString(R.string.imp_cel_ligada_ambigua, texto)
+        if (!campo.multiplo) return null to context.getString(R.string.imp_cel_ligada_ausente, texto)
         val ids = mutableListOf<String>()
         for (parte in texto.split(Regex("[;,]")).map { it.trim() }.filter { it.isNotEmpty() }) {
             val achados = achar(parte)
-            if (achados.size != 1) return null to "\"$parte\" ${if (achados.isNotEmpty()) "é ambíguo" else "não está"} na tabela ligada"
+            if (achados.size != 1) return null to context.getString(if (achados.isNotEmpty()) R.string.imp_cel_ligada_ambigua else R.string.imp_cel_ligada_ausente, parte)
             ids += achados[0]
         }
         return ids.distinct() to null
@@ -230,6 +233,7 @@ object Importacao {
 
     /** prepararItens: linhas com alguma célula inválida vão para problemas e não são enviadas. */
     fun prepararItens(
+        context: Context,
         linhas: List<List<Any?>>,
         campos: List<Coluna>,
         mapa: Map<String, Int>,
@@ -245,8 +249,8 @@ object Importacao {
             campos.forEach { campo ->
                 val indice = mapa[campo.id.orEmpty()] ?: -1
                 if (indice < 0) return@forEach
-                val (valor, erro) = converterCelula(celulas.getOrNull(indice), campo, pessoas, ligados)
-                if (erro != null) erros += "${campo.nome}: $erro" else if (valor != null) dados[campo.id.orEmpty()] = valor
+                val (valor, erro) = converterCelula(context, celulas.getOrNull(indice), campo, pessoas, ligados)
+                if (erro != null) erros += context.getString(R.string.imp_celula, campo.nome, erro) else if (valor != null) dados[campo.id.orEmpty()] = valor
             }
             if (erros.isNotEmpty()) problemas += Problema(linha, erros.joinToString("; "))
             else if (dados.isNotEmpty()) itens += linha to dados

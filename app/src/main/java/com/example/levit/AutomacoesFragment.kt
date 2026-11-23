@@ -197,7 +197,7 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         // Fluxo: primeiro gatilho (+n), funil se tiver condições, → primeira ação (+n).
         val fluxo = v.grupoFluxo
         fluxo.removeAllViews()
-        if (gatilhos.isNotEmpty()) fluxo.adicionarSelo(Automacoes.gatilhoLabel(gatilhos[0]), false)
+        if (gatilhos.isNotEmpty()) fluxo.adicionarSelo(Automacoes.gatilhoLabel(requireContext(), gatilhos[0]), false)
         if (gatilhos.size > 1) fluxo.addView(requireContext().texto("+${gatilhos.size - 1}", 11f))
         val totalCondicoes = Automacoes.condicoesDaAutomacao(a)?.regras?.size ?: 0
         if (totalCondicoes > 0) fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply {
@@ -206,7 +206,7 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         })
         fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply { text = getString(R.string.ic_arrow_forward) })
         val acoes = a.acoes()
-        fluxo.adicionarSelo(acoes.firstOrNull()?.str("tipo")?.let { Automacoes.acaoLabel(it) } ?: "—", true)
+        fluxo.adicionarSelo(acoes.firstOrNull()?.str("tipo")?.let { Automacoes.acaoLabel(requireContext(), it) } ?: "—", true)
         if (acoes.size > 1) fluxo.addView(requireContext().texto("+${acoes.size - 1}", 11f))
 
         // Execuções da semana e a última.
@@ -218,7 +218,7 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         v.flPausada.removeAllViews()
         if (falhas > 0 && !pausada) v.flFalhas.addView(requireContext().selo(resources.getQuantityString(R.plurals.aut_falhas, falhas, falhas), R.color.danger, R.color.danger_bg))
         val ultima = a.estatistica("ultima_execucao_em")
-        v.tvUltima.text = getString(R.string.aut_ultima_execucao, if (ultima.isNullOrEmpty()) getString(R.string.aut_nunca) else Automacoes.quando(ultima))
+        v.tvUltima.text = getString(R.string.aut_ultima_execucao, if (ultima.isNullOrEmpty()) getString(R.string.aut_nunca) else Automacoes.quando(requireContext(), ultima))
         v.linhaExecucoes.setOnClickListener { abrirHistorico(a) }
         if (pausada) v.flPausada.addView(requireContext().selo("⏸ " + getString(R.string.aut_pausada_falhas), R.color.warning, R.color.warning_bg))
 

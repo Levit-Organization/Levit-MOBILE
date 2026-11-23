@@ -190,7 +190,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
 
     /** Em vagas, condições e variáveis usam os campos do candidato. */
     private val camposCondicao: List<Coluna>
-        get() = if (vaga) Automacoes.CAMPOS_CANDIDATO.map { (id, nome, tipo) -> Coluna(id, nome, tipo, null, null, null) } else camposModulo
+        get() = if (vaga) Automacoes.CAMPOS_CANDIDATO.map { (id, nome, tipo) -> Coluna(id, getString(nome), tipo, null, null, null) } else camposModulo
 
     private val dicaVariaveis get() = camposCondicao.takeIf { it.isNotEmpty() }?.let { c ->
         getString(R.string.aut_variaveis, c.joinToString(", ") { "{{${it.nome}}}" })
@@ -282,8 +282,9 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         opcoes.forEach { (valor, info) ->
             val b = ItemAutOpcaoBinding.inflate(layoutInflater, g, false)
             b.tvIcone.text = info.icone
-            b.tvRotulo.text = info.rotulo
-            b.root.contentDescription = info.rotulo
+            val rotulo = getString(info.rotulo)
+            b.tvRotulo.text = rotulo
+            b.root.contentDescription = rotulo
             b.root.isSelected = marcado(valor)
             b.root.setOnClickListener { aoTocar(valor) }
             g.addView(b.root)
@@ -414,7 +415,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
                 setOnClickListener { regras.removeAt(indice); renderizar() }
             })
             val corpo = caixaB.corpo
-            corpo.addView(campoSelect(getString(R.string.aut_operador), Automacoes.OPERADORES.toList(), regra.operador) { op ->
+            corpo.addView(campoSelect(getString(R.string.aut_operador), Automacoes.OPERADORES.map { it.key to getString(it.value) }, regra.operador) { op ->
                 regra.operador = op
                 // Condição de mudança precisa do valor anterior: garante o gatilho que o fornece.
                 if (op in Automacoes.OPERADORES_DE_MUDANCA) {
@@ -452,7 +453,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
                 if (!titulos.containsKey(alvo) && alvo.isNotEmpty()) carregarTitulos(alvo)
                 return campoSelect(rotulo, titulos[alvo].orEmpty(), valor, getString(R.string.aut_selecione_item)) { aoMudar(it) }
             }
-            "recorrencia" -> return campoSelect(rotulo, Prazos.REPETICOES, valor, getString(R.string.aut_selecione)) { aoMudar(it) }
+            "recorrencia" -> return campoSelect(rotulo, Prazos.repeticoes(requireContext()), valor, getString(R.string.aut_selecione)) { aoMudar(it) }
         }
         val opcoes = when (campo?.tipo) {
             "selecao" -> campo.listaDeOpcoes
@@ -529,7 +530,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
                 if (equipe == null || cargos == null) carregarEquipe()
                 val destinos = Automacoes.DESTINO_NOTIFICACAO.entries
                     .filter { it.key != "responsavel" || camposResponsavel.isNotEmpty() || s("destinatarios") == "responsavel" }
-                    .map { it.key to it.value }
+                    .map { it.key to getString(it.value) }
                 bloco.addView(campoSelect(getString(R.string.aut_quem_recebe), destinos, s("destinatarios").ifEmpty { "todos" }) {
                     c["destinatarios"] = it; c["destino_id"] = ""; renderizar()
                 })

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Rótulos de gatilhos, ações, operadores e destinos das automações (Automacoes.kt) -->
+    <string name="aut_gat_criacao">Novo item</string>
+    <string name="aut_gat_atualizacao">Atualização</string>
+    <string name="aut_gat_exclusao">Exclusão</string>
+    <string name="aut_gat_candidato_criado">Novo candidato</string>
+    <string name="aut_gat_candidato_mudou_etapa">Mudou de etapa</string>
+    <string name="aut_acao_tipo_enviar_email">Enviar e-mail</string>
+    <string name="aut_acao_tipo_webhook">Avisar outro sistema</string>
+    <string name="aut_acao_tipo_notificacao">Notificação</string>
+    <string name="aut_acao_tipo_atualizar_campo">Atualizar coluna</string>
+    <string name="aut_acao_tipo_criar_registro">Criar item</string>
+    <string name="aut_status_sucesso">Sucesso</string>
+    <string name="aut_status_erro">Falhou</string>
+    <string name="aut_status_retentando">Vai tentar de novo</string>
+    <string name="aut_cand_nome">Nome</string>
+    <string name="aut_cand_email">E-mail</string>
+    <string name="aut_cand_telefone">Telefone</string>
+    <string name="aut_cand_mensagem">Mensagem</string>
+    <string name="aut_cand_etapa">Etapa</string>
+    <string name="aut_cand_etapa_anterior">Etapa anterior</string>
+    <string name="aut_op_igual">é igual a</string>
+    <string name="aut_op_diferente">é diferente de</string>
+    <string name="aut_op_contem">contém</string>
+    <string name="aut_op_nao_contem">não contém</string>
+    <string name="aut_op_vazio">está vazio</string>
+    <string name="aut_op_preenchido">está preenchido</string>
+    <string name="aut_op_maior">é maior que</string>
+    <string name="aut_op_menor">é menor que</string>
+    <string name="aut_op_mudou">mudou (qualquer valor)</string>
+    <string name="aut_op_mudou_para">mudou para</string>
+    <string name="aut_op_mudou_de_para">mudou de… para…</string>
+    <string name="aut_dest_todos">Toda a equipe com acesso à tabela</string>
+    <string name="aut_dest_cargo">Pessoas de um cargo</string>
+    <string name="aut_dest_usuario">Uma pessoa específica</string>
+    <string name="aut_dest_responsavel">O responsável pelo item</string>
+</resources>

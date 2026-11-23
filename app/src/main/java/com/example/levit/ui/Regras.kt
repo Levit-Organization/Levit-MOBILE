@@ -1,5 +1,6 @@
 package com.example.levit.ui
 
+import android.content.Context
 import com.example.levit.R
 import com.example.levit.data.remote.dto.Candidato
 import com.example.levit.data.remote.dto.ColunaKanban
@@ -328,14 +329,17 @@ object Prazos {
 
     /** Opções da coluna "Repetição" (RecorrenciaService::PERIODOS). */
     val REPETICOES = listOf(
-        "semanal" to "Toda semana",
-        "quinzenal" to "A cada 15 dias",
-        "mensal" to "Todo mês",
-        "trimestral" to "A cada 3 meses",
-        "anual" to "Todo ano",
+        "semanal" to R.string.rep_semanal,
+        "quinzenal" to R.string.rep_quinzenal,
+        "mensal" to R.string.rep_mensal,
+        "trimestral" to R.string.rep_trimestral,
+        "anual" to R.string.rep_anual,
     )
 
-    fun rotuloDaRepeticao(valor: String?) = REPETICOES.firstOrNull { it.first == valor }?.second
+    /** Opções (valor, texto) prontas para os seletores. */
+    fun repeticoes(context: Context) = REPETICOES.map { it.first to context.getString(it.second) }
+
+    fun rotuloDaRepeticao(valor: String?): Texto? = REPETICOES.firstOrNull { it.first == valor }?.let { Texto(it.second) }
 }
 
 /** utils/vinculos.js: colunas de ligação guardam o id (ou ids) de itens de outra tabela. */

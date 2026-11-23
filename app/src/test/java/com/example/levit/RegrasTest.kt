@@ -140,7 +140,7 @@ class RegrasTest {
         assertTrue(com.example.levit.ui.Prazos.itemConcluido(listOf("A fazer", "Concluído")))
         assertTrue(com.example.levit.ui.Prazos.opcaoDeConclusao("  ENTREGUE "))
         assertFalse(com.example.levit.ui.Prazos.itemConcluido(listOf("Em andamento", null)))
-        assertEquals("Todo mês", com.example.levit.ui.Prazos.rotuloDaRepeticao("mensal"))
+        assertEquals(Texto(R.string.rep_mensal), com.example.levit.ui.Prazos.rotuloDaRepeticao("mensal"))
     }
 
     @Test fun rotuloDosItensLigados() {

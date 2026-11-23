@@ -142,12 +142,12 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
     private fun atualizarTudo() {
         binding.flIcone.removeAllViews()
         binding.flIcone.addView(requireContext().caixaDeIcone(icone, ladoDp = 40))
-        binding.acTipo.configurarSelect(Tabelas.TIPOS.map { it.valor to it.rotulo }, tipo) { novo ->
+        binding.acTipo.configurarSelect(Tabelas.TIPOS.map { it.valor to getString(it.rotulo) }, tipo) { novo ->
             tipo = novo
             atualizarTudo()
         }
         binding.campoTipo.isEnabled = !editando
-        binding.campoTipo.helperText = (Tabelas.TIPOS.firstOrNull { it.valor == tipo } ?: Tabelas.TIPOS.first()).descricao
+        binding.campoTipo.helperText = getString((Tabelas.TIPOS.firstOrNull { it.valor == tipo } ?: Tabelas.TIPOS.first()).descricao)
         mostrarIcones()
         mostrarFases()
         binding.tvInfoRecrutamento.isVisible = editando && tipo == "recrutamento"
@@ -157,7 +157,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         binding.cartaoSemColunas.isVisible = semColunas
         if (semColunas) {
             val financeiro = tipo == "financeiro"
-            binding.tvSemColunasIcone.text = if (financeiro) "account_balance_wallet" else "folder_open"
+            binding.tvSemColunasIcone.text = getString(if (financeiro) R.string.ic_account_balance_wallet else R.string.ic_folder_open)
             binding.tvSemColunasTitulo.setText(if (financeiro) R.string.tab_financeira else R.string.tab_arquivos)
             binding.tvSemColunasDesc.setText(if (financeiro) R.string.tab_financeira_desc else R.string.tab_arquivos_desc)
         }
@@ -343,7 +343,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         b.etNome.doAfterTextChanged { coluna.nome = it?.toString().orEmpty(); b.campoNome.error = null }
 
         // Tipo só muda em coluna nova (como no web).
-        b.acTipo.configurarSelect(Tabelas.TIPOS_DE_COLUNA.map { it.valor to it.rotulo }, coluna.tipo) { novo ->
+        b.acTipo.configurarSelect(Tabelas.TIPOS_DE_COLUNA.map { it.valor to getString(it.rotulo) }, coluna.tipo) { novo ->
             // Ligação guarda { multiplo }; lista guarda opções: trocar não leva um para o outro.
             if (novo == "vinculo" || coluna.tipo == "vinculo") {
                 coluna.opcoes = mutableListOf()
@@ -356,7 +356,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         b.campoTipo.isEnabled = !(editando && !coluna.nova)
         if (coluna.nova) b.flNovo.addView(requireContext().selo(getString(R.string.tab_novo), R.color.primary, R.color.primary_100))
 
-        b.tvDica.text = info.dica
+        b.tvDica.text = info.dica?.let { getString(it) }
         b.tvDica.isVisible = info.dica != null
 
         // Ligação

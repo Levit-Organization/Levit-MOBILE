@@ -1,14 +1,17 @@
 package com.example.levit.ui
 
+import androidx.annotation.StringRes
+import com.example.levit.R
+
 /*
  * Catálogos da área de Tabelas, iguais aos do web (ModuleForm.jsx,
  * utils/iconOptions.js e utils/modelosTabela.js). Os ícones são nomes do
  * Material Icons, desenhados pela mesma fonte do web (res/font/material_icons).
  */
 
-data class TipoTabela(val valor: String, val rotulo: String, val icone: String, val descricao: String)
+data class TipoTabela(val valor: String, @StringRes val rotulo: Int, val icone: String, @StringRes val descricao: Int)
 
-data class TipoColuna(val valor: String, val rotulo: String, val icone: String, val dica: String? = null)
+data class TipoColuna(val valor: String, @StringRes val rotulo: Int, val icone: String, @StringRes val dica: Int? = null)
 
 /** Coluna de um modelo (opcoes só nas colunas de lista). */
 data class ColunaModelo(val nome: String, val tipo: String = "texto", val opcoes: List<String>? = null)
@@ -28,35 +31,35 @@ data class ModeloTabela(
 object Tabelas {
 
     val TIPOS = listOf(
-        TipoTabela("dados", "Uma lista do seu jeito", "table_rows",
-            "Clientes, pedidos, estoque, tarefas: você escolhe as colunas e pode ver como lista ou quadro."),
-        TipoTabela("arquivo", "Arquivos e documentos", "folder_open",
-            "Um lugar para enviar e guardar arquivos da equipe, como contratos e comprovantes."),
-        TipoTabela("recrutamento", "Vaga de recrutamento", "groups",
-            "Candidatos se inscrevem por um link e passam pelas etapas que você definir."),
-        TipoTabela("financeiro", "Entradas e saídas", "account_balance_wallet",
-            "Controle de dinheiro que entra e sai, com categorias e saldo do período."),
+        TipoTabela("dados", R.string.tabela_tipo_dados, "table_rows",
+            R.string.tabela_tipo_dados_desc),
+        TipoTabela("arquivo", R.string.tabela_tipo_arquivo, "folder_open",
+            R.string.tabela_tipo_arquivo_desc),
+        TipoTabela("recrutamento", R.string.tabela_tipo_recrutamento, "groups",
+            R.string.tabela_tipo_recrutamento_desc),
+        TipoTabela("financeiro", R.string.tabela_tipo_financeiro, "account_balance_wallet",
+            R.string.tabela_tipo_financeiro_desc),
     )
 
     val TIPOS_DE_COLUNA = listOf(
-        TipoColuna("texto", "Texto", "text_fields"),
-        TipoColuna("numero", "Número", "tag"),
-        TipoColuna("data", "Data", "event"),
-        TipoColuna("selecao", "Lista de opções", "list_alt"),
-        TipoColuna("responsavel", "Responsável", "person",
-            "A pessoa vê os itens dela em \"Meus itens\" e pode ser avisada pelas automações."),
-        TipoColuna("prazo", "Prazo", "event_available",
-            "Itens atrasados aparecem em \"Precisa da sua atenção\" no Início."),
-        TipoColuna("recorrencia", "Repetição", "event_repeat",
-            "Ao concluir o item, o Levit cria o próximo com o prazo avançado."),
-        TipoColuna("vinculo", "Ligação com tabela", "link",
-            "Cada item aponta para itens de outra tabela, como o cliente de um pedido. Dá para filtrar pelos dados da tabela ligada."),
+        TipoColuna("texto", R.string.coluna_tipo_texto, "text_fields"),
+        TipoColuna("numero", R.string.coluna_tipo_numero, "tag"),
+        TipoColuna("data", R.string.coluna_tipo_data, "event"),
+        TipoColuna("selecao", R.string.coluna_tipo_selecao, "list_alt"),
+        TipoColuna("responsavel", R.string.coluna_tipo_responsavel, "person",
+            R.string.coluna_tipo_responsavel_dica),
+        TipoColuna("prazo", R.string.coluna_tipo_prazo, "event_available",
+            R.string.coluna_tipo_prazo_dica),
+        TipoColuna("recorrencia", R.string.coluna_tipo_recorrencia, "event_repeat",
+            R.string.coluna_tipo_recorrencia_dica),
+        TipoColuna("vinculo", R.string.coluna_tipo_vinculo, "link",
+            R.string.coluna_tipo_vinculo_dica),
     )
 
     /** Rótulo curto do tipo, ao lado do nome da coluna no formulário do item (TIPOS de ModuleRecords.jsx). */
     val TIPO_NO_FORMULARIO = mapOf(
-        "texto" to "Texto", "numero" to "Número", "data" to "Data", "selecao" to "Seleção",
-        "responsavel" to "Pessoa da equipe", "prazo" to "Data", "recorrencia" to "Repetição", "vinculo" to "Ligação",
+        "texto" to R.string.coluna_form_texto, "numero" to R.string.coluna_form_numero, "data" to R.string.coluna_form_data, "selecao" to R.string.coluna_form_selecao,
+        "responsavel" to R.string.coluna_form_responsavel, "prazo" to R.string.coluna_form_prazo, "recorrencia" to R.string.coluna_form_recorrencia, "vinculo" to R.string.coluna_form_vinculo,
     )
 
     fun tipoDaColuna(valor: String?) = TIPOS_DE_COLUNA.firstOrNull { it.valor == valor } ?: TIPOS_DE_COLUNA.first()

@@ -19,6 +19,8 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
 import android.content.DialogInterface
 import android.util.Patterns
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import android.widget.ArrayAdapter
 import com.example.levit.databinding.DialogMembroBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -176,21 +178,11 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
         }
         val editando = membro != null
         val b = DialogMembroBinding.inflate(layoutInflater)
-
         b.layoutNomeMembro.visibility = if (editando) View.VISIBLE else View.GONE
         b.layoutEmailMembro.visibility = if (editando) View.GONE else View.VISIBLE
         b.tvAvisoConvite.visibility = if (editando) View.GONE else View.VISIBLE
         if (membro != null) b.etNomeMembro.setText(membro.nome)
-
-        b.actCargoMembro.setAdapter(
-            ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, cargos.map { it.nome })
-        )
-        var cargoEscolhido: Cargo? = membro?.cargoNome?.let { nome -> cargos.firstOrNull { it.nome == nome } }
-        cargoEscolhido?.let { b.actCargoMembro.setText(it.nome, false) }
-        b.actCargoMembro.setOnItemClickListener { _, _, posicao, _ ->
-            cargoEscolhido = cargos[posicao]
-            b.layoutCargoMembro.error = null
-        }
+        val cargoEscolhido = configurarSeletorDeCargo(b, membro)
 
         val dialogo = MaterialAlertDialogBuilder(requireContext())
             .setTitle(if (editando) R.string.equipe_dialogo_editar_titulo else R.string.equipe_dialogo_convidar_titulo)
@@ -203,64 +195,78 @@ class EquipeFragment : HamburgerMenuBaseFragment() {
         dialogo.setOnShowListener {
             val botao = dialogo.getButton(DialogInterface.BUTTON_POSITIVE)
             botao.setOnClickListener {
-                val cargo = cargoEscolhido
-                var erro = false
-                b.layoutCargoMembro.error = null
-                b.layoutNomeMembro.error = null
-                b.layoutEmailMembro.error = null
-
-                if (cargo == null) {
-                    b.layoutCargoMembro.error = getString(R.string.equipe_erro_cargo)
-                    erro = true
-                }
-                val nome = b.etNomeMembro.text.toString().trim()
-                val email = b.etEmailMembro.text.toString().trim()
-                if (editando && nome.isEmpty()) {
-                    b.layoutNomeMembro.error = getString(R.string.equipe_erro_nome)
-                    erro = true
-                }
-                if (!editando && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    b.layoutEmailMembro.error = getString(R.string.equipe_erro_email)
-                    erro = true
-                }
-                if (erro || cargo == null) return@setOnClickListener
-
+                val cargo = cargoEscolhido()
+                if (!dadosDoMembroValidos(b, editando, cargo) || cargo == null) return@setOnClickListener
                 botao.isEnabled = false
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val resultado = if (membro == null) {
-                        equipeRepository.convidar(email, cargo.id)
-                    } else {
-                        // Só envia o que mudou.
-                        val novoNome = nome.takeIf { it != membro.nome }
-                        val novoCargo = cargo.id.takeIf { cargo.nome != membro.cargoNome }
-                        if (novoNome == null && novoCargo == null) {
-                            dialogo.dismiss()
-                            return@launch
-                        }
-                        equipeRepository.atualizarMembro(membro.id, novoNome, novoCargo)
-                    }
-                    when (resultado) {
-                        is ResultadoApi.Sucesso -> {
-                            dialogo.dismiss()
-                            val msg = if (editando) R.string.equipe_membro_atualizado else R.string.equipe_convite_enviado
-                            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-                            view?.let { carregar(it) }
-                        }
-                        is ResultadoApi.Erro -> {
-                            botao.isEnabled = true
-                            if (resultado.sessaoExpirada) {
-                                dialogo.dismiss()
-                                findNavController().navigate(R.id.action_global_to_login)
-                            } else {
-                                // Cobre 404 e 409 também: a mensagem já vem do backend.
-                                Toast.makeText(requireContext(), resultado.mensagem, Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    }
+                    val nome = b.etNomeMembro.text.toString().trim()
+                    val email = b.etEmailMembro.text.toString().trim()
+                    val resultado = enviarMembro(membro, nome, email, cargo)
+                    if (resultado == null) dialogo.dismiss() else mostrarResultadoDoMembro(resultado, editando, dialogo, botao)
                 }
             }
         }
         dialogo.show()
+    }
+
+    /** Liga o seletor de cargo e devolve a leitura do cargo escolhido no momento. */
+    private fun configurarSeletorDeCargo(b: DialogMembroBinding, membro: Membro?): () -> Cargo? {
+        var escolhido: Cargo? = membro?.cargoNome?.let { nome -> cargos.firstOrNull { it.nome == nome } }
+        b.actCargoMembro.setAdapter(
+            ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, cargos.map { it.nome })
+        )
+        escolhido?.let { b.actCargoMembro.setText(it.nome, false) }
+        b.actCargoMembro.setOnItemClickListener { _, _, posicao, _ ->
+            escolhido = cargos[posicao]
+            b.layoutCargoMembro.error = null
+        }
+        return { escolhido }
+    }
+
+    /** Marca os erros de cada campo no formulário; true quando tudo está certo. */
+    private fun dadosDoMembroValidos(b: DialogMembroBinding, editando: Boolean, cargo: Cargo?): Boolean {
+        b.layoutCargoMembro.error = if (cargo == null) getString(R.string.equipe_erro_cargo) else null
+        b.layoutNomeMembro.error =
+            if (editando && b.etNomeMembro.text.toString().trim().isEmpty()) getString(R.string.equipe_erro_nome) else null
+        val email = b.etEmailMembro.text.toString().trim()
+        b.layoutEmailMembro.error =
+            if (!editando && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) getString(R.string.equipe_erro_email) else null
+        return listOf(b.layoutCargoMembro, b.layoutNomeMembro, b.layoutEmailMembro).none { it.error != null }
+    }
+
+    /** Convida (membro novo) ou atualiza só o que mudou. Devolve null quando não há nada a salvar. */
+    private suspend fun enviarMembro(membro: Membro?, nome: String, email: String, cargo: Cargo): ResultadoApi<Any?>? {
+        if (membro == null) return equipeRepository.convidar(email, cargo.id)
+        val novoNome = nome.takeIf { it != membro.nome }
+        val novoCargo = cargo.id.takeIf { cargo.nome != membro.cargoNome }
+        if (novoNome == null && novoCargo == null) return null
+        return equipeRepository.atualizarMembro(membro.id, novoNome, novoCargo)
+    }
+
+    private fun mostrarResultadoDoMembro(
+        resultado: ResultadoApi<Any?>,
+        editando: Boolean,
+        dialogo: AlertDialog,
+        botao: Button
+    ) {
+        when (resultado) {
+            is ResultadoApi.Sucesso -> {
+                dialogo.dismiss()
+                val msg = if (editando) R.string.equipe_membro_atualizado else R.string.equipe_convite_enviado
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                view?.let { carregar(it) }
+            }
+            is ResultadoApi.Erro -> {
+                botao.isEnabled = true
+                if (resultado.sessaoExpirada) {
+                    dialogo.dismiss()
+                    findNavController().navigate(R.id.action_global_to_login)
+                } else {
+                    // Cobre 404 e 409 também: a mensagem já vem do backend.
+                    mostrarErro(resultado.mensagem, resultado.tipo)
+                }
+            }
+        }
     }
 
     private fun confirmarRemocao(membro: Membro) {

@@ -61,7 +61,7 @@ class ImportarPlanilha(
         folha.abrir()
     }
 
-    private val preparo get() = Importacao.prepararItens(linhas, campos, mapa, pessoas, ligados)
+    private val preparo get() = Importacao.prepararItens(activity, linhas, campos, mapa, pessoas, ligados)
 
     private fun ler(uri: Uri) {
         erro = null

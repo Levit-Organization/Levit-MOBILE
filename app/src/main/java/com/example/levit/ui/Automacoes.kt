@@ -1,5 +1,8 @@
 package com.example.levit.ui
 
+import android.content.Context
+import androidx.annotation.StringRes
+import com.example.levit.R
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import java.text.SimpleDateFormat
@@ -13,7 +16,7 @@ import kotlin.math.floor
  * (utils/automacaoConstants.js e utils/notificacoes.js), sem Android.
  */
 
-data class InfoComIcone(val rotulo: String, val icone: String)
+data class InfoComIcone(@StringRes val rotulo: Int, val icone: String)
 
 /** Uma ação: tipo + configuração (o JSON que a API guarda). */
 data class AcaoAutomacao(var tipo: String, var configuracao: MutableMap<String, Any?>)
@@ -26,43 +29,43 @@ data class CondicoesAutomacao(val logica: String, val regras: List<RegraAutomaca
 object Automacoes {
 
     val GATILHOS = linkedMapOf(
-        "criacao" to InfoComIcone("Novo item", "add_circle"),
-        "atualizacao" to InfoComIcone("Atualização", "edit"),
-        "exclusao" to InfoComIcone("Exclusão", "delete"),
-        "candidato_criado" to InfoComIcone("Novo candidato", "person_add"),
-        "candidato_mudou_etapa" to InfoComIcone("Mudou de etapa", "swap_horiz"),
+        "criacao" to InfoComIcone(R.string.aut_gat_criacao, "add_circle"),
+        "atualizacao" to InfoComIcone(R.string.aut_gat_atualizacao, "edit"),
+        "exclusao" to InfoComIcone(R.string.aut_gat_exclusao, "delete"),
+        "candidato_criado" to InfoComIcone(R.string.aut_gat_candidato_criado, "person_add"),
+        "candidato_mudou_etapa" to InfoComIcone(R.string.aut_gat_candidato_mudou_etapa, "swap_horiz"),
     )
 
     val ACOES = linkedMapOf(
-        "enviar_email" to InfoComIcone("Enviar e-mail", "mail"),
-        "webhook" to InfoComIcone("Avisar outro sistema", "hub"),
-        "notificacao" to InfoComIcone("Notificação", "notifications"),
-        "atualizar_campo" to InfoComIcone("Atualizar coluna", "edit_note"),
-        "criar_registro" to InfoComIcone("Criar item", "library_add"),
+        "enviar_email" to InfoComIcone(R.string.aut_acao_tipo_enviar_email, "mail"),
+        "webhook" to InfoComIcone(R.string.aut_acao_tipo_webhook, "hub"),
+        "notificacao" to InfoComIcone(R.string.aut_acao_tipo_notificacao, "notifications"),
+        "atualizar_campo" to InfoComIcone(R.string.aut_acao_tipo_atualizar_campo, "edit_note"),
+        "criar_registro" to InfoComIcone(R.string.aut_acao_tipo_criar_registro, "library_add"),
     )
 
     /** Em vagas, condições e {{variáveis}} usam os campos do candidato. id, nome, tipo. */
     val CAMPOS_CANDIDATO = listOf(
-        Triple("nome", "Nome", "texto"),
-        Triple("email", "E-mail", "texto"),
-        Triple("telefone", "Telefone", "texto"),
-        Triple("mensagem", "Mensagem", "texto"),
-        Triple("etapa", "Etapa", "etapa"),
-        Triple("etapa_anterior", "Etapa anterior", "etapa"),
+        Triple("nome", R.string.aut_cand_nome, "texto"),
+        Triple("email", R.string.aut_cand_email, "texto"),
+        Triple("telefone", R.string.aut_cand_telefone, "texto"),
+        Triple("mensagem", R.string.aut_cand_mensagem, "texto"),
+        Triple("etapa", R.string.aut_cand_etapa, "etapa"),
+        Triple("etapa_anterior", R.string.aut_cand_etapa_anterior, "etapa"),
     )
 
-    val OPERADORES = linkedMapOf(
-        "igual" to "é igual a",
-        "diferente" to "é diferente de",
-        "contem" to "contém",
-        "nao_contem" to "não contém",
-        "vazio" to "está vazio",
-        "preenchido" to "está preenchido",
-        "maior" to "é maior que",
-        "menor" to "é menor que",
-        "mudou" to "mudou (qualquer valor)",
-        "mudou_para" to "mudou para",
-        "mudou_de_para" to "mudou de… para…",
+    val OPERADORES = linkedMapOf<String, Int>(
+        "igual" to R.string.aut_op_igual,
+        "diferente" to R.string.aut_op_diferente,
+        "contem" to R.string.aut_op_contem,
+        "nao_contem" to R.string.aut_op_nao_contem,
+        "vazio" to R.string.aut_op_vazio,
+        "preenchido" to R.string.aut_op_preenchido,
+        "maior" to R.string.aut_op_maior,
+        "menor" to R.string.aut_op_menor,
+        "mudou" to R.string.aut_op_mudou,
+        "mudou_para" to R.string.aut_op_mudou_para,
+        "mudou_de_para" to R.string.aut_op_mudou_de_para,
     )
 
     /** Comparam com o valor anterior: só disparam quando há um (atualização / troca de etapa). */
@@ -73,18 +76,18 @@ object Automacoes {
 
     const val MAX_REGRAS = 10
 
-    val DESTINO_NOTIFICACAO = linkedMapOf(
-        "todos" to "Toda a equipe com acesso à tabela",
-        "cargo" to "Pessoas de um cargo",
-        "usuario" to "Uma pessoa específica",
+    val DESTINO_NOTIFICACAO = linkedMapOf<String, Int>(
+        "todos" to R.string.aut_dest_todos,
+        "cargo" to R.string.aut_dest_cargo,
+        "usuario" to R.string.aut_dest_usuario,
         // Só aparece em tabelas com coluna "Responsável".
-        "responsavel" to "O responsável pelo item",
+        "responsavel" to R.string.aut_dest_responsavel,
     )
 
     val STATUS_EXECUCAO = mapOf(
-        "sucesso" to InfoComIcone("Sucesso", "check_circle"),
-        "erro" to InfoComIcone("Falhou", "error_outline"),
-        "retentando" to InfoComIcone("Vai tentar de novo", "schedule"),
+        "sucesso" to InfoComIcone(R.string.aut_status_sucesso, "check_circle"),
+        "erro" to InfoComIcone(R.string.aut_status_erro, "error_outline"),
+        "retentando" to InfoComIcone(R.string.aut_status_retentando, "schedule"),
     )
 
     /** Tabelas de dados disparam com itens; vagas (recrutamento), com candidatos. */
@@ -100,8 +103,10 @@ object Automacoes {
     fun acoesDoModulo(tipo: String?) =
         if (ehVaga(tipo)) ACOES.keys.filter { it != "atualizar_campo" && it != "criar_registro" } else ACOES.keys.toList()
 
-    fun gatilhoLabel(gatilho: String?) = GATILHOS[gatilho]?.rotulo ?: gatilho.orEmpty()
-    fun acaoLabel(tipo: String?) = ACOES[tipo]?.rotulo ?: tipo.orEmpty()
+    fun gatilhoLabel(context: Context, gatilho: String?) =
+        GATILHOS[gatilho]?.let { context.getString(it.rotulo) } ?: gatilho.orEmpty()
+    fun acaoLabel(context: Context, tipo: String?) =
+        ACOES[tipo]?.let { context.getString(it.rotulo) } ?: tipo.orEmpty()
 
     /** Configuração inicial de cada tipo de ação. */
     fun configuracaoInicial(tipo: String): MutableMap<String, Any?> = when (tipo) {
@@ -197,13 +202,13 @@ object Automacoes {
     }
 
     /** "agora", "há 5 min", "há 3 h" ou a data/hora completa (mais de um dia). */
-    fun quando(valor: String?, agora: Long = System.currentTimeMillis()): String {
+    fun quando(context: Context, valor: String?, agora: Long = System.currentTimeMillis()): String {
         val data = Datas.ler(valor) ?: return "—"
         val minutos = floor((agora - data.time) / 60000.0).toLong()
         return when {
-            minutos < 1 -> "agora"
-            minutos < 60 -> "há $minutos min"
-            minutos < 24 * 60 -> "há ${minutos / 60} h"
+            minutos < 1 -> context.getString(R.string.tempo_agora)
+            minutos < 60 -> context.getString(R.string.tempo_minutos, minutos)
+            minutos < 24 * 60 -> context.getString(R.string.tempo_horas, minutos / 60)
             else -> dataHoraCompleta(valor)
         }
     }
@@ -219,11 +224,11 @@ object Automacoes {
     }
 
     /** Rótulo curto de um item: o primeiro valor preenchido. */
-    fun rotuloRegistro(id: String?, dados: JsonObject?): String {
+    fun rotuloRegistro(context: Context, id: String?, dados: JsonObject?): String {
         val valor = dados?.entrySet()?.map { it.value }?.firstOrNull { e: JsonElement ->
             e.isJsonPrimitive && e.asString.isNotEmpty()
         }
-        return valor?.asString?.take(60) ?: "Registro ${id.orEmpty().take(8)}"
+        return valor?.asString?.take(60) ?: context.getString(R.string.registro_rotulo_padrao, id.orEmpty().take(8))
     }
 }
 
@@ -244,7 +249,7 @@ object Notificacoes {
     }.timeInMillis
 
     /** Agrupa (mantendo a ordem) em "Hoje", "Ontem" e "12 de outubro". */
-    fun <T> agruparPorDia(itens: List<T>, criadoEm: (T) -> String?, agora: Long = System.currentTimeMillis()): List<Pair<String, List<T>>> {
+    fun <T> agruparPorDia(context: Context, itens: List<T>, criadoEm: (T) -> String?, agora: Long = System.currentTimeMillis()): List<Pair<String, List<T>>> {
         val hoje = inicioDoDia(agora)
         val ontem = Calendar.getInstance().apply { timeInMillis = hoje; add(Calendar.DAY_OF_MONTH, -1) }.timeInMillis
         val grupos = mutableListOf<Pair<String, MutableList<T>>>()
@@ -252,9 +257,9 @@ object Notificacoes {
             val data = Datas.ler(criadoEm(item))
             val dia = data?.let { inicioDoDia(it.time) }
             val rotulo = when (dia) {
-                hoje -> "Hoje"
-                ontem -> "Ontem"
-                null -> "Sem data"
+                hoje -> context.getString(R.string.dia_hoje)
+                ontem -> context.getString(R.string.dia_ontem)
+                null -> context.getString(R.string.dia_sem_data)
                 else -> SimpleDateFormat("dd 'de' MMMM", Locale.forLanguageTag("pt-BR")).format(Date(dia))
             }
             if (grupos.lastOrNull()?.first == rotulo) grupos.last().second += item else grupos += rotulo to mutableListOf(item)
@@ -263,8 +268,9 @@ object Notificacoes {
     }
 
     /** Rótulo do sino: "Notificações, 3 não lidas". */
-    fun rotuloDoSino(naoLidas: Int) =
-        if (naoLidas > 0) "Notificações, $naoLidas não ${if (naoLidas == 1) "lida" else "lidas"}" else "Notificações"
+    fun rotuloDoSino(context: Context, naoLidas: Int) =
+        if (naoLidas > 0) context.resources.getQuantityString(R.plurals.sino_nao_lidas, naoLidas, naoLidas)
+        else context.getString(R.string.sino_sem_notificacoes)
 
     fun contador(naoLidas: Int) = if (naoLidas > 99) "99+" else naoLidas.toString()
 }

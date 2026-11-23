@@ -15,4 +15,8 @@
     <string name="ic_photo_camera" translatable="false">photo_camera</string>
     <string name="ic_upload_file" translatable="false">upload_file</string>
     <string name="ic_filter_alt" translatable="false">filter_alt</string>
+    <string name="ic_check" translatable="false">check</string>
+    <string name="ic_arrow_downward" translatable="false">arrow_downward</string>
+    <string name="ic_account_balance_wallet" translatable="false">account_balance_wallet</string>
+    <string name="ic_folder_open" translatable="false">folder_open</string>
 </resources>

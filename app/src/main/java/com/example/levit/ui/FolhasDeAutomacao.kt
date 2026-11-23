@@ -120,15 +120,15 @@ class HistoricoExecucoes(
             if (aberta) { abertas -= id; abertas += "fechada-$id" } else { abertas += id; abertas -= "fechada-$id" }
             desenhar()
         }
-        val info = Automacoes.STATUS_EXECUCAO[status] ?: InfoComIcone(status.orEmpty(), "help_outline")
+        val rotuloStatus = Automacoes.STATUS_EXECUCAO[status]?.let { activity.getString(it.rotulo) } ?: status.orEmpty()
         val (corTexto, corFundo) = corDoStatus(status)
-        b.topo.addView(activity.selo(info.rotulo, corTexto, corFundo, ponto = true), 0)
-        val gatilho = e.str("gatilho")?.let { Automacoes.gatilhoLabel(it) } ?: activity.getString(R.string.aut_execucao)
+        b.topo.addView(activity.selo(rotuloStatus, corTexto, corFundo, ponto = true), 0)
+        val gatilho = e.str("gatilho")?.let { Automacoes.gatilhoLabel(activity, it) } ?: activity.getString(R.string.aut_execucao)
         val tentativa = e.str("tentativa")?.toIntOrNull() ?: 1
         b.tvGatilho.text = if (tentativa > 1) activity.getString(R.string.aut_tentativa, gatilho, tentativa) else gatilho
         val ms = e.str("duracao_ms")?.toDoubleOrNull()?.toLong()
-        b.tvQuando.text = listOf(Automacoes.quando(e.str("executado_em")), Automacoes.duracao(ms)).filter { it.isNotEmpty() }.joinToString(" · ")
-        b.tvSeta.text = if (aberta) "expand_less" else "expand_more"
+        b.tvQuando.text = listOf(Automacoes.quando(activity, e.str("executado_em")), Automacoes.duracao(ms)).filter { it.isNotEmpty() }.joinToString(" · ")
+        b.tvSeta.text = activity.getString(if (aberta) R.string.ic_expand_less else R.string.ic_expand_more)
         if (!aberta) return b.root
 
         val detalhe = b.detalhe
@@ -138,10 +138,10 @@ class HistoricoExecucoes(
         if (passos.isNotEmpty()) passos.forEach { p ->
             val ok = p.str("status") == "sucesso"
             val linha = ItemAutPassoBinding.inflate(activity.layoutInflater, detalhe, false)
-            linha.tvIcone.text = if (ok) "check" else "close"
+            linha.tvIcone.text = activity.getString(if (ok) R.string.ic_check else R.string.ic_close)
             linha.tvIcone.setTextColor(activity.cor(if (ok) R.color.success else R.color.danger))
             val indice = (p.str("indice")?.toIntOrNull() ?: 0) + 1
-            linha.tvTitulo.text = activity.getString(R.string.aut_acao_n, indice, Automacoes.acaoLabel(p.str("tipo")))
+            linha.tvTitulo.text = activity.getString(R.string.aut_acao_n, indice, Automacoes.acaoLabel(activity, p.str("tipo")))
             p.str("mensagem")?.let { linha.tvMensagem.text = it; linha.tvMensagem.isVisible = true }
             detalhe.addView(linha.root)
         } else e.str("detalhes")?.let { detalhe.addView(activity.texto(it, 14f, R.color.danger, topo = 8)) }
@@ -197,7 +197,7 @@ class SimulacaoAutomacao(
         folha.abrir()
         if (!vaga) activity.lifecycleScope.launch {
             (chamador.chamar { ApiClient.registroApi(activity).listar(moduloId, null, null) } as? ResultadoApi.Sucesso)?.let { r ->
-                registros = r.dados.take(50).map { it.id to Automacoes.rotuloRegistro(it.id, it.dados) }
+                registros = r.dados.take(50).map { it.id to Automacoes.rotuloRegistro(activity, it.id, it.dados) }
                 desenhar()
             }
         }
@@ -265,7 +265,7 @@ class SimulacaoAutomacao(
         r.arr("passos").forEach { p ->
             val cartao = ItemAutPassoTesteBinding.inflate(activity.layoutInflater, corpo, false)
             val indice = (p.str("indice")?.toIntOrNull() ?: 0) + 1
-            cartao.tvTitulo.text = activity.getString(R.string.aut_acao_n, indice, Automacoes.acaoLabel(p.str("tipo")))
+            cartao.tvTitulo.text = activity.getString(R.string.aut_acao_n, indice, Automacoes.acaoLabel(activity, p.str("tipo")))
             previa(p, cartao.root)
             corpo.addView(cartao.root)
         }

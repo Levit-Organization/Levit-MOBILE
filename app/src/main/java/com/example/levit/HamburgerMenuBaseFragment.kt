@@ -192,7 +192,7 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
         val sino = ItemSinoBinding.inflate(layoutInflater, destino, false)
         sinoIcone = sino.tvIcone
         sinoContador = sino.tvContador
-        sino.root.contentDescription = Notificacoes.rotuloDoSino(0)
+        sino.root.contentDescription = Notificacoes.rotuloDoSino(requireContext(), 0)
         sino.root.setOnClickListener {
             PainelNotificacoes(
                 requireActivity(), naoLidas,
@@ -228,9 +228,9 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
 
     private fun mostrarContagem(n: Int, avisarNovas: Boolean) {
         naoLidas = n
-        sinoIcone?.text = if (n > 0) "notifications_active" else "notifications_none"
+        sinoIcone?.text = getString(if (n > 0) R.string.ic_notifications_active else R.string.ic_notifications_none)
         sinoContador?.apply { isVisible = n > 0; text = Notificacoes.contador(n) }
-        (sinoIcone?.parent as? View)?.contentDescription = Notificacoes.rotuloDoSino(n)
+        (sinoIcone?.parent as? View)?.contentDescription = Notificacoes.rotuloDoSino(requireContext(), n)
         // A contagem vista fica fora da tela: trocar de tela não repete o aviso.
         val usuario = authRepository.usuarioLogado()?.id
         if (usuarioDaContagem != usuario) { usuarioDaContagem = usuario; ultimaContagemVista = null }

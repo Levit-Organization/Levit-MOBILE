@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tempo_agora">agora</string>
+    <string name="tempo_minutos">há %1$d min</string>
+    <string name="tempo_horas">há %1$d h</string>
+    <string name="dia_hoje">Hoje</string>
+    <string name="dia_ontem">Ontem</string>
+    <string name="dia_sem_data">Sem data</string>
+    <string name="registro_rotulo_padrao">Registro %1$s</string>
+    <string name="sino_sem_notificacoes">Notificações</string>
+    <plurals name="sino_nao_lidas">
+        <item quantity="one">Notificações, %d não lida</item>
+        <item quantity="other">Notificações, %d não lidas</item>
+    </plurals>
+    <string name="ic_notifications_active" translatable="false">notifications_active</string>
+</resources>

@@ -498,7 +498,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             renderizar()
         }
         topo.btnDirecao.isVisible = ordem != null
-        topo.btnDirecao.text = if (ordem?.second != false) "arrow_upward" else "arrow_downward"
+        topo.btnDirecao.text = getString(if (ordem?.second != false) R.string.ic_arrow_upward else R.string.ic_arrow_downward)
         topo.btnDirecao.contentDescription = getString(if (ordem?.second != false) R.string.itens_crescente else R.string.itens_decrescente)
         topo.abasQuadro.isVisible = false
         rodape.linhaPaginas.isVisible = false
@@ -588,7 +588,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         val valor = ler(r, c) ?: return null
         return when (c.chave) {
             "arquivo_tamanho" -> String.format(Locale.US, "%.2f KB", (r.arquivoTamanho ?: 0.0) / 1024)
-            else -> if (c.tipo == "recorrencia") Prazos.rotuloDaRepeticao(valor) ?: valor else valor
+            else -> if (c.tipo == "recorrencia") Prazos.rotuloDaRepeticao(valor)?.em(requireContext()) ?: valor else valor
         }
     }
 
@@ -714,7 +714,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         return when (c.tipo) {
             "data" -> Datas.ler(valor)?.let { java.text.SimpleDateFormat("dd/MM/yyyy", Locale.US).format(it) } ?: valor
             "numero" -> valor.toDoubleOrNull()?.let { NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR")).format(it) } ?: valor
-            "recorrencia" -> Prazos.rotuloDaRepeticao(valor) ?: valor
+            "recorrencia" -> Prazos.rotuloDaRepeticao(valor)?.em(requireContext()) ?: valor
             else -> valor
         }
     }
@@ -874,7 +874,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         val bloco = rotulo.root
         rotulo.tvRotulo.text = SpannableStringBuilder(campo.nome.orEmpty()).apply {
             val inicio = length
-            append("   ").append(Tabelas.TIPO_NO_FORMULARIO[campo.tipo].orEmpty())
+            append("   ").append(Tabelas.TIPO_NO_FORMULARIO[campo.tipo]?.let { getString(it) }.orEmpty())
             setSpan(android.text.style.ForegroundColorSpan(requireContext().cor(R.color.light_text)), inicio, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(android.text.style.AbsoluteSizeSpan(12, true), inicio, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
@@ -918,7 +918,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
                 }
                 bloco.addView(c.root)
             }
-            "recorrencia" -> bloco.addView(select(listOf("" to getString(R.string.itens_nao_repete)) + Prazos.REPETICOES, atual) { dados[id] = it })
+            "recorrencia" -> bloco.addView(select(listOf("" to getString(R.string.itens_nao_repete)) + Prazos.repeticoes(requireContext()), atual) { dados[id] = it })
             "responsavel" -> {
                 val opcoes = pessoas?.map { p -> p.id to if (p.id == usuarioId) getString(R.string.itens_voce, p.nome) else p.nome.orEmpty() }
                 val vazio = if (pessoas == null) getString(R.string.itens_carregando_equipe) else getString(R.string.itens_sem_responsavel)

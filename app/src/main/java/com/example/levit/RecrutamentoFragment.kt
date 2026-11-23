@@ -475,7 +475,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
             b.btnBaixarCurriculo.isEnabled = true
             when (r) {
                 is ResultadoApi.Sucesso -> {
-                    val nome = c.curriculoNome ?: "Currículo - ${c.nome}"
+                    val nome = c.curriculoNome ?: getString(R.string.recrutamento_curriculo_nome, c.nome)
                     requireActivity().abrirArquivo(r.dados, nome, mimeDoArquivo(nome))
                 }
                 is ResultadoApi.Erro -> if (r.sessaoExpirada) redirecionarParaLogin() else requireContext().avisar(r.mensagem, longo = true)

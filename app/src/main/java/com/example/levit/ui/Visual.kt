@@ -144,7 +144,7 @@ fun Context.confirmar(
     titulo: String,
     mensagem: String,
     rotuloConfirmar: String,
-    rotuloCancelar: String = "Cancelar",
+    rotuloCancelar: String = getString(R.string.cancelar),
     perigo: Boolean = true,
     aoConfirmar: () -> Unit
 ) {
@@ -166,7 +166,7 @@ fun Context.escolher(titulo: String, opcoes: List<Pair<String, String>>, atual: 
             dialogo.dismiss()
             if (opcoes[i].first != atual) aoEscolher(opcoes[i].first)
         }
-        .setNegativeButton("Cancelar", null)
+        .setNegativeButton(R.string.cancelar, null)
         .show()
 }
 

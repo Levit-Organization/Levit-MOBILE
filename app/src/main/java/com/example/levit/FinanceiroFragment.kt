@@ -260,7 +260,7 @@ class FinanceiroFragment : HamburgerMenuBaseFragment() {
     private fun ligarMes(b: ItemMesFinanceiroBinding, m: Linha.Mes) {
         b.root.pedacoDeCartao(primeiro = true, ultimo = !m.aberto)
         b.root.setOnClickListener { abertos[m.chave] = !m.aberto; renderizar() }
-        b.tvSeta.text = if (m.aberto) "expand_more" else "chevron_right"
+        b.tvSeta.text = getString(if (m.aberto) R.string.ic_expand_more else R.string.ic_chevron_right)
         b.tvMes.text = getString(R.string.fin_mes_ano, m.nome, ano)
         b.tvQuantidade.text = resources.getQuantityString(R.plurals.fin_n_lancamentos, m.quantidade, m.quantidade)
         val t = m.totais

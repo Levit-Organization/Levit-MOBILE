@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="filtro_op_igual">é igual a</string>
+    <string name="filtro_op_diferente">é diferente de</string>
+    <string name="filtro_op_contem">contém</string>
+    <string name="filtro_op_nao_contem">não contém</string>
+    <string name="filtro_op_maior">maior que</string>
+    <string name="filtro_op_menor">menor que</string>
+    <string name="filtro_op_entre">entre</string>
+    <string name="filtro_op_vazio">está vazio</string>
+    <string name="filtro_op_preenchido">está preenchido</string>
+    <string name="filtro_op_data_igual">é em</string>
+    <string name="filtro_op_data_diferente">não é em</string>
+    <string name="filtro_op_data_maior">depois de</string>
+    <string name="filtro_op_data_menor">antes de</string>
+    <string name="filtro_op_vinculo_igual">é</string>
+    <string name="filtro_op_vinculo_diferente">não é</string>
+    <string name="filtro_op_ligacao_preenchido">tem algum item</string>
+    <string name="filtro_op_ligacao_vazio">não tem nenhum item</string>
+    <string name="filtro_criado_em">Criado em</string>
+    <string name="filtro_grupo_ida">%1$s (tabela %2$s)</string>
+    <string name="filtro_grupo_volta">%1$s ligados pela coluna “%2$s”</string>
+    <string name="filtro_ligados">%1$s ligados</string>
+    <string name="filtro_algum_de">Algum de %1$s › %2$s</string>
+</resources>
