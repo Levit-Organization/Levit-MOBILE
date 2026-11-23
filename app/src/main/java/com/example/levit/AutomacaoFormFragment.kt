@@ -299,7 +299,15 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         conteudo.removeAllViews()
         if (carregandoInicial) return conteudo.mostrarCarregando(4)
 
-        // Propriedades
+        desenharPropriedades(conteudo)
+        desenharQuando(conteudo)
+        desenharSe(conteudo)
+        desenharEntao(conteudo)
+        desenharRodape(conteudo)
+        atualizarBotoes()
+    }
+
+    private fun desenharPropriedades(conteudo: LinearLayout) {
         val prop = cartao()
         prop.addView(requireContext().texto(getString(R.string.aut_propriedades), 16f, R.color.ink, R.font.archivo_semibold))
         prop.addView(campoTexto(getString(R.string.aut_nome), nome, getString(R.string.aut_nome_ex)) { nome = it })
@@ -315,8 +323,10 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         })
         conteudo.addView(prop)
         conteudo.addView(conector())
+    }
 
-        // 1 Quando
+    /** Passo 1: os gatilhos. */
+    private fun desenharQuando(conteudo: LinearLayout) {
         val quando = cartao()
         quando.addView(cabecalhoDoNo("1", getString(R.string.aut_quando)))
         quando.addView(grade(gatilhosDisponiveis.map { it to Automacoes.GATILHOS.getValue(it) }, { it in gatilhos }) { valor ->
@@ -326,8 +336,10 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         })
         conteudo.addView(quando)
         conteudo.addView(conector())
+    }
 
-        // 2 Se
+    /** Passo 2: as condições, opcionais. */
+    private fun desenharSe(conteudo: LinearLayout) {
         val se = cartao()
         val chave = requireContext().inflar<MaterialSwitch>(R.layout.item_aut_switch).apply {
             isChecked = temCondicao
@@ -345,16 +357,13 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         }
         conteudo.addView(se)
         conteudo.addView(conector())
+    }
 
-        // 3 Então (uma ou mais ações)
+    /** Passo 3: uma ou mais ações, mais o botão de adicionar outra. */
+    private fun desenharEntao(conteudo: LinearLayout) {
         acoes.forEachIndexed { indice, acao ->
             val c = cartao()
-            val remover = if (acoes.size > 1) requireContext().inflar<TextView>(R.layout.item_icone_excluir).apply {
-                contentDescription = getString(R.string.aut_remover_acao)
-                layoutParams = LinearLayout.LayoutParams(requireContext().dp(44), requireContext().dp(44))
-                setOnClickListener { acoes.removeAt(indice); renderizar() }
-            } else null
-            c.addView(cabecalhoDoNo(if (indice == 0) "3" else "3.${indice + 1}", getString(R.string.aut_entao), remover))
+            c.addView(cabecalhoDoNo(if (indice == 0) "3" else "3.${indice + 1}", getString(R.string.aut_entao), botaoRemoverAcao(indice)))
             c.addView(grade(acoesDisponiveis.map { it to Automacoes.ACOES.getValue(it) }, { it == acao.tipo }) { tipo ->
                 acao.tipo = tipo
                 acao.configuracao = Automacoes.configuracaoInicial(tipo)
@@ -367,8 +376,20 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         val adicionar = ItemAutAdicionarAcaoBinding.inflate(layoutInflater)
         adicionar.btnAdicionar.setOnClickListener { acoes += Automacoes.novaAcao(); renderizar() }
         conteudo.addView(adicionar.root)
+    }
 
-        // Rodapé: Testar, Cancelar, Salvar
+    /** Só há botão de remover quando existe mais de uma ação. */
+    private fun botaoRemoverAcao(indice: Int): TextView? {
+        if (acoes.size <= 1) return null
+        return requireContext().inflar<TextView>(R.layout.item_icone_excluir).apply {
+            contentDescription = getString(R.string.aut_remover_acao)
+            layoutParams = LinearLayout.LayoutParams(requireContext().dp(44), requireContext().dp(44))
+            setOnClickListener { acoes.removeAt(indice); renderizar() }
+        }
+    }
+
+    /** Rodapé: Testar, Cancelar e Salvar. */
+    private fun desenharRodape(conteudo: LinearLayout) {
         val rodape = ItemAutRodapeBinding.inflate(layoutInflater)
         btnTestar = rodape.btnTestar
         btnTestar.setOnClickListener { SimulacaoAutomacao(requireActivity(), moduloId, definicao(), vaga) { redirecionarParaLogin() }.abrir() }
@@ -376,7 +397,6 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         btnSalvar.setOnClickListener { salvar() }
         rodape.btnCancelar.setOnClickListener { findNavController().popBackStack() }
         conteudo.addView(rodape.root)
-        atualizarBotoes()
     }
 
     /** Trocar de tabela reinicia o que depende dela: gatilhos, condições e algumas ações. */
@@ -482,68 +502,75 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
 
     // --- Ações ------------------------------------------------------------------------
 
+    private fun valorDe(c: Map<String, Any?>, chave: String) = c[chave]?.toString().orEmpty()
+
     private fun desenharAcao(destino: LinearLayout, acao: AcaoAutomacao) {
         val c = acao.configuracao
-        fun s(chave: String) = c[chave]?.toString().orEmpty()
         val bloco = requireContext().inflar<LinearLayout>(R.layout.item_aut_bloco_acao)
         when (acao.tipo) {
-            "enviar_email" -> {
-                if (camposResponsavel.isNotEmpty()) {
-                    val linha = requireContext().inflar<com.google.android.material.chip.ChipGroup>(R.layout.item_aut_chips)
-                    linha.addView(requireContext().texto(getString(R.string.aut_enviar_para), 12f))
-                    camposResponsavel.forEach { campo ->
-                        val ativo = s("destinatario_campo_id") == campo.id
-                        linha.addView(linha.inflarFilho<com.google.android.material.chip.Chip>(R.layout.item_aut_chip).apply {
-                            text = getString(R.string.aut_do_item, campo.nome)
-                            isChecked = ativo
-                            setOnClickListener {
-                                c["destinatario"] = ""
-                                c["destinatario_campo_id"] = if (ativo) "" else campo.id
-                                renderizar()
-                            }
-                        })
-                    }
-                    bloco.addView(linha)
-                }
-                if (camposResponsavel.any { it.id == s("destinatario_campo_id") }) {
-                    bloco.addView(requireContext().texto(getString(R.string.aut_vai_para_conta), 12f, topo = 4))
-                } else {
-                    val dica = when {
-                        vaga -> getString(R.string.aut_destinatario_vaga)
-                        camposModulo.isNotEmpty() -> getString(R.string.aut_destinatario_item, camposModulo.joinToString(", ") { "{{${it.nome}}}" })
-                        else -> null
-                    }
-                    bloco.addView(campoTexto(getString(R.string.aut_destinatario), s("destinatario").ifEmpty { s("destinatario_campo_id") },
-                        getString(R.string.aut_destinatario_ex), dica, tipoEntrada = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
-                        c["destinatario"] = it
-                        if (s("destinatario_campo_id").isNotEmpty()) c["destinatario_campo_id"] = ""
-                    })
-                }
-                bloco.addView(campoTexto(getString(R.string.aut_assunto), s("assunto"), getString(R.string.aut_assunto_ex), dicaVariaveis) { c["assunto"] = it })
-                bloco.addView(campoTexto(getString(R.string.aut_corpo), s("corpo"), getString(R.string.aut_corpo_ex), multilinha = true) { c["corpo"] = it })
-            }
-            "webhook" -> bloco.addView(campoTexto(getString(R.string.aut_webhook), s("url"), getString(R.string.aut_webhook_ex),
+            "enviar_email" -> desenharEnviarEmail(bloco, c)
+            "webhook" -> bloco.addView(campoTexto(getString(R.string.aut_webhook), valorDe(c, "url"), getString(R.string.aut_webhook_ex),
                 getString(R.string.aut_webhook_dica), tipoEntrada = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI) { c["url"] = it })
             "atualizar_campo" -> desenharAtualizarCampo(bloco, c)
             "criar_registro" -> desenharCriarRegistro(bloco, c)
-            "notificacao" -> {
-                if (equipe == null || cargos == null) carregarEquipe()
-                val destinos = Automacoes.DESTINO_NOTIFICACAO.entries
-                    .filter { it.key != "responsavel" || camposResponsavel.isNotEmpty() || s("destinatarios") == "responsavel" }
-                    .map { it.key to getString(it.value) }
-                bloco.addView(campoSelect(getString(R.string.aut_quem_recebe), destinos, s("destinatarios").ifEmpty { "todos" }) {
-                    c["destinatarios"] = it; c["destino_id"] = ""; renderizar()
-                })
-                if (s("destinatarios") == "cargo") bloco.addView(campoSelect(getString(R.string.aut_cargo),
-                    cargos.orEmpty().map { it.id to it.nome.orEmpty() }, s("destino_id"), getString(R.string.aut_selecione_cargo)) { c["destino_id"] = it })
-                if (s("destinatarios") == "usuario") bloco.addView(campoSelect(getString(R.string.aut_pessoa),
-                    equipe.orEmpty().map { it.id to (it.nome ?: it.email.orEmpty()) }, s("destino_id"), getString(R.string.aut_selecione_pessoa)) { c["destino_id"] = it })
-                bloco.addView(requireContext().texto(getString(R.string.aut_so_quem_tem_acesso), 12f, topo = 6))
-                bloco.addView(campoTexto(getString(R.string.aut_titulo_notif), s("titulo"), getString(R.string.aut_titulo_notif_ex), dicaVariaveis) { c["titulo"] = it.take(200) })
-                bloco.addView(campoTexto(getString(R.string.aut_mensagem_opcional), s("mensagem"), getString(R.string.aut_mensagem_ex), multilinha = true) { c["mensagem"] = it })
-            }
+            "notificacao" -> desenharNotificacao(bloco, c)
         }
         destino.addView(bloco)
+    }
+
+    private fun desenharEnviarEmail(bloco: LinearLayout, c: MutableMap<String, Any?>) {
+        fun s(chave: String) = valorDe(c, chave)
+        if (camposResponsavel.isNotEmpty()) {
+            val linha = requireContext().inflar<com.google.android.material.chip.ChipGroup>(R.layout.item_aut_chips)
+            linha.addView(requireContext().texto(getString(R.string.aut_enviar_para), 12f))
+            camposResponsavel.forEach { campo ->
+                val ativo = s("destinatario_campo_id") == campo.id
+                linha.addView(linha.inflarFilho<com.google.android.material.chip.Chip>(R.layout.item_aut_chip).apply {
+                    text = getString(R.string.aut_do_item, campo.nome)
+                    isChecked = ativo
+                    setOnClickListener {
+                        c["destinatario"] = ""
+                        c["destinatario_campo_id"] = if (ativo) "" else campo.id
+                        renderizar()
+                    }
+                })
+            }
+            bloco.addView(linha)
+        }
+        if (camposResponsavel.any { it.id == s("destinatario_campo_id") }) {
+            bloco.addView(requireContext().texto(getString(R.string.aut_vai_para_conta), 12f, topo = 4))
+        } else {
+            val dica = when {
+                vaga -> getString(R.string.aut_destinatario_vaga)
+                camposModulo.isNotEmpty() -> getString(R.string.aut_destinatario_item, camposModulo.joinToString(", ") { "{{${it.nome}}}" })
+                else -> null
+            }
+            bloco.addView(campoTexto(getString(R.string.aut_destinatario), s("destinatario").ifEmpty { s("destinatario_campo_id") },
+                getString(R.string.aut_destinatario_ex), dica, tipoEntrada = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
+                c["destinatario"] = it
+                if (s("destinatario_campo_id").isNotEmpty()) c["destinatario_campo_id"] = ""
+            })
+        }
+        bloco.addView(campoTexto(getString(R.string.aut_assunto), s("assunto"), getString(R.string.aut_assunto_ex), dicaVariaveis) { c["assunto"] = it })
+        bloco.addView(campoTexto(getString(R.string.aut_corpo), s("corpo"), getString(R.string.aut_corpo_ex), multilinha = true) { c["corpo"] = it })
+    }
+
+    private fun desenharNotificacao(bloco: LinearLayout, c: MutableMap<String, Any?>) {
+        fun s(chave: String) = valorDe(c, chave)
+        if (equipe == null || cargos == null) carregarEquipe()
+        val destinos = Automacoes.DESTINO_NOTIFICACAO.entries
+            .filter { it.key != "responsavel" || camposResponsavel.isNotEmpty() || s("destinatarios") == "responsavel" }
+            .map { it.key to getString(it.value) }
+        bloco.addView(campoSelect(getString(R.string.aut_quem_recebe), destinos, s("destinatarios").ifEmpty { "todos" }) {
+            c["destinatarios"] = it; c["destino_id"] = ""; renderizar()
+        })
+        if (s("destinatarios") == "cargo") bloco.addView(campoSelect(getString(R.string.aut_cargo),
+            cargos.orEmpty().map { it.id to it.nome.orEmpty() }, s("destino_id"), getString(R.string.aut_selecione_cargo)) { c["destino_id"] = it })
+        if (s("destinatarios") == "usuario") bloco.addView(campoSelect(getString(R.string.aut_pessoa),
+            equipe.orEmpty().map { it.id to (it.nome ?: it.email.orEmpty()) }, s("destino_id"), getString(R.string.aut_selecione_pessoa)) { c["destino_id"] = it })
+        bloco.addView(requireContext().texto(getString(R.string.aut_so_quem_tem_acesso), 12f, topo = 6))
+        bloco.addView(campoTexto(getString(R.string.aut_titulo_notif), s("titulo"), getString(R.string.aut_titulo_notif_ex), dicaVariaveis) { c["titulo"] = it.take(200) })
+        bloco.addView(campoTexto(getString(R.string.aut_mensagem_opcional), s("mensagem"), getString(R.string.aut_mensagem_ex), multilinha = true) { c["mensagem"] = it })
     }
 
     private fun carregarEquipe() {

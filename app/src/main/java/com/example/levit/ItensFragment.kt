@@ -485,7 +485,26 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             resources.getQuantityString(R.plurals.tab_n_itens, total, total))
         else resources.getQuantityString(R.plurals.tab_n_itens, total, total)
 
-        // Lista ou quadro
+        renderizarControles(t)
+
+        val e = erroTabela
+        when {
+            e != null -> mostrar(listOf(estado(getString(R.string.itens_nao_abriu_titulo), e.mensagem, R.drawable.ic_warning,
+                getString(R.string.tab_tentar), erro = true) { carregarTabela() }))
+            t == null || (registros == null && erroRegistros == null) -> mostrar(listOf(estadoCarregando()))
+            registros == null -> mostrar(listOf(estado(getString(R.string.itens_erro_carregar), erroRegistros?.mensagem,
+                R.drawable.ic_warning, getString(R.string.tab_tentar), erro = true) { carregarRegistros() }))
+            lista.isEmpty() && total > 0 -> mostrar(listOf(estado(getString(R.string.itens_nenhum_com_voce),
+                getString(R.string.itens_nenhum_com_voce_desc), R.drawable.ic_person_search, getString(R.string.itens_ver_todos)) {
+                topo.cbSoMeus.isChecked = false
+            }))
+            total == 0 -> mostrar(listOf(estadoSemItens()))
+            else -> renderizarConteudo()
+        }
+    }
+
+    /** Alternância lista/quadro, agrupamento e ordem: o que a barra de cima mostra para a tabela atual. */
+    private fun renderizarControles(t: TabelaDetalhe?) {
         topo.grupoVisao.isVisible = podeQuadro
         topo.grupoVisao.check(if (visao == "quadro") topo.btnQuadro.id else topo.btnLista.id)
         topo.campoAgrupar.isVisible = visao == "quadro" && camposLista.size > 1
@@ -502,40 +521,28 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         topo.btnDirecao.contentDescription = getString(if (ordem?.second != false) R.string.itens_crescente else R.string.itens_decrescente)
         topo.abasQuadro.isVisible = false
         rodape.linhaPaginas.isVisible = false
+    }
 
-        val e = erroTabela
-        when {
-            e != null -> mostrar(listOf(estado(getString(R.string.itens_nao_abriu_titulo), e.mensagem, R.drawable.ic_warning,
-                getString(R.string.tab_tentar), erro = true) { carregarTabela() }))
-            t == null || (registros == null && erroRegistros == null) -> mostrar(listOf(estadoCarregando()))
-            registros == null -> mostrar(listOf(estado(getString(R.string.itens_erro_carregar), erroRegistros?.mensagem,
-                R.drawable.ic_warning, getString(R.string.tab_tentar), erro = true) { carregarRegistros() }))
-            lista.isEmpty() && total > 0 -> mostrar(listOf(estado(getString(R.string.itens_nenhum_com_voce),
-                getString(R.string.itens_nenhum_com_voce_desc), R.drawable.ic_person_search, getString(R.string.itens_ver_todos)) {
-                topo.cbSoMeus.isChecked = false
-            }))
-            total == 0 -> {
-                val filtrando = filtros.paraApi() != null
-                val buscando = busca.isNotEmpty()
-                mostrar(listOf(estado(
-                    titulo = getString(if (buscando || filtrando) R.string.itens_nenhum_resultado else R.string.itens_nenhum_ainda),
-                    descricao = when {
-                        filtrando -> getString(R.string.itens_filtrando_desc)
-                        buscando -> getString(R.string.itens_busca_desc, busca)
-                        ehArquivo -> getString(R.string.itens_arquivo_desc)
-                        else -> getString(R.string.itens_vazio_desc)
-                    },
-                    icone = R.drawable.ic_inventory,
-                    acao = when {
-                        filtrando -> getString(R.string.itens_limpar_filtros)
-                        buscando -> null
-                        ehArquivo -> getString(R.string.itens_enviar_arquivo)
-                        else -> getString(R.string.itens_criar_primeiro)
-                    }
-                ) { if (filtrando) filtros.limpar() else abrirFormulario(null) }))
+    /** Tabela sem nenhum item: explica se é por busca, filtro ou se ainda não há nada. */
+    private fun estadoSemItens(): Linha.Estado {
+        val filtrando = filtros.paraApi() != null
+        val buscando = busca.isNotEmpty()
+        return estado(
+            titulo = getString(if (buscando || filtrando) R.string.itens_nenhum_resultado else R.string.itens_nenhum_ainda),
+            descricao = when {
+                filtrando -> getString(R.string.itens_filtrando_desc)
+                buscando -> getString(R.string.itens_busca_desc, busca)
+                ehArquivo -> getString(R.string.itens_arquivo_desc)
+                else -> getString(R.string.itens_vazio_desc)
+            },
+            icone = R.drawable.ic_inventory,
+            acao = when {
+                filtrando -> getString(R.string.itens_limpar_filtros)
+                buscando -> null
+                ehArquivo -> getString(R.string.itens_enviar_arquivo)
+                else -> getString(R.string.itens_criar_primeiro)
             }
-            else -> renderizarConteudo()
-        }
+        ) { if (filtrando) filtros.limpar() else abrirFormulario(null) }
     }
 
     private fun renderizarConteudo() {
@@ -791,11 +798,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             registro != null -> R.string.itens_editar_titulo
             else -> R.string.itens_novo_titulo
         })
-        b.btnSalvar.setText(when {
-            registro != null -> R.string.itens_atualizar
-            ehArquivo -> R.string.itens_enviar
-            else -> R.string.itens_criar
-        })
+        b.btnSalvar.setText(rotuloDoBotaoSalvar(registro))
         b.blocoArquivo.isVisible = ehArquivo
 
         fun representacao(m: Map<String, Any?>) = m.filterValues { it != null && it != JsonNull.INSTANCE && it != "" }
@@ -805,9 +808,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         if (ehArquivo) {
             aoEscolherArquivo = { uri ->
                 uri?.let {
-                    val nome = requireContext().contentResolver.query(it, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { c ->
-                        if (c.moveToFirst()) c.getString(0) else null
-                    } ?: "arquivo"
+                    val nome = nomeDoArquivo(it)
                     arquivo = it to nome
                     b.tvArquivo.text = nome
                 }
@@ -832,17 +833,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             b.btnSalvar.isEnabled = false
             b.btnSalvar.setText(R.string.itens_salvando)
             viewLifecycleOwner.lifecycleScope.launch {
-                val res = when {
-                    ehArquivo -> {
-                        val (uri, nome) = arquivo ?: return@launch
-                        val bytes = withContext(Dispatchers.IO) { requireContext().contentResolver.openInputStream(uri)?.use { it.readBytes() } } ?: ByteArray(0)
-                        val mime = requireContext().contentResolver.getType(uri) ?: "application/octet-stream"
-                        val parte = MultipartBody.Part.createFormData("arquivo", nome, bytes.toRequestBody(mime.toMediaType()))
-                        chamador.chamarSemCorpo { api.enviarArquivo(tabelaId, parte) }
-                    }
-                    registro != null -> chamador.chamarSemCorpo { api.atualizar(tabelaId, registro.id, RegistroRequest(dados)) }
-                    else -> chamador.chamarSemCorpo { api.criar(tabelaId, RegistroRequest(dados)) }
-                }
+                val res = enviarItem(registro, dados, arquivo) ?: return@launch
                 when (res) {
                     is ResultadoApi.Sucesso -> {
                         folha.dispensar()
@@ -858,7 +849,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
                         b.tvErro.text = res.mensagem
                         b.tvErro.isVisible = true
                         b.btnSalvar.isEnabled = true
-                        b.btnSalvar.setText(if (registro != null) R.string.itens_atualizar else if (ehArquivo) R.string.itens_enviar else R.string.itens_criar)
+                        b.btnSalvar.setText(rotuloDoBotaoSalvar(registro))
                     }
                 }
             }
@@ -866,6 +857,30 @@ class ItensFragment : HamburgerMenuBaseFragment() {
 
         if (registro != null && !ehArquivo) carregarLigadosAEste(registro, b.blocoLigados, folha)
         folha.abrir()
+    }
+
+    private fun rotuloDoBotaoSalvar(registro: Registro?) = when {
+        registro != null -> R.string.itens_atualizar
+        ehArquivo -> R.string.itens_enviar
+        else -> R.string.itens_criar
+    }
+
+    private fun nomeDoArquivo(uri: Uri): String =
+        requireContext().contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { c ->
+            if (c.moveToFirst()) c.getString(0) else null
+        } ?: "arquivo"
+
+    /** Envia o arquivo, atualiza o item ou cria um novo, conforme o tipo da tabela. Null: arquivo ausente. */
+    private suspend fun enviarItem(registro: Registro?, dados: Map<String, Any?>, arquivo: Pair<Uri, String>?): ResultadoApi<Unit>? = when {
+        ehArquivo -> {
+            val (uri, nome) = arquivo ?: return null
+            val bytes = withContext(Dispatchers.IO) { requireContext().contentResolver.openInputStream(uri)?.use { it.readBytes() } } ?: ByteArray(0)
+            val mime = requireContext().contentResolver.getType(uri) ?: "application/octet-stream"
+            val parte = MultipartBody.Part.createFormData("arquivo", nome, bytes.toRequestBody(mime.toMediaType()))
+            chamador.chamarSemCorpo { api.enviarArquivo(tabelaId, parte) }
+        }
+        registro != null -> chamador.chamarSemCorpo { api.atualizar(tabelaId, registro.id, RegistroRequest(dados)) }
+        else -> chamador.chamarSemCorpo { api.criar(tabelaId, RegistroRequest(dados)) }
     }
 
     /** Rótulo (nome + tipo) e o campo certo para cada tipo de coluna (renderFieldInput do web). */

@@ -116,53 +116,14 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_dashboard -> {
-                val nav = findNavController()
-                if (nav.currentDestination?.id != R.id.dashboardFragment) {
-                    // O Dashboard é sempre a raiz da pilha logada: volta até ele.
-                    if (!nav.popBackStack(R.id.dashboardFragment, false)) {
-                        nav.navigate(R.id.dashboardFragment)
-                    }
-                }
-            }
-            R.id.nav_modulos -> {
-                if (findNavController().currentDestination?.id != R.id.modulosFragment) {
-                    findNavController().navigate(R.id.action_global_to_modulos)
-                }
-            }
-            R.id.nav_equipe -> {
-                if (findNavController().currentDestination?.id != R.id.equipeFragment) {
-                    findNavController().navigate(R.id.action_global_to_equipe)
-                }
-            }
-            R.id.nav_perfil -> {
-                findNavController().navigate(R.id.action_global_to_perfil)
-            }
-
-            R.id.nav_recrutamento -> {
-                if (findNavController().currentDestination?.id != R.id.recrutamentoFragment) {
-                    findNavController().navigate(R.id.recrutamentoFragment)
-                }
-            }
-
-            R.id.nav_automacoes -> {
-                if (findNavController().currentDestination?.id != R.id.automacoesFragment) {
-                    findNavController().navigate(R.id.automacoesFragment)
-                }
-            }
-
-            R.id.nav_relatorios -> {
-                if (findNavController().currentDestination?.id != R.id.relatoriosFragment) {
-                    findNavController().navigate(R.id.relatoriosFragment)
-                }
-            }
-
-            R.id.nav_configuracoes -> {
-                if (findNavController().currentDestination?.id != R.id.configuracoesFragment) {
-                    findNavController().navigate(R.id.configuracoesFragment)
-                }
-            }
-
+            R.id.nav_dashboard -> irParaDashboard()
+            R.id.nav_modulos -> irParaDestino(R.id.modulosFragment, R.id.action_global_to_modulos)
+            R.id.nav_equipe -> irParaDestino(R.id.equipeFragment, R.id.action_global_to_equipe)
+            R.id.nav_perfil -> findNavController().navigate(R.id.action_global_to_perfil)
+            R.id.nav_recrutamento -> irParaDestino(R.id.recrutamentoFragment)
+            R.id.nav_automacoes -> irParaDestino(R.id.automacoesFragment)
+            R.id.nav_relatorios -> irParaDestino(R.id.relatoriosFragment)
+            R.id.nav_configuracoes -> irParaDestino(R.id.configuracoesFragment)
             R.id.nav_sair -> sair()
         }
         if (::hamburgerDrawerLayout.isInitialized) {
@@ -174,6 +135,19 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
             R.id.nav_perfil, R.id.nav_sair -> false
             else -> true
         }
+    }
+
+    /** Só navega quando o destino não é a tela atual; [acao] é o id da ação, se for diferente do destino. */
+    private fun irParaDestino(destinoId: Int, acao: Int = destinoId) {
+        val nav = findNavController()
+        if (nav.currentDestination?.id != destinoId) nav.navigate(acao)
+    }
+
+    /** O Dashboard é sempre a raiz da pilha logada: volta até ele. */
+    private fun irParaDashboard() {
+        val nav = findNavController()
+        if (nav.currentDestination?.id == R.id.dashboardFragment) return
+        if (!nav.popBackStack(R.id.dashboardFragment, false)) nav.navigate(R.id.dashboardFragment)
     }
 
     // --- Notificações (sino com contador, consulta a cada 30 s) ---------------------

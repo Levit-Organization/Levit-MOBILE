@@ -16,6 +16,7 @@ import com.example.levit.data.remote.dto.Agrupamento
 import com.example.levit.data.remote.dto.Comparacao
 import com.example.levit.data.remote.dto.Envio
 import com.example.levit.data.remote.dto.FinanceiroIndicador
+import com.example.levit.data.remote.dto.Grupo
 import com.example.levit.data.remote.dto.Indicadores
 import com.example.levit.data.remote.dto.Pessoa
 import com.example.levit.data.remote.dto.PrazosIndicador
@@ -504,14 +505,27 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             else -> getString(R.string.rel_media_de, d.colunaValor.orEmpty())
         }
         val tituloPadrao = getString(R.string.rel_x_por_y, d.tabela.orEmpty(), d.agrupadoPor.orEmpty())
+        c.adicionarTitulo(tituloPadrao, subtituloDoAgrupamento(d, nomeValor))
+
+        val grupos = d.grupos.orEmpty()
+        c.addView(acoesDoAgrupamento(c, d, rotulo, nomeValor, tituloPadrao).root)
+        c.addView(campoDoTituloDoPdf(c, tituloPadrao))
+        c.addView(barrasDoAgrupamento(c, grupos, rotulo))
+    }
+
+    private fun subtituloDoAgrupamento(d: Agrupamento, nomeValor: String): String {
         val totalItens = d.totalItens ?: 0.0
-        val subtitulo = buildList {
+        return buildList {
             add(nomeValor)
             add(resources.getQuantityString(R.plurals.rel_n_itens, if (totalItens == 1.0) 1 else 2, Relatorios.numero(totalItens)))
             if ((d.cortados ?: 0) > 0) add(getString(R.string.rel_cortados, d.cortados))
         }.joinToString(" · ")
-        c.adicionarTitulo(tituloPadrao, subtitulo)
+    }
 
+    /** Botões de exportar o agrupamento em CSV e PDF. */
+    private fun acoesDoAgrupamento(
+        c: ViewGroup, d: Agrupamento, rotulo: (String?) -> String, nomeValor: String, tituloPadrao: String
+    ): ItemRelAcoesBinding {
         val acoes = ItemRelAcoesBinding.inflate(layoutInflater, c, false)
         val grupos = d.grupos.orEmpty()
         acoes.btnCsv.isEnabled = grupos.isNotEmpty()
@@ -526,8 +540,10 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             val params = parametrosDoAgrupamento() + (if (titulo.isNotEmpty()) mapOf("titulo" to titulo) else emptyMap())
             baixarPdf(pdf, "${nomeDeArquivo(titulo.ifEmpty { tituloPadrao })}.pdf") { api.pdfMontado(params) }
         }
-        c.addView(acoes.root)
+        return acoes
+    }
 
+    private fun campoDoTituloDoPdf(c: ViewGroup, tituloPadrao: String): View {
         val campoTitulo = ItemTituloPdfBinding.inflate(layoutInflater, c, false)
         campoTitulo.etTitulo.setText(tituloPdf)
         campoTitulo.campoTitulo.placeholderText = tituloPadrao
@@ -536,8 +552,10 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) = Unit
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) = Unit
         })
-        c.addView(campoTitulo.root)
+        return campoTitulo.root
+    }
 
+    private fun barrasDoAgrupamento(c: ViewGroup, grupos: List<Grupo>, rotulo: (String?) -> String): View {
         val barras = c.inflarFilho<LinearLayout>(R.layout.item_bloco_lista)
         barras.adicionarBarras(
             grupos.map { g ->
@@ -550,7 +568,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             },
             vazio = getString(R.string.rel_nenhum_item)
         )
-        c.addView(barras)
+        return barras
     }
 
     /** rotuloMes: "2026-10" vira "out/26". */
@@ -671,6 +689,18 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             r.proximoEnvio != null -> getString(R.string.rel_proximo_envio, agenda, Datas.dataCurta(r.proximoEnvio))
             else -> agenda
         }
+        ligarChaveDeAtivo(v, r, ativo)
+
+        val nomes = pessoas.associate { it.id to it.nome.orEmpty() }
+        v.tvRecebem.text = getString(R.string.rel_recebem,
+            r.destinatarios.orEmpty().joinToString(", ") { nomes[it] ?: getString(R.string.rel_pessoa_removida) })
+        mostrarUltimoEnvio(v, r)
+        ligarAcoesDoCartao(v, r)
+        ligarHistorico(v, r)
+        return v.root
+    }
+
+    private fun ligarChaveDeAtivo(v: ItemRelatorioBinding, r: Relatorio, ativo: Boolean) {
         v.switchAtivo.isChecked = ativo
         v.switchAtivo.contentDescription = getString(if (ativo) R.string.rel_pausar else R.string.rel_ligar)
         v.switchAtivo.setOnCheckedChangeListener { _, ligado ->
@@ -682,20 +712,20 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
                 carregarRelatorios()
             }
         }
+    }
 
-        val nomes = pessoas.associate { it.id to it.nome.orEmpty() }
-        v.tvRecebem.text = getString(R.string.rel_recebem,
-            r.destinatarios.orEmpty().joinToString(", ") { nomes[it] ?: getString(R.string.rel_pessoa_removida) })
-
+    private fun mostrarUltimoEnvio(v: ItemRelatorioBinding, r: Relatorio) {
         val ultimo = r.ultimoEnvio
         v.tvUltimo.isVisible = ultimo != null
-        if (ultimo != null) {
-            val ok = ultimo.status == "enviado"
-            v.tvUltimo.text = if (ok) getString(R.string.rel_ultimo_envio_ok, Datas.dataHora(ultimo.enviadoEm), ultimo.totalAtividades ?: 0)
-            else getString(R.string.rel_ultimo_envio_falhou, Datas.dataHora(ultimo.enviadoEm), ultimo.erro ?: getString(R.string.rel_erro_desconhecido))
-            v.tvUltimo.setTextColor(requireContext().cor(if (ok) R.color.light_text else R.color.danger))
-        }
+        if (ultimo == null) return
+        val ok = ultimo.status == "enviado"
+        v.tvUltimo.text = if (ok) getString(R.string.rel_ultimo_envio_ok, Datas.dataHora(ultimo.enviadoEm), ultimo.totalAtividades ?: 0)
+        else getString(R.string.rel_ultimo_envio_falhou, Datas.dataHora(ultimo.enviadoEm), ultimo.erro ?: getString(R.string.rel_erro_desconhecido))
+        v.tvUltimo.setTextColor(requireContext().cor(if (ok) R.color.light_text else R.color.danger))
+    }
 
+    /** Enviar agora, editar e excluir. */
+    private fun ligarAcoesDoCartao(v: ItemRelatorioBinding, r: Relatorio) {
         v.btnEnviar.setOnClickListener {
             v.btnEnviar.isEnabled = false
             viewLifecycleOwner.lifecycleScope.launch {
@@ -719,7 +749,9 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
                 }
             }
         }
+    }
 
+    private fun ligarHistorico(v: ItemRelatorioBinding, r: Relatorio) {
         fun mostrarHistorico(aberto: Boolean) {
             v.llHistorico.isVisible = aberto
             if (aberto) carregarHistorico(r, v.llHistorico)
@@ -730,7 +762,6 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             mostrarHistorico(aberto)
         }
         mostrarHistorico(r.id in historicosAbertos)
-        return v.root
     }
 
     private fun carregarHistorico(r: Relatorio, destino: LinearLayout) {
@@ -810,6 +841,28 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         }
         atualizarDia()
 
+        preencherEscolhas(b, secoes, destinatarios)
+
+        fun atual() = RelatorioRequest(b.etNome.text.toString(), frequencia, dia, destinatarios.toList(),
+            Relatorios.SECOES.map { it.first }.filter { it in secoes }, b.switchAtivo.isChecked)
+        val folha = Folha(requireContext(), b.root) {
+            val a = atual()
+            a.copy(destinatarios = a.destinatarios.sorted(), secoes = a.secoes.sorted()) !=
+                inicial.copy(destinatarios = inicial.destinatarios.sorted(), secoes = inicial.secoes.sorted())
+        }
+        b.btnCancelar.setOnClickListener { folha.fechar() }
+        b.btnSalvar.setOnClickListener {
+            val corpo = atual().let { it.copy(nome = it.nome.trim()) }
+            val erro = erroDoAgendamento(corpo)
+            b.tvErro.text = erro
+            b.tvErro.isVisible = erro != null
+            if (erro == null) salvarAgendamento(b, folha, relatorio, corpo)
+        }
+        folha.abrir()
+    }
+
+    /** Marcadores de seções e de destinatários; os conjuntos recebem as mudanças de cada um. */
+    private fun preencherEscolhas(b: SheetRelatorioBinding, secoes: MutableSet<String>, destinatarios: MutableSet<String>) {
         Relatorios.SECOES.forEach { (valor, rotulo) ->
             b.llSecoes.addView(requireContext().inflar<CheckBox>(R.layout.item_caixa_marcar).apply {
                 text = getString(rotulo)
@@ -824,47 +877,35 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
                 setOnCheckedChangeListener { _, marcado -> if (marcado) destinatarios += p.id else destinatarios -= p.id }
             })
         }
+    }
 
-        fun atual() = RelatorioRequest(b.etNome.text.toString(), frequencia, dia, destinatarios.toList(),
-            Relatorios.SECOES.map { it.first }.filter { it in secoes }, b.switchAtivo.isChecked)
-        val folha = Folha(requireContext(), b.root) {
-            val a = atual()
-            a.copy(destinatarios = a.destinatarios.sorted(), secoes = a.secoes.sorted()) !=
-                inicial.copy(destinatarios = inicial.destinatarios.sorted(), secoes = inicial.secoes.sorted())
-        }
-        b.btnCancelar.setOnClickListener { folha.fechar() }
-        b.btnSalvar.setOnClickListener {
-            val corpo = atual().let { it.copy(nome = it.nome.trim()) }
-            val erro = when {
-                corpo.nome.isEmpty() -> getString(R.string.rel_de_nome)
-                corpo.destinatarios.isEmpty() -> getString(R.string.rel_escolha_quem)
-                corpo.secoes.isEmpty() -> getString(R.string.rel_marque_parte)
-                else -> null
-            }
-            b.tvErro.text = erro
-            b.tvErro.isVisible = erro != null
-            if (erro != null) return@setOnClickListener
+    private fun erroDoAgendamento(corpo: RelatorioRequest): String? = when {
+        corpo.nome.isEmpty() -> getString(R.string.rel_de_nome)
+        corpo.destinatarios.isEmpty() -> getString(R.string.rel_escolha_quem)
+        corpo.secoes.isEmpty() -> getString(R.string.rel_marque_parte)
+        else -> null
+    }
 
-            b.btnSalvar.isEnabled = false
-            viewLifecycleOwner.lifecycleScope.launch {
-                val res = if (relatorio != null) chamador.chamarSemCorpo { api.atualizar(relatorio.id, corpo) }
-                else chamador.chamarSemCorpo { api.criar(corpo) }
-                when (res) {
-                    is ResultadoApi.Sucesso -> {
-                        folha.dispensar()
-                        requireContext().avisar(getString(if (editando) R.string.rel_atualizado else R.string.rel_agendado))
-                        carregarRelatorios()
-                    }
-                    is ResultadoApi.Erro -> {
-                        if (tratarSessao(res)) return@launch
-                        b.tvErro.text = res.mensagem
-                        b.tvErro.isVisible = true
-                        b.btnSalvar.isEnabled = true
-                    }
+    /** Cria o agendamento ou atualiza o existente e mostra o resultado na própria folha. */
+    private fun salvarAgendamento(b: SheetRelatorioBinding, folha: Folha, relatorio: Relatorio?, corpo: RelatorioRequest) {
+        b.btnSalvar.isEnabled = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            val res = if (relatorio != null) chamador.chamarSemCorpo { api.atualizar(relatorio.id, corpo) }
+            else chamador.chamarSemCorpo { api.criar(corpo) }
+            when (res) {
+                is ResultadoApi.Sucesso -> {
+                    folha.dispensar()
+                    requireContext().avisar(getString(if (relatorio != null) R.string.rel_atualizado else R.string.rel_agendado))
+                    carregarRelatorios()
+                }
+                is ResultadoApi.Erro -> {
+                    if (tratarSessao(res)) return@launch
+                    b.tvErro.text = res.mensagem
+                    b.tvErro.isVisible = true
+                    b.btnSalvar.isEnabled = true
                 }
             }
         }
-        folha.abrir()
     }
 
     companion object {

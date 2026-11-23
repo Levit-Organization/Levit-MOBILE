@@ -300,7 +300,21 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
 
     /** "Precisa da sua atenção": o que pede alguém agir agora, em ordem de urgência. */
     private fun mostrarAtencao() {
-        val ctx = requireContext()
+        val itens = avisosDeAtencao()
+        val destino = b.llAtencao
+        destino.removeAllViews()
+        if (itens.isEmpty()) {
+            destino.mostrarEstado(
+                getString(R.string.ini_tudo_em_dia), getString(R.string.ini_tudo_em_dia_desc), R.drawable.ic_calendar
+            )
+            destino.getChildAt(0)?.background = null
+            return
+        }
+        desenharAvisos(destino, itens)
+    }
+
+    /** Tudo o que pede atenção: itens atrasados, automações pausadas, candidatos parados e convites. */
+    private fun avisosDeAtencao(): List<Atencao> {
         val nav = findNavController()
         val atrasados = prazos?.atrasados.orEmpty()
         val meusAtrasados = atrasados.count { it.meu == true }
@@ -310,7 +324,7 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
         val vencidos = convites.count { it.expirado == true }
         val aguardando = convites.size - vencidos
 
-        val itens = buildList {
+        return buildList {
             if (atrasados.isNotEmpty()) add(Atencao(
                 "event_busy", R.color.danger, R.color.danger_bg,
                 resources.getQuantityString(R.plurals.ini_itens_atrasados, atrasados.size, atrasados.size),
@@ -340,16 +354,10 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
                 getString(R.string.ini_quem_aceitar)
             ) { nav.navigate(R.id.action_global_to_equipe) })
         }
+    }
 
-        val destino = b.llAtencao
-        destino.removeAllViews()
-        if (itens.isEmpty()) {
-            destino.mostrarEstado(
-                getString(R.string.ini_tudo_em_dia), getString(R.string.ini_tudo_em_dia_desc), R.drawable.ic_calendar
-            )
-            destino.getChildAt(0)?.background = null
-            return
-        }
+    private fun desenharAvisos(destino: LinearLayout, itens: List<Atencao>) {
+        val ctx = requireContext()
         itens.forEachIndexed { i, a ->
             if (i > 0) destino.addView(ctx.divisoria())
             val l = ItemAtencaoBinding.inflate(layoutInflater, destino, false)

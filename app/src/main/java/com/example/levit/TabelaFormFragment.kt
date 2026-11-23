@@ -24,6 +24,7 @@ import com.example.levit.ui.inflarFilho
 import com.example.levit.databinding.ItemOpcaoColunaBinding
 import com.example.levit.ui.ModeloTabela
 import com.example.levit.ui.Tabelas
+import com.example.levit.ui.TipoColuna
 import com.example.levit.ui.avisar
 import com.example.levit.ui.caixaDeIcone
 import com.example.levit.ui.confirmar
@@ -330,15 +331,27 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
     private fun linhaDaColuna(coluna: ColunaEdit, indice: Int): View {
         val b = ItemColunaBinding.inflate(layoutInflater, binding.llColunas, false)
         val info = Tabelas.tipoDaColuna(coluna.tipo)
+        configurarOrdem(b, indice)
+        b.flIconeTipo.addView(requireContext().caixaDeIcone(info.icone, ladoDp = 36, iconeDp = 18))
+        configurarNomeETipo(b, coluna, info)
+        configurarLigacao(b, coluna)
+        configurarOpcoes(b, coluna)
+        b.btnRemover.setOnClickListener { removerColuna(coluna) }
+        b.root.tag = coluna.chave
+        return b.root
+    }
 
+    /** Setas de subir e descer; ficam apagadas nas pontas da lista. */
+    private fun configurarOrdem(b: ItemColunaBinding, indice: Int) {
         b.btnSubir.isEnabled = indice > 0
         b.btnSubir.alpha = if (indice > 0) 1f else 0.25f
         b.btnDescer.isEnabled = indice < colunas.size - 1
         b.btnDescer.alpha = if (indice < colunas.size - 1) 1f else 0.25f
         b.btnSubir.setOnClickListener { mover(indice, -1) }
         b.btnDescer.setOnClickListener { mover(indice, 1) }
-        b.flIconeTipo.addView(requireContext().caixaDeIcone(info.icone, ladoDp = 36, iconeDp = 18))
+    }
 
+    private fun configurarNomeETipo(b: ItemColunaBinding, coluna: ColunaEdit, info: TipoColuna) {
         b.etNome.setText(coluna.nome)
         b.etNome.doAfterTextChanged { coluna.nome = it?.toString().orEmpty(); b.campoNome.error = null }
 
@@ -358,8 +371,10 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
 
         b.tvDica.text = info.dica?.let { getString(it) }
         b.tvDica.isVisible = info.dica != null
+    }
 
-        // Ligação
+    /** Escolha da tabela ligada (coluna nova) ou o resumo da ligação já existente. */
+    private fun configurarLigacao(b: ItemColunaBinding, coluna: ColunaEdit) {
         b.blocoVinculo.isVisible = coluna.tipo == "vinculo"
         if (coluna.tipo == "vinculo") {
             b.campoVinculo.isVisible = coluna.nova
@@ -378,8 +393,10 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
                 b.tvVinculoExistente.text = getString(if (coluna.multiplo) R.string.tab_liga_varios else R.string.tab_liga_um, alvo)
             }
         }
+    }
 
-        // Lista de opções
+    /** Opções de uma coluna do tipo lista. */
+    private fun configurarOpcoes(b: ItemColunaBinding, coluna: ColunaEdit) {
         b.blocoOpcoes.isVisible = coluna.tipo == "selecao"
         if (coluna.tipo == "selecao") {
             coluna.opcoes.forEachIndexed { i, opcao ->
@@ -392,10 +409,6 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
             }
             b.btnAddOpcao.setOnClickListener { coluna.opcoes += ""; mostrarColunas() }
         }
-
-        b.btnRemover.setOnClickListener { removerColuna(coluna) }
-        b.root.tag = coluna.chave
-        return b.root
     }
 
     private fun mover(indice: Int, direcao: Int) {

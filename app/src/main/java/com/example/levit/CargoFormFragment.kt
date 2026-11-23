@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.levit.data.remote.dto.Modulo
+import com.example.levit.data.remote.dto.Cargo
 import com.example.levit.data.repository.CargoRepository
 import com.example.levit.data.repository.ModuloRepository
 import com.example.levit.data.repository.ResultadoApi
@@ -157,54 +158,50 @@ class CargoFormFragment : Fragment(R.layout.fragment_cargo_form) {
 
         // Sempre reenvia as permissões atuais: o PUT do cargo substitui tudo.
         val permissoes = permissoesMarcadas.toList()
-
-        // Só o que mudou nos módulos (null = remover o acesso).
-        val alteracoes: Map<String, String?> = if (acessoTotal) emptyMap() else {
-            modulos.mapNotNull { m ->
-                val atual = niveisAtuais[m.id]
-                if (atual != niveisOriginais[m.id]) m.id to atual else null
-            }.toMap()
-        }
+        val alteracoes = alteracoesDeNiveis()
 
         binding.btnSalvarCargo.isEnabled = false
         binding.progressCargoForm.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val id = cargoId
-            val resCargo = if (id == null) {
-                cargoRepository.criarCargo(nome, permissoes)
-            } else {
-                cargoRepository.atualizarCargo(id, nome, permissoes)
-            }
-            val cargo = when (resCargo) {
-                is ResultadoApi.Sucesso -> resCargo.dados
-                is ResultadoApi.Erro -> {
-                    erroAoSalvar(resCargo.mensagem, resCargo.sessaoExpirada)
-                    return@launch
-                }
-            }
-
-            if (alteracoes.isNotEmpty()) {
-                val resNiveis = cargoRepository.aplicarNiveis(cargo.id, alteracoes)
-                if (resNiveis is ResultadoApi.Erro) {
-                    if (resNiveis.sessaoExpirada) {
-                        erroAoSalvar(resNiveis.mensagem, true)
-                    } else {
-                        // O cargo já foi salvo; só os níveis falharam. Volta e avisa.
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.cargo_salvo_parcial, resNiveis.mensagem),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        findNavController().popBackStack()
-                    }
-                    return@launch
-                }
-            }
-
+            val cargo = salvarCargo(nome, permissoes) ?: return@launch
+            if (alteracoes.isNotEmpty() && !salvarNiveis(cargo.id, alteracoes)) return@launch
             Toast.makeText(requireContext(), R.string.cargo_salvo, Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }
+    }
+
+    /** Só o que mudou nos módulos (null = remover o acesso). */
+    private fun alteracoesDeNiveis(): Map<String, String?> =
+        if (acessoTotal) emptyMap() else modulos.mapNotNull { m ->
+            val atual = niveisAtuais[m.id]
+            if (atual != niveisOriginais[m.id]) m.id to atual else null
+        }.toMap()
+
+    /** Cria ou atualiza o cargo; null (com o erro já mostrado) quando falha. */
+    private suspend fun salvarCargo(nome: String, permissoes: List<String>): Cargo? {
+        val id = cargoId
+        val res = if (id == null) cargoRepository.criarCargo(nome, permissoes) else cargoRepository.atualizarCargo(id, nome, permissoes)
+        return when (res) {
+            is ResultadoApi.Sucesso -> res.dados
+            is ResultadoApi.Erro -> {
+                erroAoSalvar(res.mensagem, res.sessaoExpirada)
+                null
+            }
+        }
+    }
+
+    /** Aplica os níveis de acesso; false quando falha (o cargo já foi salvo, então só avisa e volta). */
+    private suspend fun salvarNiveis(cargoId: String, alteracoes: Map<String, String?>): Boolean {
+        val res = cargoRepository.aplicarNiveis(cargoId, alteracoes)
+        if (res !is ResultadoApi.Erro) return true
+        if (res.sessaoExpirada) {
+            erroAoSalvar(res.mensagem, true)
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.cargo_salvo_parcial, res.mensagem), Toast.LENGTH_LONG).show()
+            findNavController().popBackStack()
+        }
+        return false
     }
 
     private fun erroAoSalvar(mensagem: String, sessaoExpirada: Boolean) {

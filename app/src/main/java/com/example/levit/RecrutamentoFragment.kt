@@ -534,17 +534,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         val folha = Folha(requireContext(), b.root) { arquivo != null || campos.any { !it.text.isNullOrBlank() } }
 
         b.acVaga.configurarSelect(vagas.map { it.id to it.nome }, vagaId) { vagaId = it; b.campoVaga.error = null }
-        b.etNome.doAfterTextChanged { b.campoNome.error = null }
-        b.etEmail.doAfterTextChanged { b.campoEmail.error = null }
-        b.etTelefone.doAfterTextChanged { texto ->
-            val atual = texto?.toString().orEmpty()
-            val mascarado = Pessoas.mascararTelefone(atual)
-            if (mascarado != atual) {
-                b.etTelefone.setText(mascarado)
-                b.etTelefone.setSelection(mascarado.length)
-            }
-            b.campoTelefone.error = null
-        }
+        limparErrosAoDigitar(b)
 
         fun mostrarArquivo(erro: String? = null) {
             b.tvArquivo.text = arquivo?.nome.orEmpty()
@@ -564,42 +554,17 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         b.btnCancelar.setOnClickListener { folha.fechar() }
 
         b.btnSalvar.setOnClickListener {
-            val nome = b.etNome.text.toString()
-            val email = b.etEmail.text.toString()
-            val telefone = b.etTelefone.text.toString()
-            val erros = Pessoas.errosDoCandidato(nome, email, telefone)
-            b.campoNome.error = erros["nome"]?.em(requireContext())
-            b.campoEmail.error = erros["email"]?.em(requireContext())
-            b.campoTelefone.error = erros["telefone"]?.em(requireContext())
-            b.campoVaga.error = if (vagaId == null) getString(R.string.rec_selecione_vaga) else null
+            val camposOk = validarCamposDoCandidato(b, vagaId)
             val erroArquivo = arquivo?.let { erroDoCurriculo(it) }
             mostrarArquivo(erroArquivo)
             val vaga = vagaId
-            if (erros.isNotEmpty() || vaga == null || erroArquivo != null) return@setOnClickListener
+            if (!camposOk || vaga == null || erroArquivo != null) return@setOnClickListener
 
             b.btnSalvar.isEnabled = false
             b.btnSalvar.setText(R.string.rec_salvando)
             b.tvErro.isVisible = false
             viewLifecycleOwner.lifecycleScope.launch {
-                val parteArquivo = arquivo?.let { a ->
-                    val bytes = withContext(Dispatchers.IO) {
-                        requireContext().contentResolver.openInputStream(a.uri)?.use { it.readBytes() }
-                    }
-                    bytes?.let {
-                        MultipartBody.Part.createFormData("curriculo", a.nome, it.toRequestBody(mimeDoArquivo(a.nome).toMediaType()))
-                    }
-                }
-                val texto = "text/plain".toMediaType()
-                val r = chamador.chamar {
-                    api.adicionarCandidato(
-                        vaga,
-                        nome.trim().toRequestBody(texto),
-                        email.trim().toRequestBody(texto),
-                        telefone.trim().toRequestBody(texto),
-                        b.etMensagem.text.toString().trim().toRequestBody(texto),
-                        parteArquivo
-                    )
-                }
+                val r = enviarCandidato(vaga, b, arquivo)
                 when (r) {
                     is ResultadoApi.Sucesso -> {
                         folha.dispensar()
@@ -617,6 +582,54 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
             }
         }
         folha.aoFechar { aoEscolherCurriculo = null }.abrir()
+    }
+
+    /** Some o erro de cada campo assim que a pessoa volta a digitar; o telefone ganha máscara. */
+    private fun limparErrosAoDigitar(b: SheetNovoCandidatoBinding) {
+        b.etNome.doAfterTextChanged { b.campoNome.error = null }
+        b.etEmail.doAfterTextChanged { b.campoEmail.error = null }
+        b.etTelefone.doAfterTextChanged { texto ->
+            val atual = texto?.toString().orEmpty()
+            val mascarado = Pessoas.mascararTelefone(atual)
+            if (mascarado != atual) {
+                b.etTelefone.setText(mascarado)
+                b.etTelefone.setSelection(mascarado.length)
+            }
+            b.campoTelefone.error = null
+        }
+    }
+
+    /** Mostra o erro de cada campo do formulário; true quando todos estão certos. */
+    private fun validarCamposDoCandidato(b: SheetNovoCandidatoBinding, vagaId: String?): Boolean {
+        val erros = Pessoas.errosDoCandidato(b.etNome.text.toString(), b.etEmail.text.toString(), b.etTelefone.text.toString())
+        b.campoNome.error = erros["nome"]?.em(requireContext())
+        b.campoEmail.error = erros["email"]?.em(requireContext())
+        b.campoTelefone.error = erros["telefone"]?.em(requireContext())
+        b.campoVaga.error = if (vagaId == null) getString(R.string.rec_selecione_vaga) else null
+        return erros.isEmpty() && vagaId != null
+    }
+
+    /** Monta o multipart do currículo (lendo o arquivo fora da thread principal) e envia o candidato. */
+    private suspend fun enviarCandidato(vagaId: String, b: SheetNovoCandidatoBinding, arquivo: Arquivo?): ResultadoApi<Any?> {
+        val parteArquivo = arquivo?.let { a ->
+            val bytes = withContext(Dispatchers.IO) {
+                requireContext().contentResolver.openInputStream(a.uri)?.use { it.readBytes() }
+            }
+            bytes?.let {
+                MultipartBody.Part.createFormData("curriculo", a.nome, it.toRequestBody(mimeDoArquivo(a.nome).toMediaType()))
+            }
+        }
+        val texto = "text/plain".toMediaType()
+        return chamador.chamar {
+            api.adicionarCandidato(
+                vagaId,
+                b.etNome.text.toString().trim().toRequestBody(texto),
+                b.etEmail.text.toString().trim().toRequestBody(texto),
+                b.etTelefone.text.toString().trim().toRequestBody(texto),
+                b.etMensagem.text.toString().trim().toRequestBody(texto),
+                parteArquivo
+            )
+        }
     }
 
     private fun lerArquivo(uri: Uri): Arquivo? =
