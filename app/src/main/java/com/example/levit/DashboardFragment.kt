@@ -279,7 +279,7 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
     private fun linhaDePrazo(item: ItemPrazo, pai: ViewGroup): View {
         // A urgência já está no título do grupo: aqui só a data (sem repetir "Vence hoje").
         val situacao = Prazos.situacao(item.prazo)
-        val prazo = if (situacao?.tipo == Prazos.Tipo.HOJE) null else situacao?.rotulo
+        val prazo = if (situacao?.tipo == Prazos.Tipo.HOJE) null else situacao?.rotulo?.em(requireContext())
         val l = ItemPrazoInicioBinding.inflate(layoutInflater, pai, false)
         l.tvIcone.text = item.moduloIcone ?: "table_chart"
         l.tvTitulo.text = item.titulo ?: getString(R.string.itens_sem_titulo)

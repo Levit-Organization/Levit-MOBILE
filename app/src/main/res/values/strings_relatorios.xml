@@ -165,4 +165,5 @@
         <item>Sábado</item>
         <item>Domingo</item>
     </string-array>
+    <string name="rel_titulo_pdf_padrao">Relatório de atividades</string>
 </resources>

@@ -65,7 +65,7 @@ class ModuloRepository(context: Context) {
         return when {
             !detalhes.isNullOrBlank() -> detalhes
             !mensagem.isNullOrBlank() -> mensagem
-            else -> "Erro ao comunicar com o servidor ($codigo)."
+            else -> contexto.getString(R.string.erro_http_generico, codigo)
         }
     }
 }

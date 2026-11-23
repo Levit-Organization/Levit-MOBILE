@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-    <solid android:color="@color/primary" />
-    <stroke android:width="2dp" android:color="@color/surface" />
-</shape>
+<!-- Área de toque de 44dp; o círculo desenhado continua com 32dp (inset de 6dp). -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:inset="6dp">
+    <shape android:shape="oval">
+        <solid android:color="@color/primary" />
+        <stroke android:width="2dp" android:color="@color/surface" />
+    </shape>
+</inset>

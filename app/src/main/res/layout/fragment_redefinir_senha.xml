@@ -21,8 +21,8 @@
 
             <TextView
                 android:id="@+id/textVoltar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_gravity="start|top"
                 android:gravity="center"
                 android:text="@string/return_txt"

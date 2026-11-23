@@ -331,7 +331,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         val desde = Datas.tempoRelativo(referencia)
         val parado = Datas.estaParado(referencia)
         v.linhaTempo.isVisible = desde != null || parado
-        v.tvDesde.text = desde?.let { getString(R.string.rec_nesta_etapa, it) }.orEmpty()
+        v.tvDesde.text = desde?.let { getString(R.string.rec_nesta_etapa, it.em(requireContext())) }.orEmpty()
         v.flParado.removeAllViews()
         if (parado) v.flParado.addView(requireContext().selo(getString(R.string.rec_parado), R.color.warning, R.color.warning_bg, ponto = true))
 
@@ -426,7 +426,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
             b.grupoSelos.addView(requireContext().selo(getString(R.string.rec_parado_14), R.color.warning, R.color.warning_bg, ponto = true))
         }
         val vagaNome = c.vaga ?: vagas.firstOrNull { it.id == c.moduloId }?.nome
-        val quando = Datas.tempoRelativo(c.criadoEm) ?: "—"
+        val quando = Datas.tempoRelativo(c.criadoEm)?.em(requireContext()) ?: "—"
         b.tvCandidatouSe.text = if (vagaNome != null) getString(R.string.rec_candidatou_se_vaga, quando, vagaNome)
         else getString(R.string.rec_candidatou_se, quando)
 
@@ -568,9 +568,9 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
             val email = b.etEmail.text.toString()
             val telefone = b.etTelefone.text.toString()
             val erros = Pessoas.errosDoCandidato(nome, email, telefone)
-            b.campoNome.error = erros["nome"]
-            b.campoEmail.error = erros["email"]
-            b.campoTelefone.error = erros["telefone"]
+            b.campoNome.error = erros["nome"]?.em(requireContext())
+            b.campoEmail.error = erros["email"]?.em(requireContext())
+            b.campoTelefone.error = erros["telefone"]?.em(requireContext())
             b.campoVaga.error = if (vagaId == null) getString(R.string.rec_selecione_vaga) else null
             val erroArquivo = arquivo?.let { erroDoCurriculo(it) }
             mostrarArquivo(erroArquivo)

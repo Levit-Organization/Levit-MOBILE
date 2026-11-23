@@ -6,6 +6,8 @@ import com.example.levit.ui.Datas
 import com.example.levit.ui.Funil
 import com.example.levit.ui.Pessoas
 import com.example.levit.ui.Relatorios
+import com.example.levit.ui.Texto
+import com.example.levit.ui.Vinculos
 import com.google.gson.JsonParser
 import org.junit.Assert.*
 import org.junit.Test
@@ -48,10 +50,10 @@ class RegrasTest {
 
     @Test fun tempoRelativoComoNoWeb() {
         val agora = Datas.ler("2026-10-27 12:00:00")!!.time
-        assertEquals("hoje", Datas.tempoRelativo("2026-10-27 08:00:00", agora))
-        assertEquals("ontem", Datas.tempoRelativo("2026-10-26 08:00:00", agora))
-        assertEquals("há 5 dias", Datas.tempoRelativo("2026-10-22 12:00:00", agora))
-        assertEquals("há 2 meses", Datas.tempoRelativo("2026-08-20 12:00:00", agora))
+        assertEquals(Texto(R.string.tempo_hoje), Datas.tempoRelativo("2026-10-27 08:00:00", agora))
+        assertEquals(Texto(R.string.tempo_ontem), Datas.tempoRelativo("2026-10-26 08:00:00", agora))
+        assertEquals(Texto(R.string.tempo_dias, 5L), Datas.tempoRelativo("2026-10-22 12:00:00", agora))
+        assertEquals(Texto(R.string.tempo_meses, 2L), Datas.tempoRelativo("2026-08-20 12:00:00", agora))
         assertNull(Datas.tempoRelativo("2026-10-28 12:00:00", agora))
         assertNull(Datas.tempoRelativo("lixo", agora))
         assertTrue(Datas.estaParado("2026-10-13 12:00:00", agora = agora))
@@ -95,16 +97,16 @@ class RegrasTest {
         assertEquals("2026-09-01" to "2026-09-30", Relatorios.periodoDoAtalho("mes-passado", "2026-10-27"))
         assertEquals("2026-02-01" to "2026-02-28", Relatorios.periodoDoAtalho("mes-passado", "2026-03-15"))
         assertNull(Relatorios.periodoDoAtalho("outro", "2026-10-27"))
-        assertEquals("01/10 a 07/10/2026", Relatorios.textoDoPeriodo("2026-10-01", "2026-10-07"))
-        assertEquals("07/10/2026", Relatorios.textoDoPeriodo("2026-10-07", "2026-10-07"))
+        assertEquals(Texto(R.string.periodo_intervalo, "01/10", "07/10/2026"), Relatorios.textoDoPeriodo("2026-10-01", "2026-10-07"))
+        assertEquals(Texto(R.string.texto_simples, "07/10/2026"), Relatorios.textoDoPeriodo("2026-10-07", "2026-10-07"))
     }
 
     @Test fun variacaoComoODescreverVariacaoDoWeb() {
-        assertEquals("+12%", Relatorios.variacao(Comparacao(112.0, 100.0, 12.0))!!.texto)
-        assertEquals("−2,5%", Relatorios.variacao(Comparacao(1.0, 1.0, -2.5))!!.texto)
-        assertEquals("novo", Relatorios.variacao(Comparacao(3.0, 0.0, null))!!.texto)
+        assertEquals(Texto(R.string.variacao_percentual, "+", "12"), Relatorios.variacao(Comparacao(112.0, 100.0, 12.0))!!.texto)
+        assertEquals(Texto(R.string.variacao_percentual, "−", "2,5"), Relatorios.variacao(Comparacao(1.0, 1.0, -2.5))!!.texto)
+        assertEquals(Texto(R.string.variacao_novo), Relatorios.variacao(Comparacao(3.0, 0.0, null))!!.texto)
         assertNull(Relatorios.variacao(Comparacao(0.0, 0.0, null)))
-        assertEquals("igual", Relatorios.variacao(Comparacao(1.0, 1.0, 0.0))!!.texto)
+        assertEquals(Texto(R.string.variacao_igual), Relatorios.variacao(Comparacao(1.0, 1.0, 0.0))!!.texto)
         // Saídas subindo é ruim.
         assertEquals(false, Relatorios.variacao(Comparacao(2.0, 1.0, 100.0), subirEBom = false)!!.bom)
         assertEquals("R$ 1.234,50", Relatorios.moeda(1234.5))
@@ -124,11 +126,11 @@ class RegrasTest {
     @Test fun prazoComoOSituacaoDoPrazoDoWeb() {
         val hoje = "2026-10-27"
         assertEquals(com.example.levit.ui.Prazos.Tipo.ATRASADO, com.example.levit.ui.Prazos.situacao("2026-10-20", hoje)!!.tipo)
-        assertEquals("Atrasado há 7 dias", com.example.levit.ui.Prazos.situacao("2026-10-20", hoje)!!.rotulo)
-        assertEquals("Atrasado desde ontem", com.example.levit.ui.Prazos.situacao("2026-10-26", hoje)!!.rotulo)
-        assertEquals("Vence hoje", com.example.levit.ui.Prazos.situacao("2026-10-27", hoje)!!.rotulo)
-        assertEquals("Vence amanhã", com.example.levit.ui.Prazos.situacao("2026-10-28", hoje)!!.rotulo)
-        assertEquals("Vence em 7 dias", com.example.levit.ui.Prazos.situacao("2026-11-03", hoje)!!.rotulo)
+        assertEquals(Texto(R.string.prazo_atrasado_dias, 7), com.example.levit.ui.Prazos.situacao("2026-10-20", hoje)!!.rotulo)
+        assertEquals(Texto(R.string.prazo_atrasado_ontem), com.example.levit.ui.Prazos.situacao("2026-10-26", hoje)!!.rotulo)
+        assertEquals(Texto(R.string.prazo_vence_hoje), com.example.levit.ui.Prazos.situacao("2026-10-27", hoje)!!.rotulo)
+        assertEquals(Texto(R.string.prazo_vence_amanha), com.example.levit.ui.Prazos.situacao("2026-10-28", hoje)!!.rotulo)
+        assertEquals(Texto(R.string.prazo_vence_dias, 7), com.example.levit.ui.Prazos.situacao("2026-11-03", hoje)!!.rotulo)
         assertEquals(com.example.levit.ui.Prazos.Tipo.FUTURO, com.example.levit.ui.Prazos.situacao("2026-12-25", hoje)!!.tipo)
         assertEquals(com.example.levit.ui.Prazos.Tipo.CONCLUIDO, com.example.levit.ui.Prazos.situacao("2026-10-20", hoje, concluido = true)!!.tipo)
         assertNull(com.example.levit.ui.Prazos.situacao("27/10/2026", hoje))
@@ -142,9 +144,12 @@ class RegrasTest {
     }
 
     @Test fun rotuloDosItensLigados() {
-        assertEquals("2 itens ligados", com.example.levit.ui.Vinculos.rotulo(listOf("a", "b"), null))
-        assertEquals("Ana, Item sem nome, Item excluído",
-            com.example.levit.ui.Vinculos.rotulo(listOf("a", "b", "c"), mapOf("a" to "Ana", "b" to "")))
-        assertNull(com.example.levit.ui.Vinculos.rotulo(emptyList(), emptyMap()))
+        assertEquals(Texto(R.string.vinculo_n_ligados, 2), Vinculos.contagem(listOf("a", "b")))
+        assertEquals(Texto(R.string.vinculo_um_ligado), Vinculos.contagem(listOf("a")))
+        assertNull(Vinculos.contagem(emptyList()))
+        assertEquals(
+            listOf(Texto(R.string.texto_simples, "Ana"), Texto(R.string.vinculo_sem_nome), Texto(R.string.itens_item_excluido)),
+            Vinculos.nomes(listOf("a", "b", "c"), mapOf("a" to "Ana", "b" to ""))
+        )
     }
 }

@@ -324,6 +324,13 @@ class ItensFragment : HamburgerMenuBaseFragment() {
 
     private fun concluido(r: Registro) = Prazos.itemConcluido(campos.filter { it.tipo == "selecao" }.map { texto(bruto(r, it.id)) })
 
+    /** Nomes dos itens ligados; sem os nomes (carregando ou sem acesso), só quantos são. */
+    private fun rotuloDosLigados(ids: List<String>, titulos: Map<String, String?>?): String? {
+        val contexto = requireContext()
+        if (titulos == null) return Vinculos.contagem(ids)?.em(contexto)
+        return ids.takeIf { it.isNotEmpty() }?.let { Vinculos.nomes(it, titulos).joinToString(", ") { nome -> nome.em(contexto) } }
+    }
+
     /** O valor como texto, para ordenar e para mostrar (ler de cada coluna do web). */
     private fun ler(r: Registro, c: ColunaVisivel): String? = when (c.chave) {
         "criado_em" -> r.criadoEm
@@ -331,7 +338,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         "arquivo_tamanho" -> r.arquivoTamanho?.toString()
         else -> when (c.tipo) {
             "responsavel" -> texto(bruto(r, c.chave))?.let { nomes[it] }
-            "vinculo" -> Vinculos.rotulo(idsLigados(bruto(r, c.chave)), titulosLigados[c.campo?.moduloVinculadoId])
+            "vinculo" -> rotuloDosLigados(idsLigados(bruto(r, c.chave)), titulosLigados[c.campo?.moduloVinculadoId])
             else -> texto(bruto(r, c.chave))
         }
     }
@@ -606,12 +613,12 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         val mapa = titulosLigados[alvo]
         val ids = idsLigados(bruto(r, c.chave))
         val texto = SpannableStringBuilder()
-        if (mapa == null || alvo == null) texto.append(Vinculos.rotulo(ids, null))
+        if (mapa == null || alvo == null) texto.append(Vinculos.contagem(ids)?.em(requireContext()))
         else ids.forEachIndexed { i, id ->
             if (i > 0) texto.append(", ")
             if (!mapa.containsKey(id)) { texto.append(getString(R.string.itens_item_excluido)); return@forEachIndexed }
             val inicio = texto.length
-            texto.append(Vinculos.tituloDoItem(mapa[id]))
+            texto.append(Vinculos.tituloDoItem(mapa[id]).em(requireContext()))
             texto.setSpan(object : ClickableSpan() {
                 override fun onClick(widget: View) = abrirItem(alvo, id)
                 override fun updateDrawState(ds: TextPaint) { ds.color = requireContext().cor(R.color.primary_700); ds.isUnderlineText = false }
@@ -939,7 +946,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         val vinculo = ItemCampoVinculoBinding.inflate(layoutInflater)
         val bloco = vinculo.root
         val mapa = titulosLigados[campo.moduloVinculadoId]
-        val opcoes = mapa?.map { (itemId, titulo) -> itemId to Vinculos.tituloDoItem(titulo) }.orEmpty()
+        val opcoes = mapa?.map { (itemId, titulo) -> itemId to Vinculos.tituloDoItem(titulo).em(requireContext()) }.orEmpty()
         val vazio = when {
             mapa == null -> getString(R.string.itens_carregando)
             mapa.isEmpty() -> getString(R.string.itens_tabela_sem_itens, alvo?.nome ?: "ligada")
@@ -958,7 +965,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         fun desenhar() {
             grupo.removeAllViews()
             escolhidos.forEach { itemId ->
-                val nome = mapa?.get(itemId)?.let { Vinculos.tituloDoItem(it) } ?: if (mapa?.containsKey(itemId) == true) Vinculos.tituloDoItem(null) else getString(R.string.itens_item_excluido)
+                val nome = mapa?.get(itemId)?.let { Vinculos.tituloDoItem(it).em(requireContext()) } ?: if (mapa?.containsKey(itemId) == true) Vinculos.tituloDoItem(null).em(requireContext()) else getString(R.string.itens_item_excluido)
                 grupo.addView(grupo.inflarFilho<Chip>(R.layout.item_chip_vinculo).apply {
                     text = nome
                     closeIconContentDescription = getString(R.string.itens_tirar, nome)
@@ -994,7 +1001,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
                 grupo.itens.orEmpty().forEachIndexed { i, item ->
                     if (i > 0) g.llItens.addView(requireContext().divisoria())
                     g.llItens.addView(g.llItens.inflarFilho<TextView>(R.layout.item_ligado_linha).apply {
-                        text = Vinculos.tituloDoItem(item.titulo)
+                        text = Vinculos.tituloDoItem(item.titulo).em(requireContext())
                         setOnClickListener {
                             folha.dispensar()
                             modulo?.id?.let { abrirItem(it, item.id) }

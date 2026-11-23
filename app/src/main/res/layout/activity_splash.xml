@@ -22,7 +22,7 @@
         android:id="@+id/ivLogoLevit"
         android:layout_width="104dp"
         android:layout_height="104dp"
-        android:contentDescription="LevitLogo"
+        android:contentDescription="@string/logo_desc"
         android:src="@drawable/levit_logo"
         app:layout_constraintBottom_toBottomOf="@+id/ivBackground"
         app:layout_constraintEnd_toEndOf="parent"

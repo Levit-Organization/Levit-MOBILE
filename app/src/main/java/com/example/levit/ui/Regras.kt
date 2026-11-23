@@ -1,5 +1,6 @@
 package com.example.levit.ui
 
+import com.example.levit.R
 import com.example.levit.data.remote.dto.Candidato
 import com.example.levit.data.remote.dto.ColunaKanban
 import com.example.levit.data.remote.dto.Comparacao
@@ -51,18 +52,18 @@ object Datas {
     }
 
     /** tempoRelativo de components/ui/funil.js: "hoje", "ontem", "há 3 dias", "há 2 meses"... */
-    fun tempoRelativo(valor: String?, agora: Long = System.currentTimeMillis()): String? {
+    fun tempoRelativo(valor: String?, agora: Long = System.currentTimeMillis()): Texto? {
         val data = ler(valor) ?: return null
         val dias = floor((agora - data.time).toDouble() / DIA_MS).toLong()
         if (dias < 0) return null
-        if (dias == 0L) return "hoje"
-        if (dias == 1L) return "ontem"
-        if (dias < 30) return "há $dias dias"
+        if (dias == 0L) return Texto(R.string.tempo_hoje)
+        if (dias == 1L) return Texto(R.string.tempo_ontem)
+        if (dias < 30) return Texto(R.string.tempo_dias, dias)
         val meses = dias / 30
-        if (meses == 1L) return "há 1 mês"
-        if (meses < 12) return "há $meses meses"
+        if (meses == 1L) return Texto(R.string.tempo_um_mes)
+        if (meses < 12) return Texto(R.string.tempo_meses, meses)
         val anos = meses / 12
-        return if (anos == 1L) "há 1 ano" else "há $anos anos"
+        return if (anos == 1L) Texto(R.string.tempo_um_ano) else Texto(R.string.tempo_anos, anos)
     }
 
     /** estaParado: 14 dias ou mais na mesma etapa. */
@@ -182,12 +183,12 @@ object Pessoas {
     }
 
     /** validarCandidato de utils/candidato.js (sem o arquivo, que a tela confere). */
-    fun errosDoCandidato(nome: String, email: String, telefone: String): Map<String, String> {
-        val erros = mutableMapOf<String, String>()
-        if (nome.trim().length < 3) erros["nome"] = "Escreva o nome completo."
-        if (email.isBlank()) erros["email"] = "Informe o e-mail."
-        else if (!Regex("^\\S+@\\S+\\.\\S+$").matches(email.trim())) erros["email"] = "Esse e-mail não parece válido."
-        if (telefone.isNotEmpty() && telefone.count { it in '0'..'9' } < 10) erros["telefone"] = "Telefone incompleto."
+    fun errosDoCandidato(nome: String, email: String, telefone: String): Map<String, Texto> {
+        val erros = mutableMapOf<String, Texto>()
+        if (nome.trim().length < 3) erros["nome"] = Texto(R.string.candidato_erro_nome)
+        if (email.isBlank()) erros["email"] = Texto(R.string.candidato_erro_email_vazio)
+        else if (!emailValido(email)) erros["email"] = Texto(R.string.candidato_erro_email_invalido)
+        if (telefone.isNotEmpty() && telefone.count { it in '0'..'9' } < 10) erros["telefone"] = Texto(R.string.candidato_erro_telefone)
         return erros
     }
 
@@ -199,24 +200,24 @@ object Relatorios {
 
     /** Partes do PDF, na ordem e com as chaves de RelatorioService::SECOES. */
     val SECOES = listOf(
-        "resumo" to "Comparação com o período anterior",
-        "recrutamento" to "Recrutamento",
-        "financeiro" to "Financeiro",
-        "prazos" to "Prazos",
-        "atrasados" to "Itens atrasados agora",
-        "ranking" to "Ranking por pessoa e por tabela",
-        "atividades" to "Tudo o que foi feito",
+        "resumo" to R.string.rel_secao_resumo,
+        "recrutamento" to R.string.rel_secao_recrutamento,
+        "financeiro" to R.string.rel_secao_financeiro,
+        "prazos" to R.string.rel_secao_prazos,
+        "atrasados" to R.string.rel_secao_atrasados,
+        "ranking" to R.string.rel_secao_ranking,
+        "atividades" to R.string.rel_secao_atividades,
     )
 
     /** Padrão para relatórios novos: tudo menos o ranking por pessoa. */
     val SECOES_PADRAO = SECOES.map { it.first }.filter { it != "ranking" }
 
     val ATALHOS = listOf(
-        "7d" to "Últimos 7 dias",
-        "30d" to "Últimos 30 dias",
-        "mes" to "Este mês",
-        "mes-passado" to "Mês passado",
-        "outro" to "Escolher datas",
+        "7d" to R.string.rel_atalho_7d,
+        "30d" to R.string.rel_atalho_30d,
+        "mes" to R.string.rel_atalho_mes,
+        "mes-passado" to R.string.rel_atalho_mes_passado,
+        "outro" to R.string.rel_atalho_outro,
     )
 
     /** Datas inclusivas do atalho; "outro" devolve null (a pessoa escolhe). */
@@ -238,12 +239,13 @@ object Relatorios {
     }
 
     /** "01/10 a 07/10/2026". */
-    fun textoDoPeriodo(inicio: String?, fim: String?): String {
-        if (inicio.isNullOrBlank() || fim.isNullOrBlank()) return ""
+    fun textoDoPeriodo(inicio: String?, fim: String?): Texto {
+        if (inicio.isNullOrBlank() || fim.isNullOrBlank()) return Texto(R.string.texto_simples, "")
         val (ai, mi, di) = inicio.split("-")
         val (af, mf, df) = fim.split("-")
-        if (inicio == fim) return "$df/$mf/$af"
-        return if (ai == af) "$di/$mi a $df/$mf/$af" else "$di/$mi/$ai a $df/$mf/$af"
+        if (inicio == fim) return Texto(R.string.texto_simples, "$df/$mf/$af")
+        val comeco = if (ai == af) "$di/$mi" else "$di/$mi/$ai"
+        return Texto(R.string.periodo_intervalo, comeco, "$df/$mf/$af")
     }
 
     fun numero(n: Double?): String = n?.let {
@@ -270,18 +272,18 @@ object Relatorios {
         return if (Regex("[\";\n]").containsMatchIn(seguro)) "\"" + seguro.replace("\"", "\"\"") + "\"" else seguro
     }
 
-    data class Variacao(val texto: String, val subiu: Boolean?, val bom: Boolean?)
+    data class Variacao(val texto: Texto, val subiu: Boolean?, val bom: Boolean?)
 
     /** descreverVariacao: "+12%", "novo", "igual"; subirEBom decide a cor. */
     fun variacao(c: Comparacao?, subirEBom: Boolean = true): Variacao? {
         val v = c?.variacao
-        if (v == null) return if (c != null && (c.atual ?: 0.0) != 0.0) Variacao("novo", null, null) else null
-        if (v == 0.0) return Variacao("igual", null, null)
+        if (v == null) return if (c != null && (c.atual ?: 0.0) != 0.0) Variacao(Texto(R.string.variacao_novo), null, null) else null
+        if (v == 0.0) return Variacao(Texto(R.string.variacao_igual), null, null)
         val casas = if (abs(v) < 10 && v % 1.0 != 0.0) 1 else 0
         val numero = NumberFormat.getNumberInstance(PT_BR).apply {
             minimumFractionDigits = casas; maximumFractionDigits = casas
         }.format(abs(v))
-        return Variacao("${if (v > 0) "+" else "−"}$numero%", v > 0, (v > 0) == subirEBom)
+        return Variacao(Texto(R.string.variacao_percentual, if (v > 0) "+" else "−", numero), v > 0, (v > 0) == subirEBom)
     }
 }
 
@@ -305,22 +307,22 @@ object Prazos {
     fun itemConcluido(valoresDasListas: List<String?>) = valoresDasListas.any { opcaoDeConclusao(it) }
 
     enum class Tipo { ATRASADO, HOJE, BREVE, FUTURO, CONCLUIDO }
-    data class Situacao(val tipo: Tipo, val rotulo: String)
+    data class Situacao(val tipo: Tipo, val rotulo: Texto)
 
     /** situacaoDoPrazo: cor pela urgência; item concluído mostra só a data. */
     fun situacao(dataIso: String?, hoje: String = Datas.iso(), concluido: Boolean = false): Situacao? {
         if (dataIso == null || !Regex("^\\d{4}-\\d{2}-\\d{2}$").matches(dataIso)) return null
         val data = Datas.ler(dataIso) ?: return null
         val curta = SimpleDateFormat("dd MMM", PT_BR).format(data).replace(".", "")
-        if (concluido) return Situacao(Tipo.CONCLUIDO, curta)
+        if (concluido) return Situacao(Tipo.CONCLUIDO, Texto(R.string.texto_simples, curta))
         val base = Datas.ler(hoje) ?: return null
         val dias = ((data.time - base.time).toDouble() / 86_400_000).roundToInt()
         return when {
-            dias < 0 -> Situacao(Tipo.ATRASADO, if (dias == -1) "Atrasado desde ontem" else "Atrasado há ${-dias} dias")
-            dias == 0 -> Situacao(Tipo.HOJE, "Vence hoje")
-            dias == 1 -> Situacao(Tipo.BREVE, "Vence amanhã")
-            dias <= 7 -> Situacao(Tipo.BREVE, "Vence em $dias dias")
-            else -> Situacao(Tipo.FUTURO, curta)
+            dias < 0 -> Situacao(Tipo.ATRASADO, if (dias == -1) Texto(R.string.prazo_atrasado_ontem) else Texto(R.string.prazo_atrasado_dias, -dias))
+            dias == 0 -> Situacao(Tipo.HOJE, Texto(R.string.prazo_vence_hoje))
+            dias == 1 -> Situacao(Tipo.BREVE, Texto(R.string.prazo_vence_amanha))
+            dias <= 7 -> Situacao(Tipo.BREVE, Texto(R.string.prazo_vence_dias, dias))
+            else -> Situacao(Tipo.FUTURO, Texto(R.string.texto_simples, curta))
         }
     }
 
@@ -338,12 +340,17 @@ object Prazos {
 
 /** utils/vinculos.js: colunas de ligação guardam o id (ou ids) de itens de outra tabela. */
 object Vinculos {
-    fun tituloDoItem(titulo: String?) = if (titulo.isNullOrEmpty()) "Item sem nome" else titulo
+    fun tituloDoItem(titulo: String?): Texto =
+        if (titulo.isNullOrEmpty()) Texto(R.string.vinculo_sem_nome) else Texto(R.string.texto_simples, titulo)
 
-    /** Nomes dos itens ligados; sem os nomes (sem acesso ou carregando), quantos são. */
-    fun rotulo(ids: List<String>, titulos: Map<String, String?>?): String? {
-        if (ids.isEmpty()) return null
-        if (titulos == null) return if (ids.size == 1) "1 item ligado" else "${ids.size} itens ligados"
-        return ids.joinToString(", ") { if (titulos.containsKey(it)) tituloDoItem(titulos[it]) else "Item excluído" }
+    /** Sem os nomes (sem acesso ou carregando), só quantos itens estão ligados. */
+    fun contagem(ids: List<String>): Texto? = when (ids.size) {
+        0 -> null
+        1 -> Texto(R.string.vinculo_um_ligado)
+        else -> Texto(R.string.vinculo_n_ligados, ids.size)
     }
+
+    /** Um nome por item ligado, na ordem dos ids; item que não está mais na tabela vira "Item excluído". */
+    fun nomes(ids: List<String>, titulos: Map<String, String?>): List<Texto> =
+        ids.map { if (titulos.containsKey(it)) tituloDoItem(titulos[it]) else Texto(R.string.itens_item_excluido) }
 }

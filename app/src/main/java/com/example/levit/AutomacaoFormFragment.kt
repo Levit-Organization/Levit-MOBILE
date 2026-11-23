@@ -350,7 +350,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
             val c = cartao()
             val remover = if (acoes.size > 1) requireContext().inflar<TextView>(R.layout.item_icone_excluir).apply {
                 contentDescription = getString(R.string.aut_remover_acao)
-                layoutParams = LinearLayout.LayoutParams(requireContext().dp(36), requireContext().dp(36))
+                layoutParams = LinearLayout.LayoutParams(requireContext().dp(44), requireContext().dp(44))
                 setOnClickListener { acoes.removeAt(indice); renderizar() }
             } else null
             c.addView(cabecalhoDoNo(if (indice == 0) "3" else "3.${indice + 1}", getString(R.string.aut_entao), remover))
@@ -473,7 +473,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         titulos[tabela] = emptyList()
         viewLifecycleOwner.lifecycleScope.launch {
             (chamador.chamar { ApiClient.registroApi(requireContext()).titulos(tabela) } as? ResultadoApi.Sucesso)?.let { r ->
-                titulos[tabela] = r.dados.map { it.id to Vinculos.tituloDoItem(it.titulo) }
+                titulos[tabela] = r.dados.map { it.id to Vinculos.tituloDoItem(it.titulo).em(requireContext()) }
                 renderizar()
             }
         }

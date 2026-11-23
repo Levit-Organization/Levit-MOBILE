@@ -179,13 +179,13 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
     }
 
     private fun atualizarCamposPeriodo() {
-        binding.acAtalho.configurarSelect(Relatorios.ATALHOS, atalho) { valor ->
+        binding.acAtalho.configurarSelect(Relatorios.ATALHOS.map { (valor, rotulo) -> valor to getString(rotulo) }, atalho) { valor ->
             Relatorios.periodoDoAtalho(valor)?.let { (i, f) -> inicio = i; fim = f }
             periodoMudou(valor)
         }
         binding.etInicio.setText(Datas.dataCurta(inicio))
         binding.etFim.setText(Datas.dataCurta(fim))
-        binding.switchPeriodo.text = getString(R.string.rel_so_periodo, Relatorios.textoDoPeriodo(inicio, fim))
+        binding.switchPeriodo.text = getString(R.string.rel_so_periodo, Relatorios.textoDoPeriodo(inicio, fim).em(requireContext()))
     }
 
     private fun periodoMudou(novoAtalho: String) {
@@ -274,7 +274,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
 
         conteudo.adicionarTitulo(
             getString(R.string.rel_resumo),
-            getString(R.string.rel_comparado_com, Relatorios.textoDoPeriodo(dados.periodoAnterior?.inicio, dados.periodoAnterior?.fim))
+            getString(R.string.rel_comparado_com, Relatorios.textoDoPeriodo(dados.periodoAnterior?.inicio, dados.periodoAnterior?.fim).em(requireContext()))
         )
         cartao(topo = 8).indicadoresEmPares(
             { it.adicionarIndicador(getString(R.string.rel_itens_criados), r?.itensCriados) },
@@ -589,7 +589,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
     private fun parametrosPdf(i: String, f: String, titulo: String?, secoes: Collection<String>?) = buildMap {
         put("inicio", i)
         put("fim", f)
-        put("titulo", titulo ?: "Relatório de atividades")
+        put("titulo", titulo ?: getString(R.string.rel_titulo_pdf_padrao))
         // Mesma ordem do catálogo; vazio = padrão do backend.
         secoes?.let { s -> Relatorios.SECOES.map { it.first }.filter { it in s } }?.takeIf { it.isNotEmpty() }
             ?.let { put("secoes", it.joinToString(",")) }
@@ -620,7 +620,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         fun atualizarBaixar() { baixar.isEnabled = periodoValido && secoesBaixar.isNotEmpty() }
         Relatorios.SECOES.forEach { (valor, rotulo) ->
             c.addView(requireContext().inflar<CheckBox>(R.layout.item_caixa_marcar).apply {
-                text = rotulo
+                text = getString(rotulo)
                 isChecked = valor in secoesBaixar
                 setOnCheckedChangeListener { _, marcado ->
                     secoesBaixar = if (marcado) secoesBaixar + valor else secoesBaixar - valor
@@ -812,7 +812,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
 
         Relatorios.SECOES.forEach { (valor, rotulo) ->
             b.llSecoes.addView(requireContext().inflar<CheckBox>(R.layout.item_caixa_marcar).apply {
-                text = rotulo
+                text = getString(rotulo)
                 isChecked = valor in secoes
                 setOnCheckedChangeListener { _, marcado -> if (marcado) secoes += valor else secoes -= valor }
             })

@@ -207,9 +207,9 @@ fun ViewGroup.adicionarIndicador(
     v.findViewById<TextView>(R.id.tvIndicadorVariacao).apply {
         isVisible = variacao != null
         text = when (variacao?.subiu) {
-            true -> "↗ ${variacao.texto}"
-            false -> "↘ ${variacao.texto}"
-            null -> variacao?.texto
+            true -> "↗ ${variacao.texto.em(context)}"
+            false -> "↘ ${variacao.texto.em(context)}"
+            null -> variacao?.texto?.em(context)
         }
         setTextColor(context.cor(when (variacao?.bom) {
             true -> R.color.success
@@ -217,7 +217,7 @@ fun ViewGroup.adicionarIndicador(
             null -> R.color.light_text
         }))
     }
-    v.findViewById<TextView>(R.id.tvIndicadorDica).text = dica ?: "antes: ${formatar(comparacao?.anterior ?: 0.0)}"
+    v.findViewById<TextView>(R.id.tvIndicadorDica).text = dica ?: context.getString(R.string.indicador_antes, formatar(comparacao?.anterior ?: 0.0))
     addView(v)
 }
 
@@ -286,10 +286,11 @@ fun Context.seloPrazo(dataIso: String?, concluido: Boolean): TextView? {
         Prazos.Tipo.CONCLUIDO -> Triple(R.color.ink_soft, R.color.sidebar, "event_available")
     }
     val icones = ResourcesCompat.getFont(this, R.font.material_icons)
-    return selo(" ${s.rotulo}", texto, fundo).apply {
+    val rotulo = s.rotulo.em(this)
+    return selo(" $rotulo", texto, fundo).apply {
         text = android.text.SpannableStringBuilder(icone).apply {
             if (icones != null) setSpan(TypefaceSpanCompat(icones), 0, length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            append(" ").append(s.rotulo)
+            append(" ").append(rotulo)
         }
     }
 }

@@ -302,7 +302,7 @@ class PainelFiltros(
         titulos[tabelaId] = emptyList()
         dono.lifecycleScope.launch {
             val r = chamador.chamar { ApiClient.registroApi(activity).titulos(tabelaId) }
-            if (r is ResultadoApi.Sucesso) { titulos[tabelaId] = r.dados.map { it.id to Vinculos.tituloDoItem(it.titulo) }; desenhar() }
+            if (r is ResultadoApi.Sucesso) { titulos[tabelaId] = r.dados.map { it.id to Vinculos.tituloDoItem(it.titulo).em(activity) }; desenhar() }
         }
     }
 

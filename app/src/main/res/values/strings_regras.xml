@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Regras de apresentação (ui/Regras.kt) -->
+    <string name="texto_simples">%1$s</string>
+    <string name="periodo_intervalo">%1$s a %2$s</string>
+    <string name="tempo_hoje">hoje</string>
+    <string name="tempo_ontem">ontem</string>
+    <string name="tempo_dias">há %1$d dias</string>
+    <string name="tempo_um_mes">há 1 mês</string>
+    <string name="tempo_meses">há %1$d meses</string>
+    <string name="tempo_um_ano">há 1 ano</string>
+    <string name="tempo_anos">há %1$d anos</string>
+    <string name="candidato_erro_nome">Escreva o nome completo.</string>
+    <string name="candidato_erro_email_vazio">Informe o e-mail.</string>
+    <string name="candidato_erro_email_invalido">Esse e-mail não parece válido.</string>
+    <string name="candidato_erro_telefone">Telefone incompleto.</string>
+    <string name="rel_secao_resumo">Comparação com o período anterior</string>
+    <string name="rel_secao_recrutamento">Recrutamento</string>
+    <string name="rel_secao_financeiro">Financeiro</string>
+    <string name="rel_secao_prazos">Prazos</string>
+    <string name="rel_secao_atrasados">Itens atrasados agora</string>
+    <string name="rel_secao_ranking">Ranking por pessoa e por tabela</string>
+    <string name="rel_secao_atividades">Tudo o que foi feito</string>
+    <string name="rel_atalho_7d">Últimos 7 dias</string>
+    <string name="rel_atalho_30d">Últimos 30 dias</string>
+    <string name="rel_atalho_mes">Este mês</string>
+    <string name="rel_atalho_mes_passado">Mês passado</string>
+    <string name="rel_atalho_outro">Escolher datas</string>
+    <string name="variacao_novo">novo</string>
+    <string name="variacao_igual">igual</string>
+    <string name="variacao_percentual">%1$s%2$s%%</string>
+    <string name="indicador_antes">antes: %1$s</string>
+    <string name="prazo_atrasado_ontem">Atrasado desde ontem</string>
+    <string name="prazo_atrasado_dias">Atrasado há %1$d dias</string>
+    <string name="prazo_vence_hoje">Vence hoje</string>
+    <string name="prazo_vence_amanha">Vence amanhã</string>
+    <string name="prazo_vence_dias">Vence em %1$d dias</string>
+    <string name="vinculo_sem_nome">Item sem nome</string>
+    <string name="vinculo_um_ligado">1 item ligado</string>
+    <string name="vinculo_n_ligados">%1$d itens ligados</string>
+</resources>
