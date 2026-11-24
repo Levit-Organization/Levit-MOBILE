@@ -59,7 +59,7 @@
                 android:fontFeatureSettings="tnum"
                 android:paddingTop="4dp"
                 android:textColor="@color/light_text"
-                android:textSize="11sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 

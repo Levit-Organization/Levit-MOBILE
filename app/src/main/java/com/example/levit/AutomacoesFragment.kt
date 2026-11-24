@@ -194,20 +194,7 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         v.tvNome.text = a.str("nome")
         v.tvTabela.text = a.str("modulo_nome")
 
-        // Fluxo: primeiro gatilho (+n), funil se tiver condições, → primeira ação (+n).
-        val fluxo = v.grupoFluxo
-        fluxo.removeAllViews()
-        if (gatilhos.isNotEmpty()) fluxo.adicionarSelo(Automacoes.gatilhoLabel(requireContext(), gatilhos[0]), false)
-        if (gatilhos.size > 1) fluxo.addView(requireContext().texto("+${gatilhos.size - 1}", 11f))
-        val totalCondicoes = Automacoes.condicoesDaAutomacao(a)?.regras?.size ?: 0
-        if (totalCondicoes > 0) fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply {
-            text = getString(R.string.ic_filter_alt)
-            contentDescription = getString(R.string.aut_com_condicoes)
-        })
-        fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply { text = getString(R.string.ic_arrow_forward) })
-        val acoes = a.acoes()
-        fluxo.adicionarSelo(acoes.firstOrNull()?.str("tipo")?.let { Automacoes.acaoLabel(requireContext(), it) } ?: "—", true)
-        if (acoes.size > 1) fluxo.addView(requireContext().texto("+${acoes.size - 1}", 11f))
+        desenharFluxo(v, a, gatilhos)
 
         // Execuções da semana e a última.
         val pausada = !a.ativo() && !a.str("pausada_por_falhas_em").isNullOrEmpty()
@@ -227,6 +214,27 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         v.switchAtivo.contentDescription = getString(R.string.aut_ativa_de, a.str("nome"))
         v.switchAtivo.setOnCheckedChangeListener { _, ligado -> alternar(a, ligado) }
 
+        ligarMenuDeAcoes(v, a)
+    }
+
+    /** Fluxo: primeiro gatilho (+n), funil se tiver condições, → primeira ação (+n). */
+    private fun desenharFluxo(v: ItemAutomacaoBinding, a: JsonObject, gatilhos: List<String>) {
+        val fluxo = v.grupoFluxo
+        fluxo.removeAllViews()
+        if (gatilhos.isNotEmpty()) fluxo.adicionarSelo(Automacoes.gatilhoLabel(requireContext(), gatilhos[0]), false)
+        if (gatilhos.size > 1) fluxo.addView(requireContext().texto("+${gatilhos.size - 1}", 11f))
+        val totalCondicoes = Automacoes.condicoesDaAutomacao(a)?.regras?.size ?: 0
+        if (totalCondicoes > 0) fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply {
+            text = getString(R.string.ic_filter_alt)
+            contentDescription = getString(R.string.aut_com_condicoes)
+        })
+        fluxo.addView(fluxo.inflarFilho<TextView>(R.layout.item_fluxo_icone).apply { text = getString(R.string.ic_arrow_forward) })
+        val acoes = a.acoes()
+        fluxo.adicionarSelo(acoes.firstOrNull()?.str("tipo")?.let { Automacoes.acaoLabel(requireContext(), it) } ?: "—", true)
+        if (acoes.size > 1) fluxo.addView(requireContext().texto("+${acoes.size - 1}", 11f))
+    }
+
+    private fun ligarMenuDeAcoes(v: ItemAutomacaoBinding, a: JsonObject) {
         v.btnMais.contentDescription = getString(R.string.aut_mais_acoes, a.str("nome"))
         v.btnMais.setOnClickListener { botao ->
             PopupMenu(requireContext(), botao).apply {

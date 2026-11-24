@@ -10,4 +10,4 @@
     android:paddingTop="3dp"
     android:paddingEnd="8dp"
     android:paddingBottom="3dp"
-    android:textSize="11sp" />
+    android:textSize="12sp" />

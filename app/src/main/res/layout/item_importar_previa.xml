@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/light_text"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
 
     <LinearLayout
         android:id="@+id/llCelulas"

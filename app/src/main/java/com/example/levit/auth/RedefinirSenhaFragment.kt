@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -46,12 +44,6 @@ class RedefinirSenhaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(barras.left, barras.top, barras.right, barras.bottom)
-            insets
-        }
-
         binding.textVoltar.setOnClickListener {
             if (!enviando) irParaLogin()
         }

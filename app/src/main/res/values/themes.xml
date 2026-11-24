@@ -58,6 +58,8 @@
         <!-- Barras do sistema claras com ícones escuros, sobre o canvas -->
         <item name="android:statusBarColor" tools:targetApi="34">@color/background</item>
         <item name="android:navigationBarColor" tools:targetApi="34">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>

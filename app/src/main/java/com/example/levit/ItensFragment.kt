@@ -147,10 +147,24 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         rodape = ItemPaginacaoBinding.inflate(layoutInflater, binding.lista, false)
         binding.lista.adapter = ConcatAdapter(CabecalhoFixo(topo.root), adaptador, CabecalhoFixo(rodape.root))
 
+        ligarBotoesDaTela()
+        ligarControlesDaLista()
+        filtros = PainelFiltros(requireActivity(), viewLifecycleOwner, topo.painelFiltros) {
+            pagina = 1
+            atualizarBotaoFiltros()
+            carregarRegistros(adiado = true)
+        }
+    }
+
+    private fun ligarBotoesDaTela() {
         binding.btnVoltar.setOnClickListener { findNavController().popBackStack() }
         binding.btnConfigurar.setOnClickListener { findNavController().navigate(R.id.novoModuloFragment, bundleOf("tabelaId" to tabelaId)) }
         binding.btnNovo.setOnClickListener { abrirFormulario(null) }
         binding.btnImportar.setOnClickListener { tabela?.let { t -> ImportarPlanilha(requireActivity(), t, pessoas.orEmpty(), titulosLigados) { carregarRegistros() }.abrir() } }
+    }
+
+    /** Busca, filtros, visão lista/quadro, ordem, paginação e abas do quadro. */
+    private fun ligarControlesDaLista() {
         topo.etBusca.doAfterTextChanged { texto ->
             // Espera a digitação parar, como o useDebouncedValue do web.
             tarefaBusca?.cancel()
@@ -185,11 +199,6 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) = Unit
             override fun onTabReselected(tab: TabLayout.Tab) = Unit
         })
-        filtros = PainelFiltros(requireActivity(), viewLifecycleOwner, topo.painelFiltros) {
-            pagina = 1
-            atualizarBotaoFiltros()
-            carregarRegistros(adiado = true)
-        }
     }
 
     override fun onDestroyView() {
@@ -823,40 +832,43 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         }
 
         b.btnCancelar.setOnClickListener { folha.fechar() }
-        b.btnSalvar.setOnClickListener {
-            b.tvErro.isVisible = false
-            if (ehArquivo && arquivo == null) {
-                b.tvErro.text = getString(R.string.itens_selecione_arquivo)
-                b.tvErro.isVisible = true
-                return@setOnClickListener
-            }
-            b.btnSalvar.isEnabled = false
-            b.btnSalvar.setText(R.string.itens_salvando)
-            viewLifecycleOwner.lifecycleScope.launch {
-                val res = enviarItem(registro, dados, arquivo) ?: return@launch
-                when (res) {
-                    is ResultadoApi.Sucesso -> {
-                        folha.dispensar()
-                        requireContext().avisar(getString(when {
-                            ehArquivo -> R.string.itens_arquivo_enviado
-                            registro != null -> R.string.itens_atualizado
-                            else -> R.string.itens_criado
-                        }))
-                        carregarRegistros()
-                    }
-                    is ResultadoApi.Erro -> {
-                        if (res.sessaoExpirada) return@launch redirecionarParaLogin()
-                        b.tvErro.text = res.mensagem
-                        b.tvErro.isVisible = true
-                        b.btnSalvar.isEnabled = true
-                        b.btnSalvar.setText(rotuloDoBotaoSalvar(registro))
-                    }
-                }
-            }
-        }
+        b.btnSalvar.setOnClickListener { salvarItem(b, folha, registro, dados, arquivo) }
 
         if (registro != null && !ehArquivo) carregarLigadosAEste(registro, b.blocoLigados, folha)
         folha.abrir()
+    }
+
+    private fun salvarItem(b: SheetItemBinding, folha: Folha, registro: Registro?, dados: Map<String, Any?>, arquivo: Pair<Uri, String>?) {
+        b.tvErro.isVisible = false
+        if (ehArquivo && arquivo == null) return mostrarErroDoFormulario(b, getString(R.string.itens_selecione_arquivo))
+        b.btnSalvar.isEnabled = false
+        b.btnSalvar.setText(R.string.itens_salvando)
+        viewLifecycleOwner.lifecycleScope.launch {
+            when (val res = enviarItem(registro, dados, arquivo) ?: return@launch) {
+                is ResultadoApi.Sucesso -> {
+                    folha.dispensar()
+                    requireContext().avisar(getString(mensagemDeSucesso(registro)))
+                    carregarRegistros()
+                }
+                is ResultadoApi.Erro -> {
+                    if (res.sessaoExpirada) return@launch redirecionarParaLogin()
+                    mostrarErroDoFormulario(b, res.mensagem)
+                    b.btnSalvar.isEnabled = true
+                    b.btnSalvar.setText(rotuloDoBotaoSalvar(registro))
+                }
+            }
+        }
+    }
+
+    private fun mostrarErroDoFormulario(b: SheetItemBinding, mensagem: String) {
+        b.tvErro.text = mensagem
+        b.tvErro.isVisible = true
+    }
+
+    private fun mensagemDeSucesso(registro: Registro?) = when {
+        ehArquivo -> R.string.itens_arquivo_enviado
+        registro != null -> R.string.itens_atualizado
+        else -> R.string.itens_criado
     }
 
     private fun rotuloDoBotaoSalvar(registro: Registro?) = when {
@@ -897,42 +909,8 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         val atual = (dados[id] as? JsonElement)?.let { texto(it) } ?: dados[id] as? String
 
         when (campo.tipo) {
-            "texto", "numero" -> {
-                val c = ItemCampoTextoBinding.inflate(layoutInflater, bloco, false)
-                c.etValor.setText(atual)
-                if (campo.tipo == "numero") {
-                    c.etValor.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
-                    c.campo.placeholderText = "0"
-                } else {
-                    c.etValor.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-                    c.campo.placeholderText = getString(R.string.itens_digite, campo.nome.orEmpty().lowercase())
-                }
-                c.etValor.doAfterTextChanged { dados[id] = it?.toString().orEmpty() }
-                bloco.addView(c.root)
-            }
-            "data", "prazo" -> {
-                val c = ItemCampoTextoBinding.inflate(layoutInflater, bloco, false)
-                c.etValor.isFocusable = false
-                c.etValor.isCursorVisible = false
-                c.etValor.inputType = InputType.TYPE_NULL
-                c.campo.placeholderText = getString(R.string.itens_escolher_data)
-                fun mostrar(v: String?) = c.etValor.setText(v?.let { Datas.ler(it) }?.let { java.text.SimpleDateFormat("dd/MM/yyyy", Locale.US).format(it) } ?: v)
-                mostrar(atual)
-                c.etValor.setOnClickListener {
-                    val cal = Calendar.getInstance().apply { (dados[id]?.let { (it as? JsonElement)?.let(::texto) ?: it as? String })?.let { Datas.ler(it) }?.let { time = it } }
-                    DatePickerDialog(requireContext(), { _, a, m, d ->
-                        val iso = Datas.iso(Calendar.getInstance().apply { set(a, m, d) }.time)
-                        dados[id] = iso
-                        mostrar(iso)
-                    }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).apply {
-                        setButton(android.content.DialogInterface.BUTTON_NEUTRAL, getString(R.string.itens_limpar)) { _, _ ->
-                            dados[id] = ""
-                            mostrar(null)
-                        }
-                    }.show()
-                }
-                bloco.addView(c.root)
-            }
+            "texto", "numero" -> campoDeTexto(campo, dados, bloco, id, atual)
+            "data", "prazo" -> campoDeData(dados, bloco, id, atual)
             "recorrencia" -> bloco.addView(select(listOf("" to getString(R.string.itens_nao_repete)) + Prazos.repeticoes(requireContext()), atual) { dados[id] = it })
             "responsavel" -> {
                 val opcoes = pessoas?.map { p -> p.id to if (p.id == usuarioId) getString(R.string.itens_voce, p.nome) else p.nome.orEmpty() }
@@ -943,6 +921,45 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             "vinculo" -> bloco.addView(campoVinculo(campo, dados))
         }
         return bloco
+    }
+
+    private fun campoDeTexto(campo: Coluna, dados: MutableMap<String, Any?>, bloco: ViewGroup, id: String, atual: String?) {
+        val c = ItemCampoTextoBinding.inflate(layoutInflater, bloco, false)
+        c.etValor.setText(atual)
+        if (campo.tipo == "numero") {
+            c.etValor.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+            c.campo.placeholderText = "0"
+        } else {
+            c.etValor.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+            c.campo.placeholderText = getString(R.string.itens_digite, campo.nome.orEmpty().lowercase())
+        }
+        c.etValor.doAfterTextChanged { dados[id] = it?.toString().orEmpty() }
+        bloco.addView(c.root)
+    }
+
+    /** Campo que abre o seletor de datas; "Limpar" apaga o valor. */
+    private fun campoDeData(dados: MutableMap<String, Any?>, bloco: ViewGroup, id: String, atual: String?) {
+        val c = ItemCampoTextoBinding.inflate(layoutInflater, bloco, false)
+        c.etValor.isFocusable = false
+        c.etValor.isCursorVisible = false
+        c.etValor.inputType = InputType.TYPE_NULL
+        c.campo.placeholderText = getString(R.string.itens_escolher_data)
+        fun mostrar(v: String?) = c.etValor.setText(v?.let { Datas.ler(it) }?.let { java.text.SimpleDateFormat("dd/MM/yyyy", Locale.US).format(it) } ?: v)
+        mostrar(atual)
+        c.etValor.setOnClickListener {
+            val cal = Calendar.getInstance().apply { (dados[id]?.let { (it as? JsonElement)?.let(::texto) ?: it as? String })?.let { Datas.ler(it) }?.let { time = it } }
+            DatePickerDialog(requireContext(), { _, a, m, d ->
+                val iso = Datas.iso(Calendar.getInstance().apply { set(a, m, d) }.time)
+                dados[id] = iso
+                mostrar(iso)
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).apply {
+                setButton(android.content.DialogInterface.BUTTON_NEUTRAL, getString(R.string.itens_limpar)) { _, _ ->
+                    dados[id] = ""
+                    mostrar(null)
+                }
+            }.show()
+        }
+        bloco.addView(c.root)
     }
 
     private fun select(opcoes: List<Pair<String, String>>, atual: String?, aoEscolher: (String) -> Unit): View {

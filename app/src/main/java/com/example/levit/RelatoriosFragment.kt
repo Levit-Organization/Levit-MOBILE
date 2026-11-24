@@ -409,13 +409,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
                     getString(R.string.rel_tentar), erro = true) { erroTabelas = null; mostrarMontar() }
             }
             conteudo.mostrarCarregando(2)
-            viewLifecycleOwner.lifecycleScope.launch {
-                when (val r = chamador.chamar { api.tabelas() }) {
-                    is ResultadoApi.Sucesso -> tabelas = r.dados
-                    is ResultadoApi.Erro -> { if (tratarSessao(r)) return@launch; erroTabelas = r }
-                }
-                if (aba == ABA_MONTAR) mostrarAba()
-            }
+            carregarTabelas()
             return
         }
         if (lista.isEmpty()) {
@@ -423,6 +417,32 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             return conteudo.mostrarEstado(getString(R.string.rel_nenhuma_tabela), getString(R.string.rel_nenhuma_tabela_desc), R.drawable.ic_inventory)
         }
 
+        val precisaValor = configurarSeletores(lista)
+
+        if (moduloId.isEmpty()) {
+            return conteudo.mostrarEstado(getString(R.string.rel_monte_titulo), getString(R.string.rel_monte_desc), R.drawable.ic_bar_chart)
+        }
+        if (agruparPor.isEmpty() || (precisaValor && campoValor.isEmpty())) return conteudo.removeAllViews()
+        if (noPeriodo && !periodoValido) return conteudo.removeAllViews()
+
+        val params = parametrosDoAgrupamento()
+        val chave = params.toSortedMap().toString()
+        if (chave != chaveAgrupamento) carregarAgrupamento(chave, params)
+        desenharAgrupamento()
+    }
+
+    private fun carregarTabelas() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            when (val r = chamador.chamar { api.tabelas() }) {
+                is ResultadoApi.Sucesso -> tabelas = r.dados
+                is ResultadoApi.Erro -> { if (tratarSessao(r)) return@launch; erroTabelas = r }
+            }
+            if (aba == ABA_MONTAR) mostrarAba()
+        }
+    }
+
+    /** Preenche os seletores de tabela, agrupamento e valor; devolve se a operação pede coluna de valor. */
+    private fun configurarSeletores(lista: List<TabelaRelatorio>): Boolean {
         val tabela = tabelaEscolhida()
         binding.acTabela.configurarSelect(lista.map { it.id to (it.nome ?: "—") }, moduloId) { id ->
             val t = lista.firstOrNull { it.id == id }
@@ -445,17 +465,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         binding.campoValor.helperText = if (tabela != null && numeros.isEmpty()) getString(R.string.rel_sem_numeros) else null
         binding.acValor.configurarSelect(numeros.map { it.id to (it.nome ?: "—") }, campoValor) { campoValor = it; mostrarAba() }
         binding.switchPeriodo.isChecked = noPeriodo
-
-        if (moduloId.isEmpty()) {
-            return conteudo.mostrarEstado(getString(R.string.rel_monte_titulo), getString(R.string.rel_monte_desc), R.drawable.ic_bar_chart)
-        }
-        if (agruparPor.isEmpty() || (precisaValor && campoValor.isEmpty())) return conteudo.removeAllViews()
-        if (noPeriodo && !periodoValido) return conteudo.removeAllViews()
-
-        val params = parametrosDoAgrupamento()
-        val chave = params.toSortedMap().toString()
-        if (chave != chaveAgrupamento) carregarAgrupamento(chave, params)
-        desenharAgrupamento()
+        return precisaValor
     }
 
     private fun parametrosDoAgrupamento(): Map<String, String> = buildMap {

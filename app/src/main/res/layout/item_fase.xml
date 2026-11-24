@@ -17,7 +17,7 @@
         android:fontFamily="@font/archivo_bold"
         android:gravity="center"
         android:textColor="@color/primary_700"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
 
     <include
         android:id="@+id/campo"

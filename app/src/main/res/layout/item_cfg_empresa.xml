@@ -57,7 +57,7 @@
             android:paddingTop="6dp"
             android:text="@string/cfg_nome_empresa_indisponivel"
             android:textColor="@color/light_text"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <!-- Aparência das tabelas: o ícone vale para toda a equipe. -->

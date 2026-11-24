@@ -20,7 +20,7 @@
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
         android:textColor="@color/white"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvTitulo"

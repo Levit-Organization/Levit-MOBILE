@@ -159,6 +159,19 @@ class ImportarPlanilha(
         b.tvResumo.text = activity.getString(R.string.imp_resumo, nomeArquivo,
             activity.resources.getQuantityString(R.plurals.imp_linhas, linhas.size, linhas.size))
 
+        desenharMapeamento()
+        desenharSelos(p)
+        desenharPrevia(p)
+        b.tvNaoVaoEntrar.isVisible = p.problemas.isNotEmpty()
+        listarProblemas(b.llProblemas, p.problemas.take(50).map { it.linha to it.mensagem })
+
+        b.btnImportar.text = if (importando) activity.getString(R.string.imp_importando)
+            else activity.resources.getQuantityString(R.plurals.imp_importar_n, p.itens.size, p.itens.size)
+        b.btnImportar.isEnabled = !importando && p.itens.isNotEmpty()
+    }
+
+    /** Um seletor por campo da tabela: de qual coluna da planilha vem o valor. */
+    private fun desenharMapeamento() {
         val opcoes = listOf("-1" to activity.getString(R.string.imp_nao_importar)) +
             cabecalho.mapIndexed { i, t -> "$i" to t.ifEmpty { activity.getString(R.string.imp_coluna_n, i + 1) } }
         b.llMapa.removeAllViews()
@@ -171,14 +184,18 @@ class ImportarPlanilha(
             }
             b.llMapa.addView(s.root)
         }
+    }
 
+    private fun desenharSelos(p: Importacao.Preparo) {
         val selos = b.grupoSelos
         selos.removeAllViews()
         selos.addView(activity.selo(activity.getString(R.string.imp_prontas, p.itens.size), R.color.success, R.color.success_bg))
         if (p.problemas.isNotEmpty()) selos.addView(activity.selo(activity.getString(R.string.imp_com_problema, p.problemas.size), R.color.danger, R.color.danger_bg))
         if (mapa.values.none { it >= 0 }) selos.addView(activity.selo(activity.getString(R.string.imp_nenhuma_coluna), R.color.warning, R.color.warning_bg))
+    }
 
-        // Prévia das 5 primeiras linhas, uma por cartão.
+    /** Prévia das 5 primeiras linhas, uma por cartão. */
+    private fun desenharPrevia(p: Importacao.Preparo) {
         val usadas = campos.filter { (mapa[it.id.orEmpty()] ?: -1) >= 0 }
         b.tvPrevia.isVisible = usadas.isNotEmpty()
         b.llPrevia.removeAllViews()
@@ -203,12 +220,6 @@ class ImportarPlanilha(
                 b.llPrevia.addView(cartao.root)
             }
         }
-        b.tvNaoVaoEntrar.isVisible = p.problemas.isNotEmpty()
-        listarProblemas(b.llProblemas, p.problemas.take(50).map { it.linha to it.mensagem })
-
-        b.btnImportar.text = if (importando) activity.getString(R.string.imp_importando)
-            else activity.resources.getQuantityString(R.plurals.imp_importar_n, p.itens.size, p.itens.size)
-        b.btnImportar.isEnabled = !importando && p.itens.isNotEmpty()
     }
 
     private fun listarProblemas(destino: LinearLayout, problemas: List<Pair<Int, String>>) {
