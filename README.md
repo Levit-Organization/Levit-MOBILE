@@ -36,13 +36,11 @@ O app tem 18 telas ligadas por um único grafo de navegação (`main_graph.xml`)
 | Retrofit, Gson e OkHttp | Chamadas à API e leitura de JSON |
 | Security Crypto | Token de sessão criptografado |
 
-Versões e detalhes em [docs/BIBLIOTECAS_E_ACESSIBILIDADE.md](docs/BIBLIOTECAS_E_ACESSIBILIDADE.md).
-
 Autenticação: login próprio da API, com token. O Firebase não foi usado, por acordo com a professora.
 
 ## Acessibilidade e interface
 
-Contraste mínimo de 4,5:1 (WCAG AA), áreas de toque de pelo menos 44 dp, texto de no mínimo 12 sp, margens do sistema aplicadas (a câmera e a barra de status não cobrem o conteúdo). A tabela completa está em [docs/BIBLIOTECAS_E_ACESSIBILIDADE.md](docs/BIBLIOTECAS_E_ACESSIBILIDADE.md).
+Contraste mínimo de 4,5:1 (WCAG AA), áreas de toque de pelo menos 44 dp, texto de no mínimo 12 sp, margens do sistema aplicadas (a câmera e a barra de status não cobrem o conteúdo).
 
 ## Estrutura do projeto
 
