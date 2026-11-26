@@ -6,13 +6,7 @@ Projeto Integrador da disciplina de Dispositivos Móveis, IFES Campus Serra, cur
 
 ## Equipe
 
-| Integrante
-|---|---|
-| Andriy Polastrelli |
-| Cauã Rosa |
-| Guilherme Brandão |
-| Guilherme Villas |
-| Thiago de Aguiar |
+| Integrantes : Andriy Polastrelli | Cauã Rosa | Guilherme Brandão | Guilherme Villas | Thiago de Aguiar |
 
 ## Telas e funcionalidades
 
