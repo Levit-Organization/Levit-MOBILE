@@ -65,7 +65,7 @@ especificacoes/ MER, apresentação, prints das telas, prompts e vídeo
 | Modelo entidade-relacionamento | `especificacoes/MER/`                                                                                          |
 | Apresentação | `especificacoes/apresentacao/`                                                                                 |
 | Uso de IA e prompts | `especificacoes/prompts/`                                                                                      |
-| Vídeo (inserção e consulta) | `especificacoes/video/` ou [Google Drive](https://drive.google.com/file/d/1KshiFjZXKEcIeayVFTgpHPh8xPQklEUw/view?usp=sharing) |
+| Vídeo (inserção e consulta) | [Google Drive](https://drive.google.com/file/d/1KshiFjZXKEcIeayVFTgpHPh8xPQklEUw/view?usp=sharing) |
 
 ## Branches do repositório
 
