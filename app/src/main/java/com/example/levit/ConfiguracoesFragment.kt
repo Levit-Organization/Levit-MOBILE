@@ -46,7 +46,7 @@ import retrofit2.Response
 import java.io.File
 
 /**
- * Configurações (Configuracoes.jsx): Perfil, Empresa e tabelas, Avançado e
+ * Configurações: Perfil, Empresa e tabelas, Avançado e
  * dados. Como no web, a foto e a logo ficam guardadas só neste aparelho e o
  * perfil/senha ainda não têm endpoint no backend.
  */
@@ -110,7 +110,7 @@ class ConfiguracoesFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Peças ------------------------------------------------------------------------
+    // Peças
 
     private fun campo(c: ItemCampoTextoBinding, rotulo: String, valor: String?, placeholder: String? = null, dica: String? = null,
                       tipo: Int = InputType.TYPE_CLASS_TEXT, aoMudar: (String) -> Unit = {}): ItemCampoTextoBinding {
@@ -160,7 +160,7 @@ class ConfiguracoesFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Perfil -------------------------------------------------------------------------
+    // Perfil
 
     private fun abaPerfil(destino: LinearLayout) {
         val b = ItemCfgPerfilBinding.inflate(layoutInflater, destino, true)
@@ -203,7 +203,7 @@ class ConfiguracoesFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Empresa e tabelas ------------------------------------------------------------------
+    // Empresa e tabelas
 
     private fun abaEmpresa(destino: LinearLayout) {
         val b = ItemCfgEmpresaBinding.inflate(layoutInflater, destino, true)
@@ -276,7 +276,7 @@ class ConfiguracoesFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Avançado e dados -------------------------------------------------------------------
+    // Avançado e dados
 
     private var tabelaCsv = ""
 

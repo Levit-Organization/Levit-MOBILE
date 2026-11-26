@@ -69,7 +69,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
 /**
- * Recrutamento: o quadro de etapas de cada vaga (RecrutamentoKanban.jsx).
+ * Recrutamento: o quadro de etapas de cada vaga.
  * No celular não se arrasta entre colunas: cada etapa é uma aba, e o cartão
  * tem o seletor "mover para", o mesmo que o web mostra no toque.
  */
@@ -191,7 +191,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
 
     private fun recarregar() = viewLifecycleOwner.lifecycleScope.launch { carregarQuadro(silencioso = false) }
 
-    // --- Tela -------------------------------------------------------------------
+    // Tela
 
     private lateinit var topo: ItemRecResultadoBuscaBinding
 
@@ -365,7 +365,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         requireContext().avisar(getString(R.string.rec_link_copiado))
     }
 
-    // --- Mover ------------------------------------------------------------------
+    // Mover
 
     /**
      * Move na tela na hora (otimista) e grava. Se a API falhar, desfaz só esse
@@ -395,7 +395,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Perfil -----------------------------------------------------------------
+    // Perfil
 
     private fun localizar(id: String): Pair<Candidato, Int>? {
         etapas.forEachIndexed { i, etapa -> etapa.candidatos.firstOrNull { it.id == id }?.let { return it to i } }
@@ -483,7 +483,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Nova etapa -------------------------------------------------------------
+    // Nova etapa
 
     private fun abrirNovaEtapa() {
         if (vagas.isEmpty()) return
@@ -521,7 +521,7 @@ class RecrutamentoFragment : HamburgerMenuBaseFragment() {
         b.etNome.requestFocus()
     }
 
-    // --- Novo candidato ---------------------------------------------------------
+    // Novo candidato
 
     private data class Arquivo(val uri: Uri, val nome: String, val tamanho: Long)
 

@@ -183,7 +183,7 @@ class DashboardFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Tela ---------------------------------------------------------------------
+    // Tela
 
     private fun renderizar() {
         val carregando = modulos == null && erroModulos == null

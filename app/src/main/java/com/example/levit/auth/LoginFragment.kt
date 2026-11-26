@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Depois de sair ou de a sessão expirar, o login é a única tela da pilha: não há para onde voltar.
+        binding.textVoltar.isVisible = findNavController().previousBackStackEntry != null
         binding.textVoltar.setOnClickListener { findNavController().popBackStack() }
 
         binding.tvRedefinir.setOnClickListener {

@@ -47,7 +47,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 /**
- * Tabela de entradas e saídas (FinancialModule.jsx): totais do ano filtrado,
+ * Tabela de entradas e saídas: totais do ano filtrado,
  * filtros por categoria, ano e busca, e os lançamentos agrupados por mês.
  */
 class FinanceiroFragment : HamburgerMenuBaseFragment() {
@@ -139,7 +139,7 @@ class FinanceiroFragment : HamburgerMenuBaseFragment() {
         lista.filter { it.tipo == "saida" }.sumOf { it.valorNumero },
     )
 
-    // --- Lista: cabeçalho fixo (resumo + filtros) e linhas recicladas ----------------
+    // Lista: cabeçalho fixo (resumo + filtros) e linhas recicladas
 
     /** Linhas da lista: cabeçalho de mês, lançamento, "mostrar mais" ou um estado. */
     private sealed interface Linha : LinhaDeLista {
@@ -299,7 +299,7 @@ class FinanceiroFragment : HamburgerMenuBaseFragment() {
             if (l.conciliado) R.color.info else R.color.warning, if (l.conciliado) R.color.info_bg else R.color.warning_bg))
     }
 
-    // --- Novo lançamento --------------------------------------------------------------
+    // Novo lançamento
 
     private fun abrirFormulario() {
         val b = SheetLancamentoBinding.inflate(layoutInflater)

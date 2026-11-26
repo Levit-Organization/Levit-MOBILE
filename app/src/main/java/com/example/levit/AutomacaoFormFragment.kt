@@ -62,7 +62,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 /**
- * Criar ou editar uma automação (AutomacaoForm.jsx): propriedades, 1 Quando
+ * Criar ou editar uma automação: propriedades, 1 Quando
  * (gatilhos), 2 Se (condições, opcional) e 3 Então (uma ou mais ações).
  */
 class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
@@ -219,7 +219,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         binding.tvErro.isVisible = !mensagem.isNullOrBlank()
     }
 
-    // --- Peças --------------------------------------------------------------------
+    // Peças
 
     private fun cartao(): LinearLayout = requireContext().inflar(R.layout.item_aut_cartao)
 
@@ -292,7 +292,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         return g
     }
 
-    // --- Tela ---------------------------------------------------------------------
+    // Tela
 
     private fun renderizar() {
         val conteudo = binding.llConteudo
@@ -411,7 +411,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch { carregarModulo(novo); renderizar() }
     }
 
-    // --- Condições (CondicoesEditor.jsx) -------------------------------------------------
+    // Condições
 
     private fun desenharCondicoes(destino: LinearLayout) {
         if (regras.size > 1) {
@@ -500,7 +500,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Ações ------------------------------------------------------------------------
+    // Ações
 
     private fun valorDe(c: Map<String, Any?>, chave: String) = c[chave]?.toString().orEmpty()
 
@@ -643,7 +643,7 @@ class AutomacaoFormFragment : HamburgerMenuBaseFragment() {
         bloco.addView(requireContext().texto(getString(R.string.aut_campos_vazios, variaveisDaOrigem().orEmpty()).trim(), 12f, topo = 8))
     }
 
-    // --- Salvar -------------------------------------------------------------------------
+    // Salvar
 
     private fun salvar() {
         if (!podeSalvar) return

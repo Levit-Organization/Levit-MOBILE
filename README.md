@@ -6,13 +6,13 @@ Projeto Integrador da disciplina de Dispositivos Móveis, IFES Campus Serra, cur
 
 ## Equipe
 
-| Integrante | Parte apresentada |
+| Integrante
 |---|---|
-| [Nome 1] | Abertura, justificativa e objetivo |
-| [Nome 2] | Funcionalidades, arquitetura e navegação |
-| [Nome 3] | Protótipo e telas do app |
-| [Nome 4] | Consulta, inserção, banco de dados e tecnologias |
-| [Nome 5] | Interface, código, uso de IA e conclusão |
+| Andriy Polastrelli 
+| Cauã Rosa
+| Guilherme Brandão
+| Guilherme Villas
+| Thiago de Aguiar
 
 ## Telas e funcionalidades
 
@@ -23,7 +23,7 @@ O app tem 18 telas ligadas por um único grafo de navegação (`main_graph.xml`)
 | Acesso | Boas-vindas, login, cadastro, recuperar e redefinir senha |
 | Módulos e itens | Criar tabelas com campos próprios e cadastrar itens, inclusive arquivos |
 | Equipe e cargos | Convidar pessoas e definir permissões de cada cargo por módulo |
-| Recrutamento | Candidatos por fase, com histórico de mudanças |
+| Recrutamento | Candidatos organizados por fase |
 | Automações | Regras com condição e ação, e notificações no app |
 | Financeiro e relatórios | Lançamentos por categoria e relatórios exportáveis |
 | Perfil e configurações | Dados do usuário e preferências |
@@ -33,7 +33,7 @@ O app tem 18 telas ligadas por um único grafo de navegação (`main_graph.xml`)
 
 ## Capturas de tela
 
-As imagens ficam na pasta `docs/prints/`. Cada tela é mostrada ao lado do protótipo do Figma.
+As imagens ficam na pasta `especificacoes/prints/`. Cada tela é mostrada ao lado do protótipo do Figma.
 
 | Protótipo | App Android |
 |---|---|
@@ -76,24 +76,52 @@ docs/            documentação, prints, MER e prompts
 
 ## Documentos da entrega
 
-| Item | Arquivo |
-|---|---|
-| Modelo entidade-relacionamento | `docs/MER.pdf` |
-| Apresentação | `docs/apresentacao.pdf` |
-| Uso de IA e prompts | `docs/prompt.pdf` |
-| Vídeo (inserção e consulta) | [inserir link] |
+| Item | Arquivo                                                                                                        |
+|---|----------------------------------------------------------------------------------------------------------------|
+| Modelo entidade-relacionamento | `especificacoes/MER/`                                                                                          |
+| Apresentação | `especificacoes/apresentacao/`                                                                                 |
+| Uso de IA e prompts | `especificacoes/prompts/`                                                                                      |
+| Vídeo (inserção e consulta) | `especificacoes/video/` ou [https://drive.google.com/file/d/1KshiFjZXKEcIeayVFTgpHPh8xPQklEUw/view?usp=sharing] |
+
+## Branches do repositório
+
+| Branch        | Conteúdo |
+|---------------|---|
+| `master`      | App Android (versão final) |
+| `api-backend` | API REST em CodeIgniter 4, para testar o app |
 
 ## Como rodar
 
-### 1. Configure o `.env` do backend
+Para testar o app é preciso subir a API. Ela fica na branch `api-backend`.
 
-Na pasta `api-backend`, confirme que o `.env` aponta para o PostgreSQL com as credenciais certas. Se ainda não rodou, execute:
+### Pré-requisitos
+
+- PHP 8.2 ou mais novo, com as extensões `intl`, `mbstring` e `pgsql`
+- Composer
+- PostgreSQL
+- Android Studio, com emulador ou celular
+
+### 1. Baixe o backend
 
 ```
-php spark migrate
+git clone --branch api-backend --single-branch https://github.com/Levit-Organization/Levit-MOBILE.git api-backend
 ```
 
-### 2. Suba o backend ouvindo em todas as interfaces
+Também dá para baixar o ZIP da branch `api-backend` pelo GitHub e extrair.
+
+### 2. Crie o `.env`
+
+Entre na pasta `api-backend` e crie o arquivo `.env` com as credenciais do PostgreSQL (`database.default.*`) e a `JWT_SECRET_KEY`. Peça o arquivo ao grupo. Ele não vai para o GitHub e não deve ser compartilhado em público.
+
+### 3. Instale as dependências
+
+```
+composer install
+```
+
+Se o banco estiver vazio, rode também `php spark migrate`.
+
+### 4. Suba o backend ouvindo em todas as interfaces
 
 ```
 php spark serve --host 0.0.0.0 --port 8080
@@ -101,15 +129,15 @@ php spark serve --host 0.0.0.0 --port 8080
 
 Deixe esse terminal aberto enquanto usa o app. O `--host 0.0.0.0` permite que outros dispositivos alcancem o servidor.
 
-### 3. Rode o app pelo Android Studio
+### 5. Rode o app pelo Android Studio
 
-Com o Gradle sincronizado, aperte Run com o emulador ou o celular conectado. Depois de mudanças grandes, use `Build > Rebuild Project`.
+Abra o projeto na branch `main`, espere o Gradle sincronizar e aperte Run com o emulador ou o celular conectado. Depois de mudanças grandes, use `Build > Rebuild Project`.
 
-### 4. Permita o acesso à rede local
+### 6. Permita o acesso à rede local
 
 Na primeira abertura o Android pede permissão de rede local. Toque em **Permitir**. Sem ela, nenhuma chamada ao backend funciona.
 
-### 5. Ajuste o endereço do backend, se precisar
+### 7. Ajuste o endereço do backend, se precisar
 
 No emulador com o backend na mesma máquina, nada muda: o padrão `10.0.2.2:8080` já funciona. Em celular físico, toque e segure a logo na tela inicial, digite o `host:porta` e toque em **Salvar**. Isso só existe em builds debug.
 
@@ -120,24 +148,22 @@ No emulador com o backend na mesma máquina, nada muda: o padrão `10.0.2.2:8080
 
 No Windows, o IP local aparece em `ipconfig`, no campo "Endereço IPv4".
 
-### 6. Use o app
+## Como usar o sistema
 
-Cadastre uma conta ou entre com uma existente e navegue pelo menu lateral. O token dura 8 horas, depois o app pede login de novo.
+Roteiro para testar tudo em poucos minutos. O menu lateral (ícone de hambúrguer) leva a todas as áreas.
+
+1. **Cadastro e login:** na tela de boas-vindas, toque em cadastrar, preencha os dados e entre. Se esquecer a senha, use "Esqueci minha senha". A sessão dura 8 horas.
+2. **Tela inicial:** mostra o resumo da empresa. Dali dá para ir a qualquer área pelo menu.
+3. **Criar uma tabela:** em Tabelas, toque em novo módulo, dê um nome e adicione os campos (texto, número, data, arquivo, etc.).
+4. **Cadastrar itens:** abra a tabela criada e toque em adicionar. Use a busca e os filtros para encontrar itens, toque em um item para editar e deslize ou use o botão de excluir para remover.
+5. **Equipe e cargos:** em Equipe, convide uma pessoa pelo e-mail e crie um cargo. No cargo, escolha para cada tabela o que ele pode ver ou editar.
+6. **Recrutamento:** cadastre candidatos e mova cada um entre as fases.
+7. **Automações:** crie uma regra com condição e ação. Quando ela dispara, a notificação chega no sino do app.
+8. **Financeiro:** adicione lançamentos de entrada e saída, ligados a uma categoria e a um item de uma tabela.
+9. **Relatórios:** veja o painel, monte um relatório e gere o PDF.
+10. **Configurações:** exporte dados em CSV ou backup, importe planilhas e edite o perfil.
+11. **Sair:** use Sair no menu. O app volta para o login e o token é revogado.
 
 ## Por que a permissão de rede local existe
 
 A partir da API 36, o Android exige a permissão `ACCESS_LOCAL_NETWORK` para apps abrirem conexões com endereços de rede local (10.x.x.x e 192.168.x.x, incluindo o `10.0.2.2` do emulador). Sem ela, as chamadas dão timeout mesmo com o servidor no ar. A `SplashActivity` pede a permissão sozinha. Em versões antigas do Android o pedido é ignorado.
-
-## Build de release
-
-O release só aceita HTTPS e precisa do endereço da API no build:
-
-```
-./gradlew assembleRelease -Plevit.apiUrl=https://<host>/api/v1/
-```
-
-Em release, a troca de servidor pela logo fica desligada e o tráfego HTTP puro é bloqueado. Sem `-Plevit.apiUrl`, o app de release falha ao abrir, de propósito. Em debug, o log HTTP mostra só a linha da requisição, sem corpo, para senhas e tokens não aparecerem no Logcat.
-
-## Uso de inteligência artificial
-
-Foi usado apenas o Claude (Anthropic), em chat. Os prompts e as técnicas estão em `docs/prompt.pdf`. Todo código gerado foi revisado, compilado e testado pela equipe.

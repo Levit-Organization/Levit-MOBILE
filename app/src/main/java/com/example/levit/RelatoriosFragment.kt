@@ -63,7 +63,7 @@ import java.util.Date
 import kotlin.math.roundToInt
 
 /**
- * Relatórios (Relatorios.jsx): painel com os números do período comparados ao
+ * Relatórios: painel com os números do período comparados ao
  * anterior, relatório montado (agrupar uma tabela por uma coluna) e PDFs,
  * baixados na hora ou agendados por e-mail.
  */
@@ -171,7 +171,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         return r.sessaoExpirada
     }
 
-    // --- Período ----------------------------------------------------------------
+    // Período
 
     private fun configurarPeriodo() {
         atualizarCamposPeriodo()
@@ -205,7 +205,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         }.show()
     }
 
-    // --- Peças de layout ---------------------------------------------------------
+    // Peças de layout
 
     private fun cartao(destino: ViewGroup = binding.llConteudo, topo: Int = 12): LinearLayout =
         destino.inflarFilho<LinearLayout>(R.layout.item_rel_cartao).apply {
@@ -227,7 +227,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Painel -----------------------------------------------------------------
+    // Painel
 
     private fun mostrarPainel() {
         if (!periodoValido) return binding.llConteudo.removeAllViews()
@@ -383,7 +383,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         )
     }
 
-    // --- Montar relatório -------------------------------------------------------
+    // Montar relatório
 
     private val operacoes get() = listOf(
         "contar" to getString(R.string.rel_contar),
@@ -597,7 +597,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
             .lowercase()
             .ifEmpty { "relatorio" }
 
-    // --- PDFs: baixar agora e agendados ------------------------------------------
+    // PDFs: baixar agora e agendados
 
     private fun baixarPdf(botao: MaterialButton, nome: String, requisicao: suspend () -> retrofit2.Response<okhttp3.ResponseBody>) {
         val textoOriginal = botao.text
@@ -813,7 +813,7 @@ class RelatoriosFragment : HamburgerMenuBaseFragment() {
         return linha.root
     }
 
-    // --- Formulário de agendamento -----------------------------------------------
+    // Formulário de agendamento
 
     private fun abrirFormulario(relatorio: Relatorio?) {
         val b = SheetRelatorioBinding.inflate(layoutInflater)

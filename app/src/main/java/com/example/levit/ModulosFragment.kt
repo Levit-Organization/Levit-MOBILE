@@ -22,7 +22,7 @@ import com.example.levit.ui.mostrarEstado
 import kotlinx.coroutines.launch
 import java.text.Normalizer
 
-/** Tabelas (Modules.jsx): a lista de tabelas da empresa, com buscar, editar e excluir. */
+/** Tabelas: a lista de tabelas da empresa, com buscar, editar e excluir. */
 class ModulosFragment : HamburgerMenuBaseFragment() {
 
     override val pageLayoutResId: Int = R.layout.fragment_tabelas

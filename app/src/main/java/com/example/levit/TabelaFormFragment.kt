@@ -35,7 +35,7 @@ import com.example.levit.ui.mostrarEstado
 import kotlinx.coroutines.launch
 
 /**
- * Criar ou editar uma tabela (ModuleForm.jsx): modelos prontos, tipo, ícone,
+ * Criar ou editar uma tabela: modelos prontos, tipo, ícone,
  * etapas (vaga nova) e colunas com os 8 tipos do web.
  */
 class TabelaFormFragment : HamburgerMenuBaseFragment() {
@@ -179,7 +179,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         binding.tvErro.isVisible = !mensagem.isNullOrBlank()
     }
 
-    // --- Modelos ------------------------------------------------------------------
+    // Modelos
 
     private fun fotoAtual() = listOf(nome, colunas.map { listOf(it.nome, it.tipo, it.opcoes) }).toString()
 
@@ -239,7 +239,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         atualizarTudo()
     }
 
-    // --- Ícone --------------------------------------------------------------------
+    // Ícone
 
     private fun mostrarIcones() {
         binding.flIconeEscolhido.removeAllViews()
@@ -266,7 +266,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Etapas (vaga nova) -------------------------------------------------------
+    // Etapas (vaga nova)
 
     private fun mostrarFases() {
         binding.cartaoFases.isVisible = precisaDeFases
@@ -300,7 +300,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         atualizarBotaoSalvar()
     }
 
-    // --- Colunas ------------------------------------------------------------------
+    // Colunas
 
     private fun adicionarColuna() {
         colunas += ColunaEdit(null, "", "texto", mutableListOf(), false, "", null, nova = true, chave = proximaChave++)
@@ -452,7 +452,7 @@ class TabelaFormFragment : HamburgerMenuBaseFragment() {
         mostrarColunas()
     }
 
-    // --- Salvar -------------------------------------------------------------------
+    // Salvar
 
     /** O que vai para a API de cada coluna (payloadDaColuna do web). */
     private fun payload(c: ColunaEdit): Map<String, Any?> =

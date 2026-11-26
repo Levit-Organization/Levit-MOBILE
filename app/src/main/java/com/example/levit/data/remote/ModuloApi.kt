@@ -24,7 +24,7 @@ interface ModuloApi {
     @POST("modulos")
     suspend fun criar(@Body body: CriarModuloRequest): Response<ApiEnvelope<Modulo>>
 
-    // --- Tabelas (criar e editar) ---
+    // Tabelas (criar e editar)
     /** Corpo livre (Map): a coluna de ligação manda campos que as outras não mandam. */
     @POST("modulos")
     suspend fun criarTabela(@Body body: Map<String, @JvmSuppressWildcards Any?>): Response<ApiEnvelope<Modulo>>

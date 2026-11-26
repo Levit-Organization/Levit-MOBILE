@@ -2,16 +2,19 @@ package com.example.levit
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
+import androidx.core.view.forEach
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.levit.data.repository.AuthRepository
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
@@ -38,17 +41,22 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
     protected lateinit var hamburgerNavigationView: NavigationView
     protected fun menuFoiMontado(): Boolean = ::hamburgerDrawerLayout.isInitialized
 
-    // Tela do nav_graph -> item da gaveta que fica marcado nela.
+    // Tela do nav_graph -> item da gaveta que fica marcado nela. Telas filhas marcam o item do pai.
+    // Perfil não tem item marcável e fica sem marcação.
     private val itensDoMenu = mapOf(
         R.id.dashboardFragment to R.id.nav_dashboard,
         R.id.modulosFragment to R.id.nav_modulos,
-        R.id.equipeFragment to R.id.nav_equipe,
+        R.id.registrosFragment to R.id.nav_modulos,
+        R.id.novoModuloFragment to R.id.nav_modulos,
+        R.id.financeiroFragment to R.id.nav_modulos,
         R.id.recrutamentoFragment to R.id.nav_recrutamento,
         R.id.automacoesFragment to R.id.nav_automacoes,
         R.id.automacaoFormFragment to R.id.nav_automacoes,
+        R.id.equipeFragment to R.id.nav_equipe,
+        R.id.cargoFormFragment to R.id.nav_equipe,
         R.id.relatoriosFragment to R.id.nav_relatorios,
+        R.id.configuracoesFragment to R.id.nav_configuracoes,
     )
-
 
     protected val authRepository by lazy { AuthRepository(requireContext().applicationContext) }
 
@@ -84,10 +92,6 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
 
         view.findViewById<FrameLayout>(R.id.flSino)?.let { montarSino(it) }
 
-        // Item da tela atual marcado, como o item ativo da sidebar do web.
-        itensDoMenu[findNavController().currentDestination?.id]
-            ?.let { hamburgerNavigationView.setCheckedItem(it) }
-
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -102,6 +106,24 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
                 }
             }
         )
+    }
+
+    /** O NavigationView restaura a marcação salva ao voltar para a tela, então ela é refeita depois disso. */
+    override fun onStart() {
+        super.onStart()
+        if (menuFoiMontado()) marcarItemDaTelaAtual()
+    }
+
+    private fun marcarItemDaTelaAtual() {
+        val item = itensDoMenu[findNavController().currentDestination?.id]
+        if (item != null) hamburgerNavigationView.setCheckedItem(item) else desmarcarMenu(hamburgerNavigationView.menu)
+    }
+
+    private fun desmarcarMenu(menu: Menu) {
+        menu.forEach { item ->
+            item.isChecked = false
+            item.subMenu?.let { desmarcarMenu(it) }
+        }
     }
 
     protected fun setupHamburgerMenuButton(hamburgerButtonId: Int) {
@@ -130,17 +152,21 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
             hamburgerDrawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        // Perfil, Sair e itens "Em breve" não são a tela atual: não tomam a marcação.
-        return when (item.itemId) {
-            R.id.nav_perfil, R.id.nav_sair -> false
-            else -> true
-        }
+        // A marcação é feita por marcarItemDaTelaAtual; o item tocado só marca quando a tela abrir.
+        return false
     }
 
-    /** Só navega quando o destino não é a tela atual; [acao] é o id da ação, se for diferente do destino. */
+    /**
+     * Só navega quando o destino não é a tela atual; [acao] é o id da ação, se for diferente do destino.
+     * As telas do menu ficam logo acima do Dashboard, então Voltar leva ao Início e não à tela de menu anterior.
+     */
     private fun irParaDestino(destinoId: Int, acao: Int = destinoId) {
         val nav = findNavController()
-        if (nav.currentDestination?.id != destinoId) nav.navigate(acao)
+        if (nav.currentDestination?.id == destinoId) return
+        nav.navigate(acao, null, navOptions {
+            popUpTo(R.id.dashboardFragment)
+            launchSingleTop = true
+        })
     }
 
     /** O Dashboard é sempre a raiz da pilha logada: volta até ele. */
@@ -150,7 +176,7 @@ abstract class HamburgerMenuBaseFragment : Fragment(), NavigationView.OnNavigati
         if (!nav.popBackStack(R.id.dashboardFragment, false)) nav.navigate(R.id.dashboardFragment)
     }
 
-    // --- Notificações (sino com contador, consulta a cada 30 s) ---------------------
+    // Notificações (sino com contador, consulta a cada 30 s)
 
     private var sinoIcone: TextView? = null
     private var sinoContador: TextView? = null

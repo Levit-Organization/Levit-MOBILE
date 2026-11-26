@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.ceil
 
 /**
- * Automações (Automacoes.jsx): todas as automações das tabelas que o cargo vê,
+ * Automações: todas as automações das tabelas que o cargo vê,
  * com o fluxo (Quando → Então), execuções da semana, ligar/desligar, testar,
  * histórico e excluir.
  */
@@ -106,7 +106,7 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Leitura do JSON da automação ------------------------------------------------
+    // Leitura do JSON da automação
 
     private fun JsonObject.str(chave: String) = get(chave)?.takeIf { it.isJsonPrimitive }?.asString
     private fun JsonObject.ativo() = get("ativo")?.takeIf { it.isJsonPrimitive }?.let {
@@ -116,7 +116,7 @@ class AutomacoesFragment : HamburgerMenuBaseFragment() {
         get("estatisticas")?.takeIf { it.isJsonObject }?.asJsonObject?.get(chave)?.takeIf { it.isJsonPrimitive }?.asString
     private fun JsonObject.acoes() = get("acoes")?.takeIf { it.isJsonArray }?.asJsonArray?.mapNotNull { it.takeIf { e -> e.isJsonObject }?.asJsonObject }.orEmpty()
 
-    // --- Tela -----------------------------------------------------------------------
+    // Tela
 
     private lateinit var rodape: ItemPaginacaoBinding
 

@@ -126,7 +126,7 @@ class ImportarPlanilha(
         }
     }
 
-    // --- Tela ---------------------------------------------------------------------
+    // Tela
 
     init {
         b.tvTitulo.text = activity.getString(R.string.imp_titulo, tabela.nome)

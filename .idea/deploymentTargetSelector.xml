@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-11-23T00:28:18.323664700Z">
+        <DropdownSelection timestamp="2026-11-26T00:57:18.788240Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\magna\.android\avd\Pixel_10_Pro.avd" />

@@ -92,7 +92,7 @@ import java.util.Locale
 import kotlin.math.ceil
 
 /**
- * Itens de uma tabela (ModuleRecords.jsx): lista ou quadro, busca, "só os
+ * Itens de uma tabela: lista ou quadro, busca, "só os
  * meus", ordenação, pesquisa avançada, formulário com os 8 tipos de coluna e,
  * nas tabelas de arquivos, enviar, baixar e excluir.
  */
@@ -211,7 +211,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         if (menuFoiMontado()) carregarTabela()
     }
 
-    // --- Carregamento -------------------------------------------------------------
+    // Carregamento
 
     private fun carregarTabela() {
         if (tabela == null) mostrar(listOf(estadoCarregando()))
@@ -310,7 +310,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         )
     }
 
-    // --- Valores ------------------------------------------------------------------
+    // Valores
 
     private fun bruto(r: Registro, campoId: String?): JsonElement? =
         campoId?.let { r.dados?.get(it) }?.takeIf { !it.isJsonNull }
@@ -385,7 +385,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Visão (lista/quadro), lembrada por tabela -------------------------------------
+    // Visão (lista/quadro), lembrada por tabela
 
     private fun preferencia(): JSONObject = runCatching { JSONObject(preferencias.getString(tabelaId, "{}") ?: "{}") }.getOrDefault(JSONObject())
 
@@ -407,7 +407,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
             ?: camposLista.firstOrNull { c -> c.listaDeOpcoes.any { Prazos.opcaoDeConclusao(it) } }
             ?: camposLista.firstOrNull()
 
-    // --- Tela -----------------------------------------------------------------------
+    // Tela
 
     private fun filtrados(): List<Registro> {
         val todos = registros.orEmpty()
@@ -415,7 +415,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         return todos.filter { r -> camposResponsavel.any { texto(bruto(r, it.id)) == usuarioId } }
     }
 
-    // --- Lista reciclada -------------------------------------------------------------
+    // Lista reciclada
 
     private lateinit var topo: ItemItensTopoBinding
     private lateinit var rodape: ItemPaginacaoBinding
@@ -647,7 +647,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Quadro (QuadroItens.jsx): cada opção da lista vira uma coluna --------------------
+    // Quadro: cada opção da lista vira uma coluna
 
     private var montandoAbas = false
 
@@ -755,7 +755,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Excluir e baixar -----------------------------------------------------------------
+    // Excluir e baixar
 
     private fun excluir(r: Registro) {
         requireContext().confirmar(
@@ -793,7 +793,7 @@ class ItensFragment : HamburgerMenuBaseFragment() {
         }
     }
 
-    // --- Formulário do item --------------------------------------------------------------
+    // Formulário do item
 
     private fun abrirFormulario(registro: Registro?) {
         val t = tabela ?: return
