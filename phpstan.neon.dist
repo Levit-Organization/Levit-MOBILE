@@ -1,0 +1,27 @@
+parameters:
+    level: 6
+    paths:
+        - app
+    excludePaths:
+        - app/Views/*
+        - app/Config/*
+    bootstrapFiles:
+        - vendor/codeigniter4/framework/system/Test/bootstrap.php
+    scanDirectories:
+        - vendor/codeigniter4/framework/system/Helpers
+    tmpDir: build/phpstan
+    dynamicConstantNames:
+        - ENVIRONMENT
+        - CI_DEBUG
+        - APP_NAMESPACE
+    ignoreErrors:
+        # Forge::addField() aceita definições em string com chave numérica
+        # ('dados jsonb'), mas o PHPDoc do framework não declara isso.
+        -
+            identifier: argument.type
+            message: '#Forge::addField\(\)#'
+            path: app/Database/Migrations/*
+        # Tipar o conteúdo de cada array (array<string, mixed>) em ~300 lugares
+        # traria pouco ganho; o resto do nível 6 vale.
+        -
+            identifier: missingType.iterableValue
