@@ -8,11 +8,11 @@ Projeto Integrador da disciplina de Dispositivos Móveis, IFES Campus Serra, cur
 
 | Integrante
 |---|---|
-| Andriy Polastrelli 
-| Cauã Rosa
-| Guilherme Brandão
-| Guilherme Villas
-| Thiago de Aguiar
+| Andriy Polastrelli |
+| Cauã Rosa |
+| Guilherme Brandão |
+| Guilherme Villas |
+| Thiago de Aguiar |
 
 ## Telas e funcionalidades
 
@@ -30,14 +30,6 @@ O app tem 18 telas ligadas por um único grafo de navegação (`main_graph.xml`)
 
 **Consulta (banco para tela):** Módulos, Equipe, Itens e Financeiro.
 **Inserção (tela para banco):** formulário de tabela, itens, cargo, automação e cadastro.
-
-## Capturas de tela
-
-As imagens ficam na pasta `especificacoes/prints/`. Cada tela é mostrada ao lado do protótipo do Figma.
-
-| Protótipo | App Android |
-|---|---|
-| ![Login no protótipo](docs/prints/login-prototipo.png) | ![Login no app](docs/prints/login-app.png) |
 
 ## Tecnologias
 
