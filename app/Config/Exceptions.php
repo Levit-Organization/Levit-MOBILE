@@ -101,27 +101,6 @@ class Exceptions extends BaseConfig
      */
     public function handler(int $statusCode, Throwable $exception): ExceptionHandlerInterface
     {
-        return new class ($this) implements ExceptionHandlerInterface {
-            private ExceptionHandler $inner;
-
-            public function __construct(Exceptions $config)
-            {
-                $this->inner = new ExceptionHandler($config);
-            }
-
-            public function handle(
-                Throwable $exception,
-                \CodeIgniter\HTTP\RequestInterface $request,
-                \CodeIgniter\HTTP\ResponseInterface $response,
-                int $statusCode,
-                int $exitCode,
-            ): void {
-                if (method_exists($response, 'getCookieStore')) {
-                    $response->getCookieStore()->clear();
-                }
-
-                $this->inner->handle($exception, $request, $response, $statusCode, $exitCode);
-            }
-        };
+        return new ExceptionHandler($this);
     }
 }

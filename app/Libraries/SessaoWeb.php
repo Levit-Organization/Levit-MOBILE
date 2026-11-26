@@ -87,15 +87,7 @@ class SessaoWeb
         // app.levit.com e api.levit.com). Em domínios diferentes, use None
         // (o navegador exige Secure junto).
         $sameSite = (string) env('SESSAO_COOKIE_SAMESITE', 'Lax');
-        $request  = service('request');
-        $isHttps  = $request instanceof IncomingRequest && $request->isSecure();
-        $isLocal  = $request instanceof IncomingRequest
-            && in_array($request->getServer('REMOTE_ADDR'), ['127.0.0.1', '::1'], true);
-
-        // Sempre Secure quando a conexão já for HTTPS ou em produção (exceto se
-        // rodando em localhost puro via HTTP e sem SESSAO_COOKIE_SECURE forçado).
-        $padraoSeguro = $isHttps || (ENVIRONMENT === 'production' && ! $isLocal);
-        $seguro       = filter_var(env('SESSAO_COOKIE_SECURE', $padraoSeguro), FILTER_VALIDATE_BOOLEAN)
+        $seguro   = filter_var(env('SESSAO_COOKIE_SECURE', ENVIRONMENT === 'production'), FILTER_VALIDATE_BOOLEAN)
             || strcasecmp($sameSite, 'None') === 0;
 
         return new Cookie(self::COOKIE, $valor, [
